@@ -19,9 +19,13 @@ body {
   font-size: rem-calc(18);
   line-height: rem-calc(18);
 
-  #body_wrap {
-    width: 100%;
+  #root {
     height: 100%;
+  }
+
+  #bodyWrap {
+    width: 100%;
+    position: relative;
   }
 
   a {

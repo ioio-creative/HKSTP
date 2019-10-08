@@ -5,6 +5,7 @@ $mobile: 700px;
 @import "./global/reset";
 @import "./global/fonts";
 @import "./global/color";
+@import "./global/nav";
 
 @mixin transform($transforms) {
   -webkit-transform: $transforms;

@@ -1,0 +1,159 @@
+{
+  "en": {
+    "home": {
+      "title1": "HK",
+      "title2": "STP",
+      "title3": "Hall of frame"
+    },
+    "projects": {
+      "items": [
+        {
+          "name": "IOIO Creative Limited",
+          "category": "Multimedia",
+          "images": {
+            "logo": "",
+            "featured": "",
+            "thumbnail": ""
+          },
+          "details": {
+            "teamSize": 15,
+            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
+            "callingCode": 852,
+            "telephone": 37098437,
+            "email": "info@ioiocreative.com",
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+          }
+        },
+        {
+          "name": "IOIO Creative Limited",
+          "category": "Multimedia",
+          "images": {
+            "logo": "",
+            "featured": "",
+            "thumbnail": ""
+          },
+          "details": {
+            "teamSize": 15,
+            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
+            "callingCode": 852,
+            "telephone": 37098437,
+            "email": "info@ioiocreative.com",
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+          }
+        },
+        {
+          "name": "IOIO Creative Limited",
+          "category": "Multimedia",
+          "images": {
+            "logo": "",
+            "featured": "",
+            "thumbnail": ""
+          },
+          "details": {
+            "teamSize": 15,
+            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
+            "callingCode": 852,
+            "telephone": 37098437,
+            "email": "info@ioiocreative.com",
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+          }
+        },
+        {
+          "name": "IOIO Creative Limited",
+          "category": "Multimedia",
+          "images": {
+            "logo": "",
+            "featured": "",
+            "thumbnail": ""
+          },
+          "details": {
+            "teamSize": 15,
+            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
+            "callingCode": 852,
+            "telephone": 37098437,
+            "email": "info@ioiocreative.com",
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+          }
+        },
+        {
+          "name": "IOIO Creative Limited",
+          "category": "Multimedia",
+          "images": {
+            "logo": "",
+            "featured": "",
+            "thumbnail": ""
+          },
+          "details": {
+            "teamSize": 15,
+            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
+            "callingCode": 852,
+            "telephone": 37098437,
+            "email": "info@ioiocreative.com",
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+          }
+        },
+        {
+          "name": "IOIO Creative Limited",
+          "category": "Multimedia",
+          "images": {
+            "logo": "",
+            "featured": "",
+            "thumbnail": ""
+          },
+          "details": {
+            "teamSize": 15,
+            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
+            "callingCode": 852,
+            "telephone": 37098437,
+            "email": "info@ioiocreative.com",
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+          }
+        },
+        {
+          "name": "IOIO Creative Limited",
+          "category": "Multimedia",
+          "images": {
+            "logo": "",
+            "featured": "",
+            "thumbnail": ""
+          },
+          "details": {
+            "teamSize": 15,
+            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
+            "callingCode": 852,
+            "telephone": 37098437,
+            "email": "info@ioiocreative.com",
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+          }
+        },
+        {
+          "name": "IOIO Creative Limited",
+          "category": "Multimedia",
+          "images": {
+            "logo": "",
+            "featured": "",
+            "thumbnail": ""
+          },
+          "details": {
+            "teamSize": 15,
+            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
+            "callingCode": 852,
+            "telephone": 37098437,
+            "email": "info@ioiocreative.com",
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+          }
+        }
+      ]
+    }
+  },
+  "zh": {
+    "home": {
+      "title1": "香港",
+      "title2": "STP",
+      "title3": "Hall of frame"
+    },
+    "projects": {
+      "content": 234
+    }
+  }
+}

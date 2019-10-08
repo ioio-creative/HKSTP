@@ -1,5 +1,5 @@
 // import Prismic from "prismic-javascript";
-import config from "../config";
+import siteData from "../siteData";
 import myCache from "memory-cache";
 
 //
@@ -62,37 +62,12 @@ export const fetchDataBy = pageName => (dispatch, getState) => {
   const state = getState();
   const cache = myCache.get(`${pageName}Data`);
   let { lang } = state;
-  // let apiConfig = {};
 
   if (!cache) console.log(`-------------------- ${pageName}Data No Cache`);
   else console.log(`-------------------- ${pageName}Data Cached`);
 
-  // switch (pageName) {
-  //   case "home":
-  // apiConfig = {
-  //   type: "document.type",
-  //   getFrom: "home"
-  // };
-  //   break;
-  // case "projects":
-  // apiConfig = {
-  //   type: "document.type",
-  //   getFrom: "posts"
-  // };
-  // break;
-  // case "projectSingle":
-  // apiConfig = {
-  //   type: "my.posts.uid",
-  //   getFrom: decodeURIComponent(singlePostTitle)
-  // };
-  // break;
-
-  // default:
-  // apiConfig = {};
-  // }
-
   const fetchData = resolve => {
-    const results = config[lang][pageName];
+    const results = siteData[lang][pageName];
 
     // start message
     dispatch(fetchDataRequest());
@@ -119,7 +94,7 @@ export const fetchDataBy = pageName => (dispatch, getState) => {
     });
     resolve(results);
 
-    console.log(pageName, config[lang][pageName]);
+    console.log(pageName, siteData[lang][pageName]);
   };
 
   return promise(pageName, dispatch, fetchData, cache, lang);

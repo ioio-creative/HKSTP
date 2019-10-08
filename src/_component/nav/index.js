@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateLanguage } from "../../reducers";
 
-class Header extends Component {
+class Nav extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      doc: null
+      // doc: null
     };
   }
 
@@ -33,12 +33,21 @@ class Header extends Component {
   render() {
     const currentLang = this.props.lang;
     return (
-      <div>
-        <Link to={`/${currentLang}/`}>Home</Link>
-        &nbsp; &nbsp;
-        <Link to={`/${currentLang}/projects/`}>Projects</Link>
-        &nbsp; &nbsp;
+      <>
+        {/* <Link to={`/${currentLang}/projects/`}>Projects</Link>
+        &nbsp; &nbsp; */}
+        <div id="logo" className="fixed">
+          logo
+        </div>
+        <div id="touchToStart" className="fixed">
+          touch here
+        </div>
+        <div id="shortDes" className="fixed h6">
+          We connect stakeholders, Foster collaboration and Catalyse innovation.
+        </div>
         <Link
+          id="langBtn"
+          className="fixed"
           to={this.getAnotherLanguage()}
           onClick={() =>
             this.props.dispatch(
@@ -46,11 +55,9 @@ class Header extends Component {
             )
           }
         >
-          {currentLang === "zh" ? "en" : "zh"}
+          {currentLang === "zh" ? "Eng" : "中"}
         </Link>
-        &nbsp; &nbsp;
-        <Link to={`/${currentLang}/abcdefg/`}>page not found</Link>
-      </div>
+      </>
     );
   }
 }
@@ -64,4 +71,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(Nav);

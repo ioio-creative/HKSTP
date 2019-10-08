@@ -1,0 +1,27 @@
+.fixed {
+  position: fixed;
+  &#logo {
+    top: rem-calc(20);
+    right: rem-calc(20);
+  }
+  &#langBtn {
+    bottom: rem-calc(20);
+    right: rem-calc(20);
+    border-radius: 50%;
+    background: $black;
+    color: $white;
+    padding: rem-calc(15);
+  }
+  &#touchToStart {
+    width: rem-calc(86);
+    bottom: rem-calc(20);
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+  &#shortDes {
+    width: rem-calc(140);
+    bottom: rem-calc(20);
+    left: rem-calc(20);
+  }
+}

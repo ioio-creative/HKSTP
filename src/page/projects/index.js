@@ -17,26 +17,26 @@ class Projects extends Component {
     super(props);
 
     this.pageName = Projects.pageName;
-    this.query = { pageSize: 10, page: 1 };
     this.state = {};
   }
 
-  static actions = () => [fetchDataBy(this.pageName, this.query)];
+  static actions = () => [fetchDataBy(this.pageName)];
 
   static pushData = data => fetchDataSuccess(this.pageName, data);
 
   componentWillMount() {
     if (!this.props.projectsData) {
-      this.props.dispatch(fetchDataBy(this.pageName, this.query));
-    } else {
-      if (this.props.projectsData[0].lang.split("-")[0] !== this.props.lang)
-        this.props.dispatch(fetchDataBy(this.pageName, this.query));
+      this.props.dispatch(fetchDataBy(this.pageName));
     }
+    // else {
+    //   if (this.props.projectsData[0].lang.split("-")[0] !== this.props.lang)
+    //     this.props.dispatch(fetchDataBy(this.pageName));
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.lang !== this.props.lang) {
-      this.props.dispatch(fetchDataBy(this.pageName, this.query));
+      this.props.dispatch(fetchDataBy(this.pageName));
     }
   }
 
@@ -51,11 +51,11 @@ class Projects extends Component {
           title="Projects"
           description={`This is Projects page!`}
         >
-          {data.map((doc, index) => (
-            <Link key={index} to={`/${currentLang}/project/${doc.uid}`}>
-              <h4>{doc.data.post_title[0].text}</h4>
-            </Link>
-          ))}
+          <ul id="items">
+            {data.items.map((value, idx) => {
+              return <li key={idx}>{value.name}</li>;
+            })}
+          </ul>
         </Html>
       );
     }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import TweenMax, { TimelineMax } from "gsap";
 import Html from "../../_component/html";
 import { fetchDataBy, fetchDataSuccess } from "../../reducers";
 import "../../sass/page/home.scss";
@@ -18,6 +19,7 @@ class Home extends Component {
 
     this.pageName = Home.pageName;
     this.state = {};
+    this.titleSpan = [];
   }
 
   static actions = () => [fetchDataBy(this.pageName)];
@@ -40,14 +42,75 @@ class Home extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.homeData) {
+      const tl = new TimelineMax({ paused: false });
+      this.titleSpan.map((value, idx) => {
+        const xory = Math.round(Math.random());
+
+        xory === 0
+          ? tl.fromTo(
+              value,
+              1,
+              { x: Math.round(Math.random()) * 200 - 100 + "%" },
+              { x: 0 + "%", ease: "Power4.easeOut" },
+              Math.random()
+            )
+          : tl.fromTo(
+              value,
+              1,
+              { x: 0 + "%", y: Math.round(Math.random()) * 200 - 100 + "%" },
+              { y: 0 + "%", ease: "Power4.easeOut" },
+              Math.random()
+            );
+      });
+    }
+  }
+  componentDidMount() {}
+
   render() {
     if (this.props.homeData) {
       const data = this.props.homeData;
+      let i = 0;
 
       return (
         <Html id="home" title="Home" description={`This is Home page!`}>
-          <div>
-            <ul>{data.title}</ul>
+          <div id="title">
+            <h1 className="cap">
+              <div>
+                {data.title1.split("").map((value, idx) => {
+                  return (
+                    <span key={idx}>
+                      <span ref={elem => (this.titleSpan[i++] = elem)}>
+                        {value}
+                      </span>
+                    </span>
+                  );
+                })}
+              </div>
+              <div>
+                {data.title2.split("").map((value, idx) => {
+                  return (
+                    <span key={idx}>
+                      <span ref={elem => (this.titleSpan[i++] = elem)}>
+                        {value}
+                      </span>
+                    </span>
+                  );
+                })}
+                <h1 className="cap">
+                  {data.title3.split("").map((value, idx) => {
+                    return (
+                      <span key={idx}>
+                        <span ref={elem => (this.titleSpan[i++] = elem)}>
+                          {value === " " ? "\u00A0" : value}
+                        </span>
+                      </span>
+                    );
+                  })}
+                </h1>
+              </div>
+            </h1>
           </div>
         </Html>
       );

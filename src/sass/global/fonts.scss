@@ -22,32 +22,38 @@
 //   font-weight:  200;
 // }
 
-$defaultFont: "TecoSansStencil";
+$defaultFont: sans-serif;
 
-@mixin h1($fontsize: 34, $lineHeight: 48) {
+@mixin font($fontsize: 34, $lineHeight: 48) {
   font-size: rem-calc($fontsize);
   line-height: rem-calc($lineHeight);
 }
 
 h1,
 .h1 {
-  @include h1;
+  @include font;
 }
 
-h2 {
+h2,
+.h2 {
+  @include font(20, 24);
 }
-h3 {
+h3,
+.h3 {
+  @include font(13, 24);
 }
 h4 {
 }
 h5 {
 }
-h6 {
+h6,
+.h6 {
+  @include font(12, 18);
 }
 
 // tablet
 @media only screen and (max-width: $tablet) {
-  @include h1(22, 34);
+  @include font(22, 34);
 }
 
 // mobile

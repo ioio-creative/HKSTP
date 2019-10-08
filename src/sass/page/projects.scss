@@ -2,4 +2,12 @@
 
 #projects {
   padding: rem-calc(50px);
+  #items {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: rem-calc(50);
+    grid-row-gap: rem-calc(50);
+    li {
+    }
+  }
 }
