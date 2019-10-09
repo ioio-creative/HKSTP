@@ -6,12 +6,17 @@ import myCache from "memory-cache";
 // Actions
 //
 export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
+export const UPDATE_CLICKED = "UPDATE_CLICKED";
 
 export const FETCH_REQUEST = "FETCH_REQUEST";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
 export const FETCH_FAILURE = "FETCH_FAILURE";
 
 export const updateLanguage = lang => ({ type: UPDATE_LANGUAGE, lang: lang });
+export const updateClicked = clicked => ({
+  type: UPDATE_CLICKED,
+  clicked: clicked
+});
 
 export const fetchDataRequest = () => ({ type: FETCH_REQUEST });
 export const fetchDataSuccess = (pageName, data) => ({
@@ -117,6 +122,9 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_LANGUAGE:
       return { ...state, lang: action.lang };
+
+    case UPDATE_CLICKED:
+      return { ...state, clicked: action.clicked };
 
     case FETCH_SUCCESS:
       switch (action.pageName) {

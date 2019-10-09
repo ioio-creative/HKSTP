@@ -16,18 +16,18 @@ class Nav extends Component {
     let currentLang = this.props.lang;
     const location = this.props.location;
 
-    if (this.props.projectSingleData)
-      return location.pathname
-        .replace(currentLang, currentLang === "zh" ? "en" : "zh")
-        .replace(
-          this.props.match.params.title,
-          this.props.projectSingleData.alternate_languages[0].uid
-        );
-    else
-      return location.pathname.replace(
-        currentLang,
-        currentLang === "zh" ? "en" : "zh"
-      );
+    // if (this.props.projectSingleData)
+    //   return location.pathname
+    //     .replace(currentLang, currentLang === "zh" ? "en" : "zh");
+    // .replace(
+    //   this.props.match.params.title,
+    //   this.props.projectSingleData.alternate_languages[0].uid
+    // );
+    // else
+    return location.pathname.replace(
+      currentLang,
+      currentLang === "zh" ? "en" : "zh"
+    );
   }
 
   render() {

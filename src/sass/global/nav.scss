@@ -1,5 +1,6 @@
 .fixed {
   position: fixed;
+  z-index: 99;
   &#logo {
     top: rem-calc(20);
     right: rem-calc(20);

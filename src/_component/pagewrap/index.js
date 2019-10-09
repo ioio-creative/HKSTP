@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import smoothScroll from "./scroll";
 
 import Nav from "../nav";
 import Home from "../../page/home";
 import Projects from "../../page/projects";
-import ProjectSingle from "../../page/single/project";
-import PageNotFound from "../../page/404";
+// import ProjectSingle from "../../page/single/project";
+// import PageNotFound from "../../page/404";
 
 import ThreejsBg from "../ThreejsBg";
 

@@ -20,6 +20,7 @@ class Home extends Component {
     this.pageName = Home.pageName;
     this.state = {};
     this.titleSpan = [];
+    this.done = false;
   }
 
   static actions = () => [fetchDataBy(this.pageName)];
@@ -43,27 +44,40 @@ class Home extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.homeData) {
+    if (this.props.homeData && !this.done) {
       const tl = new TimelineMax({ paused: false });
       this.titleSpan.map((value, idx) => {
         const xory = Math.round(Math.random());
-
+        value.style.willChange = "transform";
         xory === 0
           ? tl.fromTo(
               value,
-              1,
+              Math.random() * 0.5 + 0.8,
               { x: Math.round(Math.random()) * 200 - 100 + "%" },
-              { x: 0 + "%", ease: "Power4.easeOut" },
+              {
+                x: 0 + "%",
+                ease: "Expo.easeOut",
+                onComplete: () => {
+                  value.style.willChange = "";
+                }
+              },
               Math.random()
             )
           : tl.fromTo(
               value,
-              1,
+              Math.random() * 0.5 + 0.8,
               { x: 0 + "%", y: Math.round(Math.random()) * 200 - 100 + "%" },
-              { y: 0 + "%", ease: "Power4.easeOut" },
+              {
+                y: 0 + "%",
+                ease: "Expo.easeOut",
+                onComplete: () => {
+                  value.style.willChange = "";
+                }
+              },
               Math.random()
             );
       });
+      this.done = true;
     }
   }
   componentDidMount() {}
