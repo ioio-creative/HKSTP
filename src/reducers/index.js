@@ -112,6 +112,7 @@ const initialState = {
   lang: "en",
   deviceType: "desktop",
   isMobile: false,
+  clicked: false,
 
   homeData: null,
   projectsData: null,

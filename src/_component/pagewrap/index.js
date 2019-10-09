@@ -55,7 +55,7 @@ const PageWrap = props => {
                     <Redirect from="*" to={"/" + props.lang + "/page-not-found/"} /> */}
         </Switch>
       </div>
-      <ThreejsBg />
+      <ThreejsBg {...props} />
     </>
   );
 };
