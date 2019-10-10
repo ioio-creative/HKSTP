@@ -6,8 +6,6 @@ import smoothScroll from "./scroll";
 import Nav from "../nav";
 import Home from "../../page/home";
 import Projects from "../../page/projects";
-// import ProjectSingle from "../../page/single/project";
-// import PageNotFound from "../../page/404";
 
 import ThreejsBg from "../ThreejsBg";
 

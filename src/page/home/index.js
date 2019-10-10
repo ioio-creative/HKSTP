@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import TweenMax, { TimelineMax } from "gsap";
+import { TimelineMax, TweenMax } from "gsap";
 import Html from "../../_component/html";
 import { fetchDataBy, fetchDataSuccess } from "../../reducers";
 import "../../sass/page/home.scss";
@@ -49,38 +49,28 @@ class Home extends Component {
       this.titleSpan.map((value, idx) => {
         const xory = Math.round(Math.random());
         value.style.willChange = "transform";
-        xory === 0
-          ? tl.fromTo(
-              value,
-              Math.random() * 0.5 + 0.8,
-              { x: Math.round(Math.random()) * 200 - 100 + "%" },
-              {
-                x: 0 + "%",
-                ease: "Expo.easeOut",
-                onComplete: () => {
-                  value.style.willChange = "";
-                }
-              },
-              Math.random()
-            )
-          : tl.fromTo(
-              value,
-              Math.random() * 0.5 + 0.8,
-              { x: 0 + "%", y: Math.round(Math.random()) * 200 - 100 + "%" },
-              {
-                y: 0 + "%",
-                ease: "Expo.easeOut",
-                onComplete: () => {
-                  value.style.willChange = "";
-                }
-              },
-              Math.random()
-            );
+        const time = Math.random() * 0.5 + 0.8;
+        xory === 0 ? 
+          tl.fromTo( value, time , { x: Math.round(Math.random()) * 200 - 100 + "%" },{ x: 0 + "%", ease: "Expo.easeOut",
+            onComplete: () => {
+              value.style.willChange = "";
+            }
+          },Math.random())
+        : 
+          tl.fromTo(value, time,{ x: 0 + "%", y: Math.round(Math.random()) * 200 - 100 + "%" },{ y: 0 + "%",ease: "Expo.easeOut",
+            onComplete: () => {
+              value.style.willChange = "";
+            }
+          },Math.random());
       });
       this.done = true;
     }
+
+    if(prevProps.isStarted !== this.props.isStarted){
+      TweenMax.to(this.titleSpan, 1.3, {y:'-100%',ease:'Power4.easeInOut'});
+    }
   }
-  componentDidMount() {}
+
 
   render() {
     if (this.props.homeData) {
@@ -136,7 +126,8 @@ class Home extends Component {
 const mapStateToProps = state => {
   return {
     lang: state.lang,
-    homeData: state.homeData ? state.homeData : null
+    homeData: state.homeData ? state.homeData : null,
+    isStarted: state.isStarted
   };
 };
 

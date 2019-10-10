@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateLanguage } from "../../reducers";
+import smoothScroll from '../pagewrap/scroll';
 
 class Nav extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      // doc: null
-    };
+    this.state = {};
   }
 
   getAnotherLanguage() {
@@ -30,30 +29,52 @@ class Nav extends Component {
     );
   }
 
+  componentDidMount(){
+    const smooth = new smoothScroll("#categoryWrap ul", (s, y, h) => {
+      //onScroll(s, y, h);
+    });
+    smooth.on();
+  }
+
+  onClick = () => {
+    this.props.dispatch(
+      updateLanguage(this.props.lang === "zh" ? "en" : "zh")
+    )
+  }
+
   render() {
     const currentLang = this.props.lang;
+    const homeData = this.props.homeData;
+    const projectsData = this.props.projectsData;
+
     return (
       <>
         {/* <Link to={`/${currentLang}/projects/`}>Projects</Link>
         &nbsp; &nbsp; */}
-        <div id="logo" className="fixed">
-          logo
+        <div ref={elem => this.hof = elem} id="hof" className={`fixed cap ${!this.props.isStarted ? 'hide' : ''}`}>
+        {
+          homeData &&
+          homeData.title3.split('').map((value, idx)=>{
+            return <span key={idx}>{value === " " ? "\u00A0" : value}</span>
+          })
+        }
         </div>
-        <div id="touchToStart" className="fixed">
-          touch here
-        </div>
-        <div id="shortDes" className="fixed h6">
-          We connect stakeholders, Foster collaboration and Catalyse innovation.
-        </div>
-        <Link
-          id="langBtn"
-          className="fixed"
-          to={this.getAnotherLanguage()}
-          onClick={() =>
-            this.props.dispatch(
-              updateLanguage(currentLang === "zh" ? "en" : "zh")
-            )
+        <div id="categoryWrap" className={`fixed ${!this.props.isStarted ? 'hide' : ''}`}>
+          <ul>
+          {
+            projectsData &&
+            projectsData.categories.map((value, idx)=>{
+              return <li key={idx}>{value}</li>
+            })
           }
+          </ul>
+        </div>
+        <div id="logo" className="fixed">logo</div>
+        <div id="touchToStart" className="fixed">touch here</div>
+        <div id="shortDes" className="fixed h6">{ homeData && homeData.shortDes }</div>
+        <Link id="langBtn"  className="fixed"
+          to={this.getAnotherLanguage()}
+          onClick={this.onClick}
         >
           {currentLang === "zh" ? "Eng" : "中"}
         </Link>
@@ -65,9 +86,9 @@ class Nav extends Component {
 const mapStateToProps = state => {
   return {
     lang: state.lang,
-    projectSingleData: state.projectSingleData
-      ? state.projectSingleData[0]
-      : null
+    isStarted: state.isStarted,
+    homeData: state.homeData ? state.homeData : null,
+    projectsData: state.projectsData ? state.projectsData : null
   };
 };
 

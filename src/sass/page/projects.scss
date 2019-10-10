@@ -1,13 +1,24 @@
 @import "../_settings";
 
 #projects {
-  padding: rem-calc(50px);
+  width:100%;
+  height:100%;
+  padding: rem-calc(200 50 50);
   #items {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: rem-calc(50);
     grid-row-gap: rem-calc(50);
     li {
+      opacity: 0;
+      .imageWrap{
+        width:100%;
+        &:before{
+          content:'';
+          display: block;
+          padding-top:100%;
+        }
+      }
     }
   }
 }

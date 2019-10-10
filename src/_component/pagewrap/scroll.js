@@ -455,11 +455,11 @@ var SmoothScroll = function(elem, scrollFunc) {
   // Check how much we can scroll. This value is the
   // height of the scrollable element minus the height of the widow
   var fullElemHeight = this.elem.getBoundingClientRect().height;
-  var elemHeight =
-    this.elem.getBoundingClientRect().height - window.innerHeight;
+  var elemWidth;// = this.elem.getBoundingClientRect().width - this.elem.;
+  var elemHeight;// = this.elem.getBoundingClientRect().height - window.innerHeight;
 
   // Add easing to the scroll. Play with this value to find a setting that you like.
-  var ease = 0.2;
+  var ease = 0.1;
   var mult = 0.7;
 
   // Store current scroll position
@@ -483,6 +483,8 @@ var SmoothScroll = function(elem, scrollFunc) {
 
       // Clamp the value so it doesn't go too far up or down
       // The value needs to be between 0 and -elemHeight
+      targetX = Math.max(-elemWidth, targetX);
+      targetX = Math.min(0, targetX);
       targetY = Math.max(-elemHeight, targetY);
       targetY = Math.min(0, targetY);
     }
@@ -492,10 +494,12 @@ var SmoothScroll = function(elem, scrollFunc) {
     // Make sure this works across different browsers (use the shim or something)
 
     // keep at bottom while resizing
+    if (-targetX > elemWidth && targetX < 0) targetX = -elemWidth + 1;
     if (-targetY > elemHeight && targetY < 0) targetY = -elemHeight + 1;
 
     // Get closer to the target value at each frame, using ease.
     // Other easing methods are also ok.
+    currentX += (targetX - currentX) * ease;
     currentY += (targetY - currentY) * ease;
 
     // Uncomment this line to scroll horizontally
@@ -525,6 +529,12 @@ var SmoothScroll = function(elem, scrollFunc) {
     isSelf = true;
   });
   addEvent(_this.elem, "mouseleave", function() {
+    isSelf = false;
+  });
+  addEvent(_this.elem, "touchstart", function() {
+    isSelf = true;
+  });
+  addEvent(_this.elem, "touchend", function() {
     isSelf = false;
   });
 
@@ -595,9 +605,8 @@ var SmoothScroll = function(elem, scrollFunc) {
   var refresh = function() {
     if (_this.elem.parentNode != null) {
       fullElemHeight = _this.elem.getBoundingClientRect().height;
-      elemHeight =
-        _this.elem.getBoundingClientRect().height -
-        _this.elem.parentNode.offsetHeight;
+      elemWidth = _this.elem.getBoundingClientRect().width - _this.elem.parentNode.offsetWidth;
+      elemHeight = _this.elem.getBoundingClientRect().height - _this.elem.parentNode.offsetHeight;
 
       if (showScrollBar) {
         if (fullElemHeight > window.innerHeight) {

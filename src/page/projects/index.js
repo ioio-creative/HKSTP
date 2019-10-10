@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Html from "../../_component/html";
 import { fetchDataBy, fetchDataSuccess } from "../../reducers";
 import "../../sass/page/projects.scss";
+import TweenMax from 'gsap';
 
 class Projects extends Component {
   static pageName = "projects";
@@ -18,6 +19,7 @@ class Projects extends Component {
 
     this.pageName = Projects.pageName;
     this.state = {};
+    this.items = [];
   }
 
   static actions = () => [fetchDataBy(this.pageName)];
@@ -39,10 +41,16 @@ class Projects extends Component {
       this.props.dispatch(fetchDataBy(this.pageName));
     }
   }
+  
+  componentDidUpdate(prevProps) {
+    if(prevProps.isStarted !== this.props.isStarted){
+      TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
+    }
+  }
 
   render() {
     if (this.props.projectsData) {
-      const currentLang = this.props.lang;
+      // const currentLang = this.props.lang;
       const data = this.props.projectsData;
 
       return (
@@ -53,7 +61,12 @@ class Projects extends Component {
         >
           <ul id="items">
             {data.items.map((value, idx) => {
-              return <li key={idx}>{value.name}</li>;
+              return (
+                <li key={idx} ref={elem => this.items[idx] = elem}>
+                  <span>{value.name}</span>
+                  <div className="imageWrap"></div>
+                </li>
+              );
             })}
           </ul>
         </Html>
@@ -66,7 +79,8 @@ class Projects extends Component {
 const mapStateToProps = state => {
   return {
     lang: state.lang,
-    projectsData: state.projectsData
+    projectsData: state.projectsData,
+    isStarted: state.isStarted
   };
 };
 

@@ -6,24 +6,17 @@ import myCache from "memory-cache";
 // Actions
 //
 export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
-export const UPDATE_CLICKED = "UPDATE_CLICKED";
+export const UPDATE_ISSTARTED = "UPDATE_ISSTARTED";
 
 export const FETCH_REQUEST = "FETCH_REQUEST";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
 export const FETCH_FAILURE = "FETCH_FAILURE";
 
 export const updateLanguage = lang => ({ type: UPDATE_LANGUAGE, lang: lang });
-export const updateClicked = clicked => ({
-  type: UPDATE_CLICKED,
-  clicked: clicked
-});
+export const updateIsStarted = isStarted => ({ type: UPDATE_ISSTARTED, isStarted: isStarted });
 
 export const fetchDataRequest = () => ({ type: FETCH_REQUEST });
-export const fetchDataSuccess = (pageName, data) => ({
-  type: FETCH_SUCCESS,
-  pageName: pageName,
-  data: data
-});
+export const fetchDataSuccess = (pageName, data) => ({ type: FETCH_SUCCESS, pageName: pageName, data: data});
 export const fetchDataError = () => ({ type: FETCH_FAILURE });
 
 const promise = (
@@ -112,7 +105,7 @@ const initialState = {
   lang: "en",
   deviceType: "desktop",
   isMobile: false,
-  clicked: false,
+  isStarted: false,
 
   homeData: null,
   projectsData: null,
@@ -124,8 +117,8 @@ const reducer = (state = initialState, action) => {
     case UPDATE_LANGUAGE:
       return { ...state, lang: action.lang };
 
-    case UPDATE_CLICKED:
-      return { ...state, clicked: action.clicked };
+    case UPDATE_ISSTARTED:
+      return { ...state, isStarted: action.isStarted };
 
     case FETCH_SUCCESS:
       switch (action.pageName) {

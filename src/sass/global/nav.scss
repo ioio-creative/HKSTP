@@ -1,6 +1,31 @@
 .fixed {
   position: fixed;
   z-index: 99;
+  opacity: 1;
+  visibility: visible;
+  transition: all .6s cubic-bezier(0.19, 1, 0.22, 1) 2s;
+  &.hide{
+    opacity: 0;
+    visibility: hidden;
+  }
+  &#hof{
+    top: rem-calc(20);
+    left: rem-calc(20);
+  }
+  &#categoryWrap{
+    width:calc(100% - #{rem-calc(130 + 40 + 34 + 40)});
+    top: 0;
+    left: rem-calc(130 + 40);
+    overflow: hidden;
+    ul{
+      display: inline-block;
+      white-space: nowrap;
+      li{
+        display: inline-block;
+        padding: rem-calc(20);
+      }
+    }
+  }
   &#logo {
     top: rem-calc(20);
     right: rem-calc(20);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import PageWrap from "./_component/pagewrap";
-import { updateLanguage } from "../src/reducers";
+// import { updateLanguage } from "../src/reducers";
 import { connect } from "react-redux";
 import "./sass/style.scss";
 
@@ -122,8 +122,8 @@ class App extends Component {
           path="/:lang?/:section?/:title?/:page?/"
           render={props => {
             if (/^(en|zh)$/.test(props.match.params.lang)) {
-              if (this.props.lang !== props.match.params.lang)
-                this.props.dispatch(updateLanguage(props.match.params.lang));
+              // if (this.props.lang !== props.match.params.lang)
+                // this.props.dispatch(updateLanguage(props.match.params.lang));
 
               return <PageWrap {...props} />;
             } else {

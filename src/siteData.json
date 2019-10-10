@@ -3,9 +3,20 @@
     "home": {
       "title1": "HK",
       "title2": "STP",
-      "title3": "Hall of frame"
+      "title3": "Hall of fame",
+      "shortDes": "We connect stakeholders, Foster collaboration and Catalyse innovation."
     },
     "projects": {
+      "categories":[
+        "All",
+        "Category 1",
+        "Category 2",
+        "Category 3",
+        "Category 4",
+        "Category 5",
+        "Category 6",
+        "Category 7"
+      ],
       "items": [
         {
           "name": "IOIO Creative Limited",
@@ -150,9 +161,20 @@
     "home": {
       "title1": "香港",
       "title2": "STP",
-      "title3": "Hall of frame"
+      "title3": "Hall of fame",
+      "shortDes": "我們 connect stakeholders, Foster collaboration and Catalyse innovation."
     },
     "projects": {
+      "categories":[
+        "所有類別",
+        "類別 1",
+        "類別 2",
+        "類別 3",
+        "類別 4",
+        "類別 5",
+        "類別 6",
+        "類別 7"
+      ],
       "items": [
         {
           "name": "十下十下 Creative Limited",
