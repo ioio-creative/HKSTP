@@ -194,7 +194,7 @@ var VirtualScroll = (function(document) {
 
   var onWheel = function(e) {
     // In Chrome and in Firefox (at least the new one)
-    event.deltaX = e.wheelDeltaX || e.deltaX * -1;
+    event.deltaX = (e.wheelDeltaX || e.deltaX) || (e.wheelDeltaY || e.deltaY) * -1;
     event.deltaY = e.wheelDeltaY || e.deltaY * -1;
 
     // for our purpose deltamode = 1 means user is on a wheel mouse, not touch pad

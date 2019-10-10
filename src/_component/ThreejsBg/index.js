@@ -19,13 +19,15 @@ const ThreejsBg = props => {
     const stats = new Stats();
 
     const instancedCount = 5;
-    let offsetAttribute;
+    let offsetAttribute,
+        imageOffsetAttribute;
     let planeWidth = 10,
         planeHeight = planeWidth * 0.75;
     const planeOffsets = [],
         planeSpeed = [];
     let clicked = false,
         started = false;
+    const imageOffsets = [];
 
     let logo;
 
@@ -41,7 +43,6 @@ const ThreejsBg = props => {
       dist = camera.position.z = 60;
       vFOV = THREE.Math.degToRad(camera.fov);
       const screen = getScreenSize();
-      console.log(screen);
       screenWidth = screen.width;
       screenHeight = screen.height;
       // new OrbitControls(camera);
@@ -81,7 +82,6 @@ const ThreejsBg = props => {
         var w = window.innerWidth;
         var h = window.innerHeight;
       }
-
       return { width: w, height: h };
     };
 
@@ -105,6 +105,15 @@ const ThreejsBg = props => {
       return { x: x, y: y };
     };
 
+    // const convert2dto3d = (x,y) => {
+    //   var vector = new THREE.Vector3(x, y, 0.5);
+    //   vector.unproject( camera );
+    //   var dir = vector.sub( camera.position ).normalize();
+    //   var distance = - camera.position.z / dir.z;
+    //   const pos = camera.position.clone().add( dir.multiplyScalar( distance ) );
+    //   return pos;
+    // }
+
     const initLight = () => {
       const ambientLight = new THREE.AmbientLight(0xffffff);
       scene.add(ambientLight);
@@ -113,6 +122,7 @@ const ThreejsBg = props => {
     const initMesh = () => {
       initPlane();
       initLogo();
+      initImage();
     };
 
     const initLogo = () => {
@@ -216,6 +226,38 @@ const ThreejsBg = props => {
       scene.add(plane);
     };
 
+    const initImage = () => {
+      const bufferGeometry = new THREE.PlaneBufferGeometry( screenWidth *.2, screenWidth *.2, 1);
+      const geometry = new THREE.InstancedBufferGeometry();
+      geometry.maxInstancedCount = 1;
+      geometry.index = bufferGeometry.index;
+      geometry.attributes.position = bufferGeometry.attributes.position;
+      geometry.attributes.normal = bufferGeometry.attributes.normal;
+
+      // console.log((100/window.innerWidth)*2-1);
+      // const {x,y} = convert2dto3d((10/window.innerWidth)*2-1, 0);
+      // console.log(x);
+      for (let i = 0; i < 1; i++) {
+        imageOffsets.push(0,0,0);
+      }
+
+      imageOffsetAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageOffsets), 3 );
+      geometry.addAttribute("offset", imageOffsetAttribute);
+
+      var material = new THREE.MeshBasicMaterial({ color: 0x333333, depthTest:false, wireframe:true });
+      material.onBeforeCompile = function(shader) {
+        shader.vertexShader =
+          "attribute vec3 offset;\n" + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <begin_vertex>",
+          ["vec3 transformed = vec3(position + offset);"].join("\n")
+        );
+      };
+
+      const images = new THREE.Mesh(geometry, material);
+      scene.add(images);
+    }
+
     const start = Date.now();
     const draw = () => {
       const timer = (Date.now() - start) * 0.0001;
@@ -267,7 +309,7 @@ const ThreejsBg = props => {
         
         const tl = new TimelineMax();
         tl.to(options, 1.6, {planeSpeed: 1, ease:'Power3.easeInOut'},0);
-        tl.to(camera.position, 4, {z: 40, ease:'Power3.easeInOut'},0);
+        // tl.to(camera.position, 4, {z: 40, ease:'Power3.easeInOut'},0);
         tl.add(()=>{ started =true; }, 2);
       }
     };
