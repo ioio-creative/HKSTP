@@ -265,7 +265,13 @@ const ThreejsBg = props => {
           shader.vertexShader = shader.vertexShader.replace(
             "#include <begin_vertex>",
             [
-              "vec3 transformed = vec3(position + offset) * vec3(1., scaleY, 1.);"
+              "float scaleX = 1.;",
+              "float scaleZ = 1.;",
+              "mat4 sPos = mat4(vec4(scaleX,0.0,0.0,0.0),",
+                               "vec4(0.0,scaleY,0.0,0.0),",
+                               "vec4(0.0,0.0,scaleZ,0.0),",
+                               "vec4(offset,1.0));",
+              "vec3 transformed = (sPos * vec4(position,1.)).xyz;"
             ].join("\n")
           );
           // shader.vertexShader = shader.vertexShader.replace(
