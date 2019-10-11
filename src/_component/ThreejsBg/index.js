@@ -233,7 +233,7 @@ const ThreejsBg = props => {
     };
 
     const initImage = () => {
-      const elem = document.querySelector('#projects li:nth-child(2) .imageWrap'); 
+      const elem = document.querySelector('#projects li:nth-child(1) .imageWrap'); 
       if(elem){
         imageInstancedCount = document.querySelectorAll('#projects li').length;
         imageSize.w = elem.offsetWidth;
@@ -265,13 +265,13 @@ const ThreejsBg = props => {
           shader.vertexShader = shader.vertexShader.replace(
             "#include <begin_vertex>",
             [
-              "vec3 transformed = vec3(position + offset) * vec3(1.,1.,1.);"
+              "vec3 transformed = vec3(position + offset) * vec3(1., scaleY, 1.);"
             ].join("\n")
           );
-          shader.vertexShader = shader.vertexShader.replace(
-            "gl_Position = projectionMatrix * mvPosition;",
-            ["gl_Position = projectionMatrix * mvPosition;"].join("\n")
-          );
+          // shader.vertexShader = shader.vertexShader.replace(
+          //   "gl_Position = projectionMatrix * mvPosition;",
+          //   ["gl_Position = projectionMatrix * mvPosition;"].join("\n")
+          // );
         };
 
         const images = new THREE.Mesh(geometry, material);
@@ -316,12 +316,14 @@ const ThreejsBg = props => {
           const pos = elem.getBoundingClientRect();
           imageSize.w = elem.offsetWidth;
           imageSize.h = elem.offsetHeight;
+          
+          const scaleHeight = imageSize.h / imageSize.w;
           const {x, y} = convert2dto3d(pos.left+ imageSize.w/2, pos.top + imageSize.h/2);
 
-          const scaleHeight = imageSize.h / imageSize.w;
           imageSize[i] = scaleHeight;
           imageScaleYAttribute.setX(i, scaleHeight);
           
+          // y -= (imageSize.w*scaleHeight)-(1-scaleHeight) * 2;
           imageOffsets[i*3+0] = x;
           imageOffsets[i*3+1] = y;
           imageOffsetAttribute.setXY(i, x, y);
