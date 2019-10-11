@@ -67,7 +67,7 @@ class Home extends Component {
     }
 
     if(prevProps.isStarted !== this.props.isStarted){
-      TweenMax.to(this.titleSpan, 1.3, {y:'-100%',ease:'Power4.easeInOut'});
+      TweenMax.to(this.titleSpan, 1.3, {y:'-100%', overwrite:'all', ease:'Power4.easeInOut'});
     }
   }
 

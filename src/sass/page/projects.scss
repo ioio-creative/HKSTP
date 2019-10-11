@@ -19,6 +19,14 @@
           padding-top:100%;
         }
       }
+      
+      &:nth-child(2){
+        .imageWrap{
+          &:before{
+            padding-top:110%;
+          }
+        }
+      }
     }
   }
 }
