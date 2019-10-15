@@ -18,10 +18,10 @@ const ThreejsBg = props => {
     // let onWindowResize;
     const stats = new Stats();
 
-    const instancedCount = 5;
+    const instancedCount = 10;
     let offsetAttribute,
         imageOffsetAttribute,
-        imageScaleYAttribute,
+        imageScaleAttribute,
         imageInstancedCount;
     let planeWidth = 10,
         planeHeight = planeWidth * 0.75;
@@ -31,10 +31,12 @@ const ThreejsBg = props => {
         started = false,
         initedImage = false;
     const imageOffsets = [],
-        imageScaleY=[],
-        imageSize = {};
+        imageScale = [],
+        imageSize = [];
+    let tempImageSize = [];
 
-    let logo;
+    let logo,
+        logoRotateSpeed = {x:0.004,y:0.004};
 
     const options = {
       planeSpeed: 0.001
@@ -59,7 +61,7 @@ const ThreejsBg = props => {
       canvasWrap.current.appendChild(renderer.domElement);
 
       const gui = new dat.GUI({ width: 300 });
-      gui.add(options, "planeSpeed").min(0).max(1).listen();
+      gui.add(options, "planeSpeed").min(0).max(2).listen();
       gui.domElement.parentNode.style.zIndex = 999;
 
       // stats
@@ -77,6 +79,7 @@ const ThreejsBg = props => {
       });
 
       TweenMax.to(options, .6, {planeSpeed: .1, ease:'Power3.easeInOut'});
+      TweenMax.to(logo.position, 2, {z: 20, ease:'Power3.easeInOut'});
     };
 
     const getScreenSize = function() {
@@ -137,7 +140,7 @@ const ThreejsBg = props => {
       const ballDist = 15;
       const cylinderHeight = ballDist * .8;
 
-      const material = new THREE.MeshBasicMaterial({ color: 0xe9e9e9, wireframe:false, depthTest:false });
+      const material = new THREE.MeshBasicMaterial({ color: 0xe9e9e9 });
       
       const topShpereGeometry = new THREE.SphereGeometry(smallBallSize, 16, 16);
       const topShpere = new THREE.Mesh(topShpereGeometry, material);
@@ -177,7 +180,7 @@ const ThreejsBg = props => {
       rightCylinder.rotation.set(90 * Math.PI/180, 0, 45 * Math.PI/180);
 
       // all
-      const centerShpereGeometry = new THREE.SphereGeometry(bigBallSize, 16, 16);
+      let centerShpereGeometry = new THREE.SphereGeometry(bigBallSize, 16, 16);
       topShpere.updateMatrix();
       centerShpereGeometry.merge(topShpere.geometry, topShpere.matrix);
       botShpere.updateMatrix();
@@ -196,7 +199,19 @@ const ThreejsBg = props => {
       rightCylinder.updateMatrix();
       centerShpereGeometry.merge(rightCylinder.geometry, rightCylinder.matrix);
 
-      logo = new THREE.Mesh(centerShpereGeometry, material);
+    
+      const finalMaterial = new THREE.MeshBasicMaterial({ color: 0xe9e9e9, wireframe:false, depthTest:false, side:THREE.DoubleSide });
+      material.onBeforeCompile = function(shader) {
+        shader.vertexShader =
+          // "attribute vec3 offset;\n" + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <begin_vertex>",
+          ["vec3 transformed = vec3(position);"].join("\n")
+        );
+      };
+
+      logo = new THREE.Mesh(centerShpereGeometry, finalMaterial);
+      logo.position.z = 60;
 
       scene.add(logo);
     }
@@ -236,12 +251,10 @@ const ThreejsBg = props => {
       const elem = document.querySelector('#projects li:nth-child(1) .imageWrap'); 
       if(elem){
         imageInstancedCount = document.querySelectorAll('#projects li').length;
-        imageSize.w = elem.offsetWidth;
-        imageSize.h = elem.offsetHeight;
         const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetHeight);
         const w = x + (screenWidth - screenWidth/2);
         const h = y - (screenHeight - screenHeight/2);
-        const bufferGeometry = new THREE.PlaneBufferGeometry(w, h, 1);
+        const bufferGeometry = new THREE.PlaneBufferGeometry(w, h, w, -h);
         const geometry = new THREE.InstancedBufferGeometry();
         geometry.maxInstancedCount = imageInstancedCount;
         geometry.index = bufferGeometry.index;
@@ -249,27 +262,28 @@ const ThreejsBg = props => {
         geometry.attributes.normal = bufferGeometry.attributes.normal;
   
         for (let i = 0; i < imageInstancedCount; i++) {
+          const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
           imageOffsets.push(0,0,0);
-          imageScaleY.push(1);
+          imageScale.push(1,1,1);
+          imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
         }
+        tempImageSize = Array.from(imageSize);
 
         imageOffsetAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageOffsets), 3 );
         geometry.addAttribute("offset", imageOffsetAttribute);
-        imageScaleYAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageScaleY), 1 );
-        geometry.addAttribute("scaleY", imageScaleYAttribute);
+        imageScaleAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageScale), 3 );
+        geometry.addAttribute("scale", imageScaleAttribute);
 
-        var material = new THREE.MeshBasicMaterial({ color: 0x333333, depthTest:false, wireframe:true });
+        var material = new THREE.MeshBasicMaterial({ color: 0xcccccc, wireframe:true, side:THREE.DoubleSide });
         material.onBeforeCompile = function(shader) {
           shader.vertexShader =
-            "attribute vec3 offset;\nattribute float scaleY;\n" + shader.vertexShader;
+            "attribute vec3 offset;\nattribute vec3 scale;\n" + shader.vertexShader;
           shader.vertexShader = shader.vertexShader.replace(
             "#include <begin_vertex>",
             [
-              "float scaleX = 1.;",
-              "float scaleZ = 1.;",
-              "mat4 sPos = mat4(vec4(scaleX,0.0,0.0,0.0),",
-                               "vec4(0.0,scaleY,0.0,0.0),",
-                               "vec4(0.0,0.0,scaleZ,0.0),",
+              "mat4 sPos = mat4(vec4(scale.x,0.0,0.0,0.0),",
+                               "vec4(0.0,scale.y,0.0,0.0),",
+                               "vec4(0.0,0.0,scale.z,0.0),",
                                "vec4(offset,1.0));",
               "vec3 transformed = (sPos * vec4(position,1.)).xyz;"
             ].join("\n")
@@ -290,7 +304,8 @@ const ThreejsBg = props => {
     const draw = () => {
       const timer = (Date.now() - start) * 0.0001;
 
-      logo.rotation.set(timer,timer,0);
+      logo.rotation.x += logoRotateSpeed.x;
+      logo.rotation.y += logoRotateSpeed.y;
 
       for (let i = 0; i < instancedCount; i++) {
         let x = planeOffsets[i * 3 + 0];
@@ -320,22 +335,20 @@ const ThreejsBg = props => {
         for(let i=0; i<imageInstancedCount; i++){
           const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
           const pos = elem.getBoundingClientRect();
-          imageSize.w = elem.offsetWidth;
-          imageSize.h = elem.offsetHeight;
+          imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
           
-          const scaleHeight = imageSize.h / imageSize.w;
-          const {x, y} = convert2dto3d(pos.left+ imageSize.w/2, pos.top + imageSize.h/2);
+          const scaleHeight = imageSize[i].h / imageSize[i].w;
+          const {x, y} = convert2dto3d(pos.left+ imageSize[i].w/2, pos.top + imageSize[i].h/2);
 
-          imageSize[i] = scaleHeight;
-          imageScaleYAttribute.setX(i, scaleHeight);
-          
-          // y -= (imageSize.w*scaleHeight)-(1-scaleHeight) * 2;
+          imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w, scaleHeight * (imageSize[i].w/tempImageSize[i].w));        
+
+
           imageOffsets[i*3+0] = x;
           imageOffsets[i*3+1] = y;
           imageOffsetAttribute.setXY(i, x, y);
         }
         imageOffsetAttribute.needsUpdate = true;
-        imageScaleYAttribute.needsUpdate = true;
+        imageScaleAttribute.needsUpdate = true;
       }
     };
 
@@ -359,9 +372,11 @@ const ThreejsBg = props => {
         props.dispatch(updateIsStarted(true));
         
         const tl = new TimelineMax();
-        tl.to(options, 1.6, {planeSpeed: 1, ease:'Power3.easeInOut'},0);
-        // tl.to(camera.position, 4, {z: 40, ease:'Power3.easeInOut'},0);
-        tl.add(()=>{ started =true; }, 2);
+        tl.to(options, 1.6, {planeSpeed: 2, ease:'Power3.easeInOut'},0);
+        tl.to(logo.position, 4, {z: 0, ease:'Power3.easeInOut'},0);
+        tl.to(logoRotateSpeed, 2, {x: .05, y: .05, ease:'Power3.easeInOut'},0);
+        tl.to(logoRotateSpeed, 2, {x: .004, y: .004, ease:'Power3.easeInOut'},2);
+        tl.add(()=>{ started =true; }, 2.6);
       }
     };
 

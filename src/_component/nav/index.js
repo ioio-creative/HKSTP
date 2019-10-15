@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateLanguage } from "../../reducers";
-import smoothScroll from '../pagewrap/scroll';
+// import smoothScroll from '../pagewrap/scroll';
 
 class Nav extends Component {
   constructor(props) {
@@ -30,10 +30,10 @@ class Nav extends Component {
   }
 
   componentDidMount(){
-    const smooth = new smoothScroll("#categoryWrap ul", (s, y, h) => {
+    // const smooth = new smoothScroll("#categoryWrap ul", (s, y, h) => {
       //onScroll(s, y, h);
-    });
-    smooth.on();
+    // });
+    // smooth.on();
   }
 
   onClick = () => {
@@ -45,7 +45,7 @@ class Nav extends Component {
   render() {
     const currentLang = this.props.lang;
     const homeData = this.props.homeData;
-    const projectsData = this.props.projectsData;
+    // const projectsData = this.props.projectsData;
 
     return (
       <>
@@ -59,7 +59,7 @@ class Nav extends Component {
           })
         }
         </div>
-        <div id="categoryWrap" className={`fixed ${!this.props.isStarted ? 'hide' : ''}`}>
+        {/* <div id="categoryWrap" className={`fixed ${!this.props.isStarted ? 'hide' : ''}`}>
           <ul>
           {
             projectsData &&
@@ -68,7 +68,7 @@ class Nav extends Component {
             })
           }
           </ul>
-        </div>
+        </div> */}
         <div id="logo" className="fixed">logo</div>
         <div id="touchToStart" className="fixed">touch here</div>
         <div id="shortDes" className="fixed h6">{ homeData && homeData.shortDes }</div>
@@ -87,8 +87,8 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     isStarted: state.isStarted,
-    homeData: state.homeData ? state.homeData : null,
-    projectsData: state.projectsData ? state.projectsData : null
+    homeData: state.homeData ? state.homeData : null
+    // projectsData: state.projectsData ? state.projectsData : null
   };
 };
 

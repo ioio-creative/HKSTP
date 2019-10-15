@@ -27,6 +27,13 @@
           }
         }
       }
+      &:nth-child(3){
+        .imageWrap{
+          &:before{
+            padding-top:70%;
+          }
+        }
+      }
     }
   }
 }
