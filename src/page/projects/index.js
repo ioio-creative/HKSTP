@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Html from "../../_component/html";
-import { fetchDataBy, fetchDataSuccess } from "../../reducers";
+import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx } from "../../reducers";
 import "../../sass/page/projects.scss";
 import TweenMax from 'gsap';
 
@@ -64,7 +64,7 @@ class Projects extends Component {
               return (
                 <li key={idx} ref={elem => this.items[idx] = elem}>
                   <span>{value.name}</span>
-                  <div className="imageWrap"></div>
+                  <div className="imageWrap" onClick={()=>{this.props.dispatch(updateImageClickedIdx(idx))}} data-src={value.images.thumbnail}></div>
                 </li>
               );
             })}

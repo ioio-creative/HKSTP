@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import * as THREE from "three";
 import OrbitControls from "three-orbitcontrols";
@@ -10,6 +10,7 @@ import { updateIsStarted } from "../../reducers";
 const ThreejsBg = props => {
   const canvasWrap = useRef(null);
   const initImageFuction = useRef(null);
+  const updateImageEffectFuction = useRef(null);
 
 
   useEffect(() => {
@@ -20,9 +21,11 @@ const ThreejsBg = props => {
 
     const instancedCount = 10;
     let offsetAttribute,
+        imageInstancedCount,
         imageOffsetAttribute,
         imageScaleAttribute,
-        imageInstancedCount;
+        imageTextureIdxAttribute,
+        imageSlideProgressAttribute;
     let planeWidth = 10,
         planeHeight = planeWidth * 0.75;
     const planeOffsets = [],
@@ -30,16 +33,22 @@ const ThreejsBg = props => {
     let clicked = false,
         started = false,
         initedImage = false;
+    let images;
     const imageOffsets = [],
         imageScale = [],
-        imageSize = [];
+        imageSize = [],
+        imageTexture = [],
+        imageTextureIdx = [],
+        imageSlideProgress = [];
     let tempImageSize = [];
+        // imagesShader;
 
     let logo,
         logoRotateSpeed = {x:0.004,y:0.004};
 
     const options = {
-      planeSpeed: 0.001
+      planeSpeed: 0.001,
+      slideProgress: 0
     };
 
     const init = function() {
@@ -62,6 +71,7 @@ const ThreejsBg = props => {
 
       const gui = new dat.GUI({ width: 300 });
       gui.add(options, "planeSpeed").min(0).max(2).listen();
+      gui.add(options, 'slideProgress').min(0).max(1).listen();
       gui.domElement.parentNode.style.zIndex = 999;
 
       // stats
@@ -83,12 +93,13 @@ const ThreejsBg = props => {
     };
 
     const getScreenSize = function() {
+      let w,h;
       if (vFOV) {
-        var h = 2 * Math.tan(vFOV / 2) * dist;
-        var w = h * camera.aspect;
+        h = 2 * Math.tan(vFOV / 2) * dist;
+        w = h * camera.aspect;
       } else {
-        var w = window.innerWidth;
-        var h = window.innerHeight;
+        w = window.innerWidth;
+        h = window.innerHeight;
       }
       return { width: w, height: h };
     };
@@ -217,7 +228,7 @@ const ThreejsBg = props => {
     }
 
     const initPlane = () => {
-      const bufferGeometry = new THREE.PlaneBufferGeometry( planeWidth, planeHeight, 1);
+      const bufferGeometry = new THREE.PlaneBufferGeometry( planeWidth, planeHeight, planeWidth, planeHeight);
       const geometry = new THREE.InstancedBufferGeometry();
       geometry.maxInstancedCount = instancedCount;
       geometry.index = bufferGeometry.index;
@@ -233,7 +244,7 @@ const ThreejsBg = props => {
       offsetAttribute = new THREE.InstancedBufferAttribute( new Float32Array(planeOffsets), 3 );
       geometry.addAttribute("offset", offsetAttribute);
 
-      var material = new THREE.MeshBasicMaterial({ color: 0xf8f8f8 });
+      var material = new THREE.MeshBasicMaterial({ color: 0xf8f8f8, wireframe:true });
       material.onBeforeCompile = function(shader) {
         shader.vertexShader =
           "attribute vec3 offset;\n" + shader.vertexShader;
@@ -250,59 +261,167 @@ const ThreejsBg = props => {
     const initImage = () => {
       const elem = document.querySelector('#projects li:nth-child(1) .imageWrap'); 
       if(elem){
-        imageInstancedCount = document.querySelectorAll('#projects li').length;
-        const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetHeight);
-        const w = x + (screenWidth - screenWidth/2);
-        const h = y - (screenHeight - screenHeight/2);
-        const bufferGeometry = new THREE.PlaneBufferGeometry(w, h, w, -h);
-        const geometry = new THREE.InstancedBufferGeometry();
-        geometry.maxInstancedCount = imageInstancedCount;
-        geometry.index = bufferGeometry.index;
-        geometry.attributes.position = bufferGeometry.attributes.position;
-        geometry.attributes.normal = bufferGeometry.attributes.normal;
-  
-        for (let i = 0; i < imageInstancedCount; i++) {
-          const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
-          imageOffsets.push(0,0,0);
-          imageScale.push(1,1,1);
-          imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
+        if(!initedImage){
+          imageInstancedCount = document.querySelectorAll('#projects li').length;
+          const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetWidth);
+          const w = x + (screenWidth - screenWidth/2);
+          const h = y - (screenHeight - screenHeight/2);
+          const bufferGeometry = new THREE.PlaneBufferGeometry(w,h, w*2, -h*2);
+          const geometry = new THREE.InstancedBufferGeometry();
+          geometry.maxInstancedCount = imageInstancedCount;
+          geometry.index = bufferGeometry.index;
+          geometry.attributes.position = bufferGeometry.attributes.position;
+          geometry.attributes.normal = bufferGeometry.attributes.normal;
+          geometry.attributes.uv = bufferGeometry.attributes.uv;
+        
+          for (let i = 0; i < imageInstancedCount; i++) {
+            const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+            imageOffsets.push(0,0,0);
+            imageScale.push(1,1,1);
+            imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
+
+            imageTextureIdx.push(i);
+
+            const texture = new THREE.TextureLoader().load(elem.getAttribute('data-src'));
+            texture.flipY = false;
+            imageTexture.push(texture);
+
+            imageSlideProgress.push({value:0});
+          }
+          tempImageSize = Array.from(imageSize);
+
+          imageOffsetAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageOffsets), 3 );
+          geometry.addAttribute("offset", imageOffsetAttribute);
+          imageScaleAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageScale), 3 );
+          geometry.addAttribute("scale", imageScaleAttribute);
+          imageTextureIdxAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageTextureIdx), 1 );
+          geometry.addAttribute("textureIdx", imageTextureIdxAttribute);
+          imageSlideProgressAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageSlideProgress), 1 );
+          geometry.addAttribute("slideProgress", imageSlideProgressAttribute);
+          // imageClickedIdxAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageClickedIdx), 1 );
+          // geometry.addAttribute("clickedIdx", imageClickedIdxAttribute);
+
+          const loopTexture = (indexName) => {
+            const t = [];
+            for(let i = 0; i<imageInstancedCount; i++){
+              if(i===0){ 
+                t.push('vec4 texture;');
+                t.push(`int n = int(${indexName});`);
+              }
+              t.push(`${i>0?'else':''} if(n == int(${i}.0))`);
+              t.push(`texture = texture2D(images[${i}], vUv);`);
+            }
+            return t.join('\n');
+          }
+
+
+          const material = new THREE.ShaderMaterial({
+            uniforms:{ 
+                images:{ type:'t', value: imageTexture },
+                clickedIdx:{ type: 'f', value: 0 }
+                // slideProgress:{ type:'f', value: 0 }
+            },
+            vertexShader: [
+              `uniform sampler2D images[${imageInstancedCount}];`,
+              'uniform float clickedIdx;',
+              
+              'attribute float textureIdx;',
+              'attribute float slideProgress;',
+              'attribute vec3 offset;',
+              'attribute vec3 scale;',
+
+              'varying vec2 vUv;',
+              'varying float idx;',
+              'varying float colorProgress;',
+              
+              'void main(){',
+                'float PI = 3.14159;',
+                'vUv = uv;',
+                'idx = textureIdx;',
+                'mat4 matPos = mat4(vec4(scale.x,0.0,0.0,0.0),',
+                                'vec4(0.0,scale.y,0.0,0.0),',
+                                'vec4(0.0,0.0,scale.z,0.0),',
+                                'vec4(offset,1.0));',
+                'vec3 newPosition = (matPos * vec4(position, 1.)).xyz;',
+
+                'int i = int(idx);',
+                'int c = int(clickedIdx);',
+                'if(c == i){',
+                  loopTexture('clickedIdx'),
+                  'colorProgress = 1.;',
+                  'newPosition.z += (texture.r + texture.g + texture.b) * 2.5;',
+                '}',
+                // 'else{',
+                //   'colorProgress = pow(((slideProgress * 3. - 1.) + uv.y - uv.x)* 5. - 5. / 2., 4.);',
+                //   'newPosition.z = 8. * -sin(max(0., min(1., colorProgress))* 360. * PI/180.);',
+                // '}',
+
+                
+                'vec4 position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);',
+                'gl_Position = position;',
+              '}'
+            ].join('\n'),
+            fragmentShader:[
+              `uniform sampler2D images[${imageInstancedCount}];`,
+
+              'varying vec2 vUv;',
+              'varying float idx;',
+              'varying float colorProgress;',
+
+              'void main(){',
+                loopTexture('idx'),
+                // 'vec3 texture2 = vec3(texture.r+texture.g+texture.b);',
+                // 'gl_FragColor = vec4(mix(texture2.xyz, texture.xyz, max(0., min(1.,colorProgress))), 1.);',
+                'gl_FragColor = texture;',
+              '}'
+            ].join('\n'),
+            side:THREE.DoubleSide,
+            // wireframe:true
+          });
+
+          images = new THREE.Mesh(geometry, material);
+          scene.add(images);
+          initedImage = true;
+
+
+          const imageAnim = (i) => {
+            TweenMax.fromTo(imageSlideProgress[i], Math.random()+1, {value:0},{delay:Math.random()*8+2, value:1,ease:'Power3.easeInOut', 
+              onComplete:()=>{imageAnim(i)}
+            });
+          }
+          for (let i = 0; i < imageInstancedCount; i++) {
+            imageAnim(i);
+          }
         }
-        tempImageSize = Array.from(imageSize);
-
-        imageOffsetAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageOffsets), 3 );
-        geometry.addAttribute("offset", imageOffsetAttribute);
-        imageScaleAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageScale), 3 );
-        geometry.addAttribute("scale", imageScaleAttribute);
-
-        var material = new THREE.MeshBasicMaterial({ color: 0xcccccc, wireframe:true, side:THREE.DoubleSide });
-        material.onBeforeCompile = function(shader) {
-          shader.vertexShader =
-            "attribute vec3 offset;\nattribute vec3 scale;\n" + shader.vertexShader;
-          shader.vertexShader = shader.vertexShader.replace(
-            "#include <begin_vertex>",
-            [
-              "mat4 sPos = mat4(vec4(scale.x,0.0,0.0,0.0),",
-                               "vec4(0.0,scale.y,0.0,0.0),",
-                               "vec4(0.0,0.0,scale.z,0.0),",
-                               "vec4(offset,1.0));",
-              "vec3 transformed = (sPos * vec4(position,1.)).xyz;"
-            ].join("\n")
-          );
-          // shader.vertexShader = shader.vertexShader.replace(
-          //   "gl_Position = projectionMatrix * mvPosition;",
-          //   ["gl_Position = projectionMatrix * mvPosition;"].join("\n")
-          // );
-        };
-
-        const images = new THREE.Mesh(geometry, material);
-        scene.add(images);
-        initedImage = true;
+        else{
+          const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetWidth);
+          const w = x + (screenWidth - screenWidth/2);
+          const h = y - (screenHeight - screenHeight/2);
+          const bufferGeometry = new THREE.PlaneBufferGeometry(w,h, w, -h);
+          images.geometry.maxInstancedCount = imageInstancedCount;
+          images.geometry.index = bufferGeometry.index;
+          images.geometry.attributes.position = bufferGeometry.attributes.position;
+          images.geometry.attributes.normal = bufferGeometry.attributes.normal;
+          images.geometry.attributes.uv = bufferGeometry.attributes.uv;
+          for (let i = 0; i < imageInstancedCount; i++) {
+            const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+            imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
+          }
+          tempImageSize = Array.from(imageSize);
+        }
       }
     }
 
+    const imageEffect = (idx) => {
+      if(idx)
+      images.material.uniforms.clickedIdx.value = idx;
+      console.log(idx);
+    }
+    updateImageEffectFuction.current = {imageEffect};
+
     const start = Date.now();
     const draw = () => {
-      const timer = (Date.now() - start) * 0.0001;
+      // const timer = (Date.now() - start) * 0.0001;
 
       logo.rotation.x += logoRotateSpeed.x;
       logo.rotation.y += logoRotateSpeed.y;
@@ -335,20 +454,30 @@ const ThreejsBg = props => {
         for(let i=0; i<imageInstancedCount; i++){
           const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
           const pos = elem.getBoundingClientRect();
+          if(imageTexture[i].image){
+            elem.style.height = elem.offsetWidth * (imageTexture[i].image.height / imageTexture[i].image.width) + 'px';
+          }
           imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
-          
+
           const scaleHeight = imageSize[i].h / imageSize[i].w;
           const {x, y} = convert2dto3d(pos.left+ imageSize[i].w/2, pos.top + imageSize[i].h/2);
 
-          imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w, scaleHeight * (imageSize[i].w/tempImageSize[i].w));        
+          if(tempImageSize.length)
+            imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w, scaleHeight * (imageSize[i].w/tempImageSize[i].w));        
 
 
           imageOffsets[i*3+0] = x;
           imageOffsets[i*3+1] = y;
           imageOffsetAttribute.setXY(i, x, y);
+
+          imageSlideProgressAttribute.setX(i, imageSlideProgress[i].value);
         }
+
         imageOffsetAttribute.needsUpdate = true;
         imageScaleAttribute.needsUpdate = true;
+        imageSlideProgressAttribute.needsUpdate = true;
+
+        // images.material.uniforms.slideProgress.value = options.slideProgress;
       }
     };
 
@@ -394,6 +523,11 @@ const ThreejsBg = props => {
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
 
+      // scene.remove( images );
+      // images.geometry.dispose();
+      // images.material.dispose();
+      initImage();
+
       const screen = getScreenSize();
       screenWidth = screen.width;
       screenHeight = screen.height;
@@ -412,6 +546,11 @@ const ThreejsBg = props => {
     initImageFuction.current.initImage();
   },[props.isStarted]);
 
+  
+  useEffect(()=>{
+    updateImageEffectFuction.current.imageEffect(props.imageClickedIdx);
+  },[props.imageClickedIdx]);
+
   return <div ref={canvasWrap} id="canvasWrap" />
 };
 
@@ -419,7 +558,8 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     isStarted: state.isStarted,
-    projectsData: state.projectsData ? state.projectsData : null
+    projectsData: state.projectsData ? state.projectsData : null,
+    imageClickedIdx: state.imageClickedIdx
   };
 };
 

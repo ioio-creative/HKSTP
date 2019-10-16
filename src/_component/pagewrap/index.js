@@ -18,6 +18,7 @@ const PageWrap = props => {
         //onScroll(s, y, h);
       });
       smooth.on();
+      smooth.showScrollBar();
     },
     [bodyWrap]
   );

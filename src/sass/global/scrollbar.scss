@@ -1,9 +1,11 @@
 #scrollBarWrap {
-  width: rem-calc(6);
+  width: rem-calc(14);
   height: 100vh;
   position: fixed;
-  top: 0px;
-  right: rem-calc(3);
+  z-index: 999;
+  top: 0;
+  right:0;
+  padding: rem-calc(4);
   -webkit-animation: fadeIn 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   animation: fadeIn 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   -webkit-transition: opacity 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -15,13 +17,13 @@
   }
 
   #scrollBar {
-    width: 100%;
+    width: rem-calc(5);
     height: auto;
     background-color: rgba(176, 177, 178, 0.3);
-    border-radius: rem-calc(5);
+    border-radius: rem-calc(1);
     position: absolute;
     top: 0px;
-    right: 0px;
+    right: rem-calc(4);
 
     -webkit-transition: background-color 300ms
         cubic-bezier(0.215, 0.61, 0.355, 1),

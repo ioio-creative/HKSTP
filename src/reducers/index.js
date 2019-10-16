@@ -7,6 +7,7 @@ import myCache from "memory-cache";
 //
 export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
 export const UPDATE_ISSTARTED = "UPDATE_ISSTARTED";
+export const UPDATE_IMAGECLICKEDIDX = "UPDATE_IMAGECLICKEDIDX";
 
 export const FETCH_REQUEST = "FETCH_REQUEST";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
@@ -14,6 +15,7 @@ export const FETCH_FAILURE = "FETCH_FAILURE";
 
 export const updateLanguage = lang => ({ type: UPDATE_LANGUAGE, lang: lang });
 export const updateIsStarted = isStarted => ({ type: UPDATE_ISSTARTED, isStarted: isStarted });
+export const updateImageClickedIdx = imageClickedIdx => ({ type: UPDATE_IMAGECLICKEDIDX, imageClickedIdx: imageClickedIdx });
 
 export const fetchDataRequest = () => ({ type: FETCH_REQUEST });
 export const fetchDataSuccess = (pageName, data) => ({ type: FETCH_SUCCESS, pageName: pageName, data: data});
@@ -119,6 +121,9 @@ const reducer = (state = initialState, action) => {
 
     case UPDATE_ISSTARTED:
       return { ...state, isStarted: action.isStarted };
+      
+    case UPDATE_IMAGECLICKEDIDX:
+      return { ...state, imageClickedIdx: action.imageClickedIdx };
 
     case FETCH_SUCCESS:
       switch (action.pageName) {
