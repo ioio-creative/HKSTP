@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import smoothScroll from "./scroll";
@@ -9,19 +9,41 @@ import Projects from "../../page/projects";
 
 import ThreejsBg from "../ThreejsBg";
 
-const PageWrap = props => {
-  const bodyWrap = useRef(null);
+const usePrevious = (value) => {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
-  useEffect(
-    () => {
+const PageWrap = props => {
+  const { imageClickedIdx } = props;
+  const bodyWrap = useRef(null);
+  const [scroll, setScroll] = useState(null);
+  const prevProps = usePrevious({imageClickedIdx});
+  
+
+  useEffect(() => {
       const smooth = new smoothScroll("#bodyWrap", (s, y, h) => {
         //onScroll(s, y, h);
       });
       smooth.on();
       smooth.showScrollBar();
+
+      setScroll(smooth);
     },
     [bodyWrap]
   );
+
+  useEffect(()=>{
+    if(props.imageClickedIdx){
+      if(prevProps.imageClickedIdx !== props.imageClickedIdx){
+        scroll.hideScrollBar();
+        scroll.off();
+      }
+    }
+  },[props.imageClickedIdx]);
 
   return (
     <>
@@ -60,7 +82,10 @@ const PageWrap = props => {
 };
 
 const mapStateToProps = state => {
-  return { lang: state.lang };
+  return { 
+    lang: state.lang,
+    imageClickedIdx: state.imageClickedIdx
+  };
 };
 
 export default connect(mapStateToProps)(PageWrap);

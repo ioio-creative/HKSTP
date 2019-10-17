@@ -19,21 +19,6 @@
         //   padding-top:100%;
         // }
       }
-      
-      &:nth-child(2){
-        .imageWrap{
-          &:before{
-            padding-top:130%;
-          }
-        }
-      }
-      &:nth-child(3){
-        .imageWrap{
-          &:before{
-            padding-top:70%;
-          }
-        }
-      }
     }
   }
 }

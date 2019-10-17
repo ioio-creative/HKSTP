@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Html from "../../_component/html";
-import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx } from "../../reducers";
+import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx, updateProjectItems } from "../../reducers";
 import "../../sass/page/projects.scss";
 import TweenMax from 'gsap';
 
@@ -43,8 +43,17 @@ class Projects extends Component {
   }
   
   componentDidUpdate(prevProps) {
+    if(!this.props.projectItems){
+      this.props.dispatch(updateProjectItems(this.items));
+    }
+    
     if(prevProps.isStarted !== this.props.isStarted){
       TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
+    }
+    if(prevProps.imageClickedIdx !== this.props.imageClickedIdx){
+      const updatedItems = Array.from(this.items);
+      updatedItems.splice(this.props.imageClickedIdx, 1);
+      TweenMax.staggerTo(updatedItems, 1, {y:-document.getElementById('projects').offsetHeight, ease:'Expo.easeInOut'},.1);
     }
   }
 
@@ -80,7 +89,9 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     projectsData: state.projectsData,
-    isStarted: state.isStarted
+    projectItems: state.projectItems,
+    isStarted: state.isStarted,
+    imageClickedIdx: state.imageClickedIdx
   };
 };
 

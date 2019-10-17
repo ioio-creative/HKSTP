@@ -669,7 +669,11 @@ var SmoothScroll = function(elem, scrollFunc) {
 
   var onShowScrollBar = function() {
     showScrollBar = true;
-    //initScrollBar();
+    removeClass(_this.scrollBarWrap,'hide');
+  };
+  var onHideScrollBar = function() {
+    showScrollBar = false;
+    addClass(_this.scrollBarWrap,'hide');
   };
 
   var init = function() {
@@ -689,7 +693,8 @@ var SmoothScroll = function(elem, scrollFunc) {
     off: off,
     disable: onDisable,
     enable: onEnable,
-    showScrollBar: onShowScrollBar
+    showScrollBar: onShowScrollBar,
+    hideScrollBar: onHideScrollBar
   };
 };
 

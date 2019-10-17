@@ -11,6 +11,7 @@ const ThreejsBg = props => {
   const canvasWrap = useRef(null);
   const initImageFuction = useRef(null);
   const updateImageEffectFuction = useRef(null);
+  const loadImageFuction = useRef(null);
 
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const ThreejsBg = props => {
     let offsetAttribute,
         imageInstancedCount,
         imageOffsetAttribute,
+        imageRotateAttribute,
         imageScaleAttribute,
         imageTextureIdxAttribute,
         imageSlideProgressAttribute;
@@ -34,7 +36,10 @@ const ThreejsBg = props => {
         started = false,
         initedImage = false;
     let images;
+    let offset = {x:0, y:0, z:0},
+        rotate = {x:0, y:0, z:0};
     const imageOffsets = [],
+        imageRotate = [],
         imageScale = [],
         imageSize = [],
         imageTexture = [],
@@ -44,7 +49,8 @@ const ThreejsBg = props => {
         // imagesShader;
 
     let logo,
-        logoRotateSpeed = {x:0.004,y:0.004};
+        logoRotateSpeed = {value: 0},
+        rotateSpeed = {value: 0.004};
 
     const options = {
       planeSpeed: 0.001,
@@ -71,7 +77,7 @@ const ThreejsBg = props => {
 
       const gui = new dat.GUI({ width: 300 });
       gui.add(options, "planeSpeed").min(0).max(2).listen();
-      gui.add(options, 'slideProgress').min(0).max(1).listen();
+      gui.add(options, "slideProgress").min(0).max(1).listen();
       gui.domElement.parentNode.style.zIndex = 999;
 
       // stats
@@ -89,7 +95,7 @@ const ThreejsBg = props => {
       });
 
       TweenMax.to(options, .6, {planeSpeed: .1, ease:'Power3.easeInOut'});
-      TweenMax.to(logo.position, 2, {z: 20, ease:'Power3.easeInOut'});
+      TweenMax.to(logo.position, 2, {x:5, z:20, ease:'Power3.easeInOut'});
     };
 
     const getScreenSize = function() {
@@ -209,17 +215,38 @@ const ThreejsBg = props => {
       centerShpereGeometry.merge(leftCylinder.geometry, leftCylinder.matrix);
       rightCylinder.updateMatrix();
       centerShpereGeometry.merge(rightCylinder.geometry, rightCylinder.matrix);
+      
+      const finalMaterial = new THREE.ShaderMaterial({
+        uniforms:{
+          disp:{ type:'t', value: new THREE.TextureLoader().load('https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ') },
+          slideProgress:{ type:'f', value:0 }
+        },
+        vertexShader: [
+          'varying vec2 vUv;',
+          'void main(){',
+            'vUv = uv;',
+            'vec3 newPosition = position;',
+            'vec4 position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);',
+            'gl_Position = position;',
+          '}'
+        ].join('\n'),
+        fragmentShader:[
+          'uniform sampler2D disp;',
+          'uniform float slideProgress;',
 
-    
-      const finalMaterial = new THREE.MeshBasicMaterial({ color: 0xe9e9e9, wireframe:false, depthTest:false, side:THREE.DoubleSide });
-      material.onBeforeCompile = function(shader) {
-        shader.vertexShader =
-          // "attribute vec3 offset;\n" + shader.vertexShader;
-        shader.vertexShader = shader.vertexShader.replace(
-          "#include <begin_vertex>",
-          ["vec3 transformed = vec3(position);"].join("\n")
-        );
-      };
+          'varying vec2 vUv;',
+
+          'void main(){',
+            'vec4 disp = texture2D(disp, vUv);',
+            'float r = (slideProgress) * 2. - 1.;',
+            'float value = clamp((disp.r + r - .7) * 5., 0., 1.);',
+            'vec3 color = mix(vec3(14./255., 45./255., 118./255.), vec3(233./255., 233./255., 233./255.), value);',
+            'gl_FragColor = vec4(color, 1.);',
+          '}'
+        ].join('\n'),
+        // depthTest:false,
+        side:THREE.DoubleSide 
+      });
 
       logo = new THREE.Mesh(centerShpereGeometry, finalMaterial);
       logo.position.z = 60;
@@ -258,15 +285,26 @@ const ThreejsBg = props => {
       scene.add(plane);
     };
 
+    const loadImage = () => {
+      const lth = document.querySelectorAll('#projects li').length;
+      for (let i = 0; i < lth; i++) {
+        const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+        const texture = new THREE.TextureLoader().load(elem.getAttribute('data-src'));
+        texture.flipY = false;
+        imageTexture.push(texture);
+      }
+    }
+    loadImageFuction.current = {loadImage};
+
     const initImage = () => {
-      const elem = document.querySelector('#projects li:nth-child(1) .imageWrap'); 
+      const elem = document.querySelector('#projects li:nth-child(1) .imageWrap');
       if(elem){
         if(!initedImage){
           imageInstancedCount = document.querySelectorAll('#projects li').length;
           const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetWidth);
           const w = x + (screenWidth - screenWidth/2);
           const h = y - (screenHeight - screenHeight/2);
-          const bufferGeometry = new THREE.PlaneBufferGeometry(w,h, w*2, -h*2);
+          const bufferGeometry = new THREE.PlaneBufferGeometry(w,h, w*4, -h*4);
           const geometry = new THREE.InstancedBufferGeometry();
           geometry.maxInstancedCount = imageInstancedCount;
           geometry.index = bufferGeometry.index;
@@ -276,15 +314,12 @@ const ThreejsBg = props => {
         
           for (let i = 0; i < imageInstancedCount; i++) {
             const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
-            imageOffsets.push(0,0,0);
+            imageOffsets.push(0,-screenHeight,0);
+            imageRotate.push(0,0,0);
             imageScale.push(1,1,1);
             imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
 
             imageTextureIdx.push(i);
-
-            const texture = new THREE.TextureLoader().load(elem.getAttribute('data-src'));
-            texture.flipY = false;
-            imageTexture.push(texture);
 
             imageSlideProgress.push({value:0});
           }
@@ -294,6 +329,8 @@ const ThreejsBg = props => {
           geometry.addAttribute("offset", imageOffsetAttribute);
           imageScaleAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageScale), 3 );
           geometry.addAttribute("scale", imageScaleAttribute);
+          imageRotateAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageRotate), 3 );
+          geometry.addAttribute("rotate", imageRotateAttribute);
           imageTextureIdxAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageTextureIdx), 1 );
           geometry.addAttribute("textureIdx", imageTextureIdxAttribute);
           imageSlideProgressAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageSlideProgress), 1 );
@@ -306,9 +343,8 @@ const ThreejsBg = props => {
             for(let i = 0; i<imageInstancedCount; i++){
               if(i===0){ 
                 t.push('vec4 texture;');
-                t.push(`int n = int(${indexName});`);
               }
-              t.push(`${i>0?'else':''} if(n == int(${i}.0))`);
+              t.push(`${i>0?'else ':''}if(${indexName} == ${i}.0)`);
               t.push(`texture = texture2D(images[${i}], vUv);`);
             }
             return t.join('\n');
@@ -318,16 +354,18 @@ const ThreejsBg = props => {
           const material = new THREE.ShaderMaterial({
             uniforms:{ 
                 images:{ type:'t', value: imageTexture },
-                clickedIdx:{ type: 'f', value: 0 }
-                // slideProgress:{ type:'f', value: 0 }
+                clickedIdx:{ type: 'f', value: -1 },
+                displacementScale:{ type: 'f', value: 0 }
             },
             vertexShader: [
               `uniform sampler2D images[${imageInstancedCount}];`,
               'uniform float clickedIdx;',
+              'uniform float displacementScale;',
               
               'attribute float textureIdx;',
               'attribute float slideProgress;',
               'attribute vec3 offset;',
+              'attribute vec3 rotate;',
               'attribute vec3 scale;',
 
               'varying vec2 vUv;',
@@ -338,26 +376,49 @@ const ThreejsBg = props => {
                 'float PI = 3.14159;',
                 'vUv = uv;',
                 'idx = textureIdx;',
-                'mat4 matPos = mat4(vec4(scale.x,0.0,0.0,0.0),',
+                // Rotate
+                "mat4 rXPos = mat4(vec4(1.0,0.0,0.0,0.0),",
+                                  "vec4(0.0,cos(rotate.x),-sin(rotate.x),0.0),",
+                                  "vec4(0.0,sin(rotate.x),cos(rotate.x),0.0),",
+                                  "vec4(0.0,0.0,0.0,1.0));",
+
+                "mat4 rYPos = mat4(vec4(cos(rotate.y),0.0,sin(rotate.y),0.0),",
+                                  "vec4(0.0,1.0,0.0,0.0),",
+                                  "vec4(-sin(rotate.y),0.0,cos(rotate.y),0.0),",
+                                  "vec4(0.0,0.0,0.0,1.0));",
+
+                "mat4 rZPos = mat4(vec4(cos(rotate.z),-sin(rotate.z),0.0,0.0),",
+                                  "vec4(sin(rotate.z),cos(rotate.z),0.0,0.0),",
+                                  "vec4(0.0,0.0,1.0,0.0),",
+                                  "vec4(0.0,0.0,0.0,1.0));",
+
+                'mat4 sPos = mat4(vec4(scale.x,0.0,0.0,0.0),',
                                 'vec4(0.0,scale.y,0.0,0.0),',
                                 'vec4(0.0,0.0,scale.z,0.0),',
                                 'vec4(offset,1.0));',
-                'vec3 newPosition = (matPos * vec4(position, 1.)).xyz;',
 
-                'int i = int(idx);',
-                'int c = int(clickedIdx);',
-                'if(c == i){',
+                'mat4 matPos = sPos * rXPos * rYPos * rZPos;',
+                'vec3 newPosition = position;',
+
+                'if(clickedIdx == textureIdx){',
                   loopTexture('clickedIdx'),
                   'colorProgress = 1.;',
-                  'newPosition.z += (texture.r + texture.g + texture.b) * 2.5;',
+                  'float color = texture.r + texture.g + texture.b;',
+                  'newPosition.z += color * 2.;',
+                  'if(color < .3)',
+                    'newPosition.z += 4.;',
+                  'if(color < .5)',
+                    'newPosition.z -= 5.;',
+
+                  'newPosition.z *= displacementScale;',
                 '}',
-                // 'else{',
-                //   'colorProgress = pow(((slideProgress * 3. - 1.) + uv.y - uv.x)* 5. - 5. / 2., 4.);',
-                //   'newPosition.z = 8. * -sin(max(0., min(1., colorProgress))* 360. * PI/180.);',
-                // '}',
+                'else{',
+                  'colorProgress = pow(((slideProgress * 3. - 1.) + uv.y - uv.x)* 5. - 5. / 2., 4.);',
+                  'newPosition.z += 5. * -sin(max(0., min(1., colorProgress))* 360. * PI/180.);',
+                '}',
 
                 
-                'vec4 position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);',
+                'vec4 position = projectionMatrix * modelViewMatrix * matPos * vec4(newPosition, 1.0);',
                 'gl_Position = position;',
               '}'
             ].join('\n'),
@@ -375,9 +436,12 @@ const ThreejsBg = props => {
                 'gl_FragColor = texture;',
               '}'
             ].join('\n'),
+            depthTest: false,
             side:THREE.DoubleSide,
             // wireframe:true
           });
+
+          material.minFilter = THREE.NearestFilter;
 
           images = new THREE.Mesh(geometry, material);
           scene.add(images);
@@ -413,9 +477,14 @@ const ThreejsBg = props => {
     }
 
     const imageEffect = (idx) => {
-      if(idx)
-      images.material.uniforms.clickedIdx.value = idx;
-      console.log(idx);
+      if(images){
+        if(images.material.uniforms.clickedIdx.value != idx){
+          images.material.uniforms.clickedIdx.value = idx;
+
+          TweenMax.to(images.material.uniforms.displacementScale, 1, {delay:.6, value: 1, ease:'Power4.easeInOut'});
+          TweenMax.to(rotate, 1, {delay:.6, x: 45*Math.PI/180, y: 45*Math.PI/180, ease:'Power4.easeInOut'});
+        }
+      }
     }
     updateImageEffectFuction.current = {imageEffect};
 
@@ -423,8 +492,10 @@ const ThreejsBg = props => {
     const draw = () => {
       // const timer = (Date.now() - start) * 0.0001;
 
-      logo.rotation.x += logoRotateSpeed.x;
-      logo.rotation.y += logoRotateSpeed.y;
+      logoRotateSpeed.value += rotateSpeed.value;
+      logo.rotation.x += (logoRotateSpeed.value - logo.rotation.x) * .1;
+      logo.rotation.y += (logoRotateSpeed.value - logo.rotation.y) * .1;
+      logo.material.uniforms.slideProgress.value = options.slideProgress;
 
       for (let i = 0; i < instancedCount; i++) {
         let x = planeOffsets[i * 3 + 0];
@@ -452,32 +523,45 @@ const ThreejsBg = props => {
 
       if(initedImage){
         for(let i=0; i<imageInstancedCount; i++){
-          const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
-          const pos = elem.getBoundingClientRect();
-          if(imageTexture[i].image){
-            elem.style.height = elem.offsetWidth * (imageTexture[i].image.height / imageTexture[i].image.width) + 'px';
+          if(i != images.material.uniforms.clickedIdx.value){
+            const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+            const pos = elem.getBoundingClientRect();
+            if(imageTexture[i].image){
+              elem.style.height = elem.offsetWidth * (imageTexture[i].image.height / imageTexture[i].image.width) + 'px';
+            }
+            imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
+
+            const {x, y} = convert2dto3d(pos.left+ imageSize[i].w/2, pos.top + imageSize[i].h/2);
+            offset = {x, y, z:0};
+
+            if(tempImageSize.length){
+              const scaleHeight = imageSize[i].h / imageSize[i].w;
+              imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w, scaleHeight * (imageSize[i].w/tempImageSize[i].w)); 
+            }       
           }
-          imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
+          else{
+            offset = {x:0, y:0, z:30};
+            rotate.y += 0.001;
+          }
 
-          const scaleHeight = imageSize[i].h / imageSize[i].w;
-          const {x, y} = convert2dto3d(pos.left+ imageSize[i].w/2, pos.top + imageSize[i].h/2);
+          imageOffsets[i*3+0] += (offset.x - imageOffsets[i*3+0]) * .1;
+          imageOffsets[i*3+1] += (offset.y - imageOffsets[i*3+1]) * .1;
+          imageOffsets[i*3+2] += (offset.z - imageOffsets[i*3+2]) * .1;
+          imageOffsetAttribute.setXYZ(i, imageOffsets[i*3+0], imageOffsets[i*3+1], imageOffsets[i*3+2]);
 
-          if(tempImageSize.length)
-            imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w, scaleHeight * (imageSize[i].w/tempImageSize[i].w));        
-
-
-          imageOffsets[i*3+0] = x;
-          imageOffsets[i*3+1] = y;
-          imageOffsetAttribute.setXY(i, x, y);
+          imageRotate[i*3+0] += (rotate.x - imageRotate[i*3+0]) * .1;
+          imageRotate[i*3+1] += (rotate.y - imageRotate[i*3+1]) * .1;
+          imageRotate[i*3+2] += (rotate.z - imageRotate[i*3+2]) * .1;
+          imageRotateAttribute.setXYZ(i, imageRotate[i*3+0], imageRotate[i*3+1], imageRotate[i*3+2]);
 
           imageSlideProgressAttribute.setX(i, imageSlideProgress[i].value);
         }
 
         imageOffsetAttribute.needsUpdate = true;
+        imageRotateAttribute.needsUpdate = true;
         imageScaleAttribute.needsUpdate = true;
         imageSlideProgressAttribute.needsUpdate = true;
 
-        // images.material.uniforms.slideProgress.value = options.slideProgress;
       }
     };
 
@@ -499,20 +583,16 @@ const ThreejsBg = props => {
       if(!clicked){
         clicked =true;
         props.dispatch(updateIsStarted(true));
-        
         const tl = new TimelineMax();
         tl.to(options, 1.6, {planeSpeed: 2, ease:'Power3.easeInOut'},0);
-        tl.to(logo.position, 4, {z: 0, ease:'Power3.easeInOut'},0);
-        tl.to(logoRotateSpeed, 2, {x: .05, y: .05, ease:'Power3.easeInOut'},0);
-        tl.to(logoRotateSpeed, 2, {x: .004, y: .004, ease:'Power3.easeInOut'},2);
+        tl.to(options, 4, {slideProgress:1, ease:'Power3.easeOut'},0);
+        tl.to(logo.position, 4, {x:0, z: 0, ease:'Power2.easeInOut'},0);
+        tl.to(rotateSpeed, 1.6, {value: .05, ease:'Power1.easeOut'},0);
+        tl.to(rotateSpeed, 1.6, {value: .004, ease:'Power3.easeInOut'},1.6);
         tl.add(()=>{ started =true; }, 2.6);
       }
     };
 
-    // const onClickEvent = ()=>{
-      
-    // }
-    // controls.current = {onClickEvent};
 
     const onWindowResize = () => {
       // camera.left = -window.innerWidth / 2;
@@ -546,10 +626,16 @@ const ThreejsBg = props => {
     initImageFuction.current.initImage();
   },[props.isStarted]);
 
+  useEffect(()=>{
+    if(props.projectItems)
+      loadImageFuction.current.loadImage();
+  },[props.projectItems]);
   
   useEffect(()=>{
     updateImageEffectFuction.current.imageEffect(props.imageClickedIdx);
   },[props.imageClickedIdx]);
+
+  
 
   return <div ref={canvasWrap} id="canvasWrap" />
 };
@@ -559,6 +645,7 @@ const mapStateToProps = state => {
     lang: state.lang,
     isStarted: state.isStarted,
     projectsData: state.projectsData ? state.projectsData : null,
+    projectItems: state.projectItems,
     imageClickedIdx: state.imageClickedIdx
   };
 };
