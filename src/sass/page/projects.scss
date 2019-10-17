@@ -7,10 +7,13 @@
   #items {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: rem-calc(50);
-    grid-row-gap: rem-calc(50);
+    grid-column-gap: rem-calc(100);
+    grid-row-gap: rem-calc(100);
     li {
       opacity: 0;
+      span{
+        padding-bottom:rem-calc(20);
+      }
       .imageWrap{
         width:100%;
         // &:before{

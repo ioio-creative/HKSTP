@@ -37,8 +37,10 @@ const ThreejsBg = props => {
         initedImage = false;
     let images;
     let offset = {x:0, y:0, z:0},
-        rotate = {x:0, y:0, z:0};
+        rotate = {x:0, y:0, z:0}
     const imageOffsets = [],
+        imageBGOffsets = [],
+        imageBGEase = [],
         imageRotate = [],
         imageScale = [],
         imageSize = [],
@@ -300,7 +302,7 @@ const ThreejsBg = props => {
       const elem = document.querySelector('#projects li:nth-child(1) .imageWrap');
       if(elem){
         if(!initedImage){
-          imageInstancedCount = document.querySelectorAll('#projects li').length;
+          imageInstancedCount = document.querySelectorAll('#projects li').length * 2;
           const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetWidth);
           const w = x + (screenWidth - screenWidth/2);
           const h = y - (screenHeight - screenHeight/2);
@@ -313,8 +315,10 @@ const ThreejsBg = props => {
           geometry.attributes.uv = bufferGeometry.attributes.uv;
         
           for (let i = 0; i < imageInstancedCount; i++) {
-            const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+            const elem = document.querySelector(`#projects li:nth-child(${i%(imageInstancedCount/2)+1}) .imageWrap`);
             imageOffsets.push(0,-screenHeight,0);
+            imageBGOffsets.push({x:Math.random()*2, y:Math.random()*2, z:1});
+            imageBGEase.push(Math.random()*0.1+0.08);
             imageRotate.push(0,0,0);
             imageScale.push(1,1,1);
             imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
@@ -340,11 +344,11 @@ const ThreejsBg = props => {
 
           const loopTexture = (indexName) => {
             const t = [];
-            for(let i = 0; i<imageInstancedCount; i++){
+            for(let i = 0; i<imageInstancedCount/2; i++){
               if(i===0){ 
                 t.push('vec4 texture;');
               }
-              t.push(`${i>0?'else ':''}if(${indexName} == ${i}.0)`);
+              t.push(`${i>0?'else ':''}if(${indexName} == ${i+imageInstancedCount/2}.0)`);
               t.push(`texture = texture2D(images[${i}], vUv);`);
             }
             return t.join('\n');
@@ -358,7 +362,7 @@ const ThreejsBg = props => {
                 displacementScale:{ type: 'f', value: 0 }
             },
             vertexShader: [
-              `uniform sampler2D images[${imageInstancedCount}];`,
+              `uniform sampler2D images[${imageInstancedCount/2}];`,
               'uniform float clickedIdx;',
               'uniform float displacementScale;',
               
@@ -400,21 +404,23 @@ const ThreejsBg = props => {
                 'mat4 matPos = sPos * rXPos * rYPos * rZPos;',
                 'vec3 newPosition = position;',
 
-                'if(clickedIdx == textureIdx){',
-                  loopTexture('clickedIdx'),
-                  'colorProgress = 1.;',
-                  'float color = texture.r + texture.g + texture.b;',
-                  'newPosition.z += color * 2.;',
-                  'if(color < .3)',
-                    'newPosition.z += 4.;',
-                  'if(color < .5)',
-                    'newPosition.z -= 5.;',
+                `if(textureIdx > ${imageInstancedCount/2-1}.){`,
+                  'if(clickedIdx == textureIdx){',
+                    loopTexture('clickedIdx'),
+                    'colorProgress = 1.;',
+                    'float color = texture.r + texture.g + texture.b;',
+                    'newPosition.z += color * 2.;',
+                    'if(color < .3)',
+                      'newPosition.z += 4.;',
+                    'if(color < .5)',
+                      'newPosition.z -= 5.;',
 
-                  'newPosition.z *= displacementScale;',
-                '}',
-                'else{',
-                  'colorProgress = pow(((slideProgress * 3. - 1.) + uv.y - uv.x)* 5. - 5. / 2., 4.);',
-                  'newPosition.z += 5. * -sin(max(0., min(1., colorProgress))* 360. * PI/180.);',
+                    'newPosition.z *= displacementScale;',
+                  '}',
+                  'else{',
+                    'colorProgress = pow(((slideProgress * 3. - 1.) + uv.y - uv.x)* 5. - 5. / 2., 4.);',
+                    'newPosition.z += 5. * -sin(max(0., min(1., colorProgress))* 360. * PI/180.);',
+                  '}',
                 '}',
 
                 
@@ -423,7 +429,7 @@ const ThreejsBg = props => {
               '}'
             ].join('\n'),
             fragmentShader:[
-              `uniform sampler2D images[${imageInstancedCount}];`,
+              `uniform sampler2D images[${imageInstancedCount/2}];`,
 
               'varying vec2 vUv;',
               'varying float idx;',
@@ -433,7 +439,10 @@ const ThreejsBg = props => {
                 loopTexture('idx'),
                 // 'vec3 texture2 = vec3(texture.r+texture.g+texture.b);',
                 // 'gl_FragColor = vec4(mix(texture2.xyz, texture.xyz, max(0., min(1.,colorProgress))), 1.);',
-                'gl_FragColor = texture;',
+                `if(idx > ${imageInstancedCount/2-1}.)`,
+                  'gl_FragColor = texture;',
+                'else',
+                  'gl_FragColor = vec4(vec3(14./255., 45./255., 118./255.), 1.);',
               '}'
             ].join('\n'),
             depthTest: false,
@@ -479,7 +488,7 @@ const ThreejsBg = props => {
     const imageEffect = (idx) => {
       if(images){
         if(images.material.uniforms.clickedIdx.value != idx){
-          images.material.uniforms.clickedIdx.value = idx;
+          images.material.uniforms.clickedIdx.value = idx+imageInstancedCount/2;
 
           TweenMax.to(images.material.uniforms.displacementScale, 1, {delay:.6, value: 1, ease:'Power4.easeInOut'});
           TweenMax.to(rotate, 1, {delay:.6, x: 45*Math.PI/180, y: 45*Math.PI/180, ease:'Power4.easeInOut'});
@@ -523,11 +532,14 @@ const ThreejsBg = props => {
 
       if(initedImage){
         for(let i=0; i<imageInstancedCount; i++){
+          const realCount = imageInstancedCount/2;
+
           if(i != images.material.uniforms.clickedIdx.value){
-            const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+            const _i = i%realCount;
+            const elem = document.querySelector(`#projects li:nth-child(${i%realCount+1}) .imageWrap`);
             const pos = elem.getBoundingClientRect();
-            if(imageTexture[i].image){
-              elem.style.height = elem.offsetWidth * (imageTexture[i].image.height / imageTexture[i].image.width) + 'px';
+            if(imageTexture[_i].image){
+              elem.style.height = elem.offsetWidth * (imageTexture[_i].image.height / imageTexture[_i].image.width) + 'px';
             }
             imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
 
@@ -537,21 +549,29 @@ const ThreejsBg = props => {
             if(tempImageSize.length){
               const scaleHeight = imageSize[i].h / imageSize[i].w;
               imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w, scaleHeight * (imageSize[i].w/tempImageSize[i].w)); 
-            }       
+            }
           }
           else{
             offset = {x:0, y:0, z:30};
             rotate.y += 0.001;
           }
 
-          imageOffsets[i*3+0] += (offset.x - imageOffsets[i*3+0]) * .1;
-          imageOffsets[i*3+1] += (offset.y - imageOffsets[i*3+1]) * .1;
-          imageOffsets[i*3+2] += (offset.z - imageOffsets[i*3+2]) * .1;
+          if(i >= realCount){
+            imageOffsets[i*3+0] += (offset.x - imageOffsets[i*3+0]) * imageBGEase[i];
+            imageOffsets[i*3+1] += (offset.y - imageOffsets[i*3+1]) * imageBGEase[i];
+            imageOffsets[i*3+2] += (offset.z - imageOffsets[i*3+2]) * imageBGEase[i];
+            
+            imageRotate[i*3+0] += (rotate.x - imageRotate[i*3+0]) * .1;
+            imageRotate[i*3+1] += (rotate.y - imageRotate[i*3+1]) * .1;
+            imageRotate[i*3+2] += (rotate.z - imageRotate[i*3+2]) * .1;
+          }
+          else{
+            imageOffsets[i*3+0] += ((offset.x-imageBGOffsets[i].x) - imageOffsets[i*3+0]) * imageBGEase[i];
+            imageOffsets[i*3+1] += ((offset.y+imageBGOffsets[i].y) - imageOffsets[i*3+1]) * imageBGEase[i];
+            imageOffsets[i*3+2] += ((offset.z+imageBGOffsets[i].z) - imageOffsets[i*3+2]) * imageBGEase[i];
+          }
           imageOffsetAttribute.setXYZ(i, imageOffsets[i*3+0], imageOffsets[i*3+1], imageOffsets[i*3+2]);
 
-          imageRotate[i*3+0] += (rotate.x - imageRotate[i*3+0]) * .1;
-          imageRotate[i*3+1] += (rotate.y - imageRotate[i*3+1]) * .1;
-          imageRotate[i*3+2] += (rotate.z - imageRotate[i*3+2]) * .1;
           imageRotateAttribute.setXYZ(i, imageRotate[i*3+0], imageRotate[i*3+1], imageRotate[i*3+2]);
 
           imageSlideProgressAttribute.setX(i, imageSlideProgress[i].value);
