@@ -110,6 +110,7 @@ const initialState = {
   deviceType: "desktop",
   isMobile: false,
   isStarted: false,
+  imageClickedIdx: null,
 
   homeData: null,
   projectsData: null,

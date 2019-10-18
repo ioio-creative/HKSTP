@@ -1,49 +1,48 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import smoothScroll from "./scroll";
+// import smoothScroll from "./scroll";
 
 import Nav from "../nav";
 import Home from "../../page/home";
 import Projects from "../../page/projects";
+import ProjectSingle from "../../page/single/project";
 
 import ThreejsBg from "../ThreejsBg";
 
-const usePrevious = (value) => {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
+// const usePrevious = (value) => {
+//   const ref = useRef();
+//   useEffect(() => {
+//     ref.current = value;
+//   });
+//   return ref.current;
+// }
 
 const PageWrap = props => {
-  const { imageClickedIdx } = props;
+  // const { imageClickedIdx } = props;
   const bodyWrap = useRef(null);
-  const [scroll, setScroll] = useState(null);
-  const prevProps = usePrevious({imageClickedIdx});
+  // const [scroll, setScroll] = useState(null);
+  // const prevProps = usePrevious({imageClickedIdx});
   
 
-  useEffect(() => {
-      const smooth = new smoothScroll("#bodyWrap", (s, y, h) => {
-        //onScroll(s, y, h);
-      });
-      smooth.on();
-      smooth.showScrollBar();
+  // useEffect(() => {
+  //     const smooth = new smoothScroll("#projects", (s, y, h) => {
+  //       // onScroll(s, y, h);
+  //     });
+  //     smooth.on();
+  //     smooth.showScrollBar();
 
-      setScroll(smooth);
-    },
-    [bodyWrap]
-  );
+  //     // setScroll(smooth);
+  //   },[Projects]);
 
-  useEffect(()=>{
-    if(props.imageClickedIdx){
-      if(prevProps.imageClickedIdx !== props.imageClickedIdx){
-        scroll.hideScrollBar();
-        scroll.off();
-      }
-    }
-  },[props.imageClickedIdx]);
+  // useEffect(()=>{
+  //   if(props.imageClickedIdx){
+  //     if(prevProps.imageClickedIdx !== props.imageClickedIdx){
+  //       scroll.hideScrollBar();
+  //       scroll.off();
+  //     }
+  //   }
+  // },[props.imageClickedIdx]);
 
   return (
     <>
@@ -57,6 +56,7 @@ const PageWrap = props => {
               <>
                 <Home {...props} />
                 <Projects {...props} />
+                <ProjectSingle {...props} />
               </>
             )}
           />
@@ -83,8 +83,8 @@ const PageWrap = props => {
 
 const mapStateToProps = state => {
   return { 
-    lang: state.lang,
-    imageClickedIdx: state.imageClickedIdx
+    lang: state.lang
+    // imageClickedIdx: state.imageClickedIdx
   };
 };
 

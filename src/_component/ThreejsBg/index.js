@@ -27,7 +27,8 @@ const ThreejsBg = props => {
         imageRotateAttribute,
         imageScaleAttribute,
         imageTextureIdxAttribute,
-        imageSlideProgressAttribute;
+        imageSlideProgressAttribute,
+        imageDisplacementAttribute;
     let planeWidth = 10,
         planeHeight = planeWidth * 0.75;
     const planeOffsets = [],
@@ -35,9 +36,10 @@ const ThreejsBg = props => {
     let clicked = false,
         started = false,
         initedImage = false;
-    let images;
-    let offset = {x:0, y:0, z:0},
-        rotate = {x:0, y:0, z:0}
+    let images,
+        offset = {x:0, y:0, z:0},
+        rotate = {x:0, y:0, z:0},
+        disableEase = false;
     const imageOffsets = [],
         imageBGOffsets = [],
         imageBGEase = [],
@@ -46,9 +48,10 @@ const ThreejsBg = props => {
         imageSize = [],
         imageTexture = [],
         imageTextureIdx = [],
-        imageSlideProgress = [];
-    let tempImageSize = [];
-        // imagesShader;
+        imageSlideProgress = [],
+        imageDisplacement = [];
+    let tempImageSize = [],
+        prevImageClickedIdx;
 
     let logo,
         logoRotateSpeed = {value: 0},
@@ -317,8 +320,8 @@ const ThreejsBg = props => {
           for (let i = 0; i < imageInstancedCount; i++) {
             const elem = document.querySelector(`#projects li:nth-child(${i%(imageInstancedCount/2)+1}) .imageWrap`);
             imageOffsets.push(0,-screenHeight,0);
-            imageBGOffsets.push({x:Math.random()*2, y:Math.random()*2, z:1});
-            imageBGEase.push(Math.random()*0.1+0.08);
+            imageBGOffsets.push({x:Math.random()+.1, y:Math.random()*2+.5, z:0});
+            imageBGEase.push(Math.random()*0.2+0.08);
             imageRotate.push(0,0,0);
             imageScale.push(1,1,1);
             imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
@@ -326,6 +329,7 @@ const ThreejsBg = props => {
             imageTextureIdx.push(i);
 
             imageSlideProgress.push({value:0});
+            imageDisplacement.push({value:0});
           }
           tempImageSize = Array.from(imageSize);
 
@@ -339,8 +343,8 @@ const ThreejsBg = props => {
           geometry.addAttribute("textureIdx", imageTextureIdxAttribute);
           imageSlideProgressAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageSlideProgress), 1 );
           geometry.addAttribute("slideProgress", imageSlideProgressAttribute);
-          // imageClickedIdxAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageClickedIdx), 1 );
-          // geometry.addAttribute("clickedIdx", imageClickedIdxAttribute);
+          imageDisplacementAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageDisplacement), 1 );
+          geometry.addAttribute("displacement", imageDisplacementAttribute);
 
           const loopTexture = (indexName) => {
             const t = [];
@@ -348,6 +352,7 @@ const ThreejsBg = props => {
               if(i===0){ 
                 t.push('vec4 texture;');
               }
+              if(indexName)
               t.push(`${i>0?'else ':''}if(${indexName} == ${i+imageInstancedCount/2}.0)`);
               t.push(`texture = texture2D(images[${i}], vUv);`);
             }
@@ -359,15 +364,15 @@ const ThreejsBg = props => {
             uniforms:{ 
                 images:{ type:'t', value: imageTexture },
                 clickedIdx:{ type: 'f', value: -1 },
-                displacementScale:{ type: 'f', value: 0 }
+                // displacementScale:{ type: 'f', value: 0 }
             },
             vertexShader: [
               `uniform sampler2D images[${imageInstancedCount/2}];`,
               'uniform float clickedIdx;',
-              'uniform float displacementScale;',
               
               'attribute float textureIdx;',
               'attribute float slideProgress;',
+              'attribute float displacement;',
               'attribute vec3 offset;',
               'attribute vec3 rotate;',
               'attribute vec3 scale;',
@@ -404,23 +409,20 @@ const ThreejsBg = props => {
                 'mat4 matPos = sPos * rXPos * rYPos * rZPos;',
                 'vec3 newPosition = position;',
 
-                `if(textureIdx > ${imageInstancedCount/2-1}.){`,
-                  'if(clickedIdx == textureIdx){',
-                    loopTexture('clickedIdx'),
-                    'colorProgress = 1.;',
-                    'float color = texture.r + texture.g + texture.b;',
-                    'newPosition.z += color * 2.;',
-                    'if(color < .3)',
-                      'newPosition.z += 4.;',
-                    'if(color < .5)',
-                      'newPosition.z -= 5.;',
+                loopTexture('textureIdx'),
+                'colorProgress = 1.;',
+                'float color = texture.r + texture.g + texture.b;',
+                'newPosition.z += color * 2.;',
+                'if(color < .3)',
+                  'newPosition.z += 4.;',
+                'if(color < .5)',
+                  'newPosition.z -= 5.;',
 
-                    'newPosition.z *= displacementScale;',
-                  '}',
-                  'else{',
-                    'colorProgress = pow(((slideProgress * 3. - 1.) + uv.y - uv.x)* 5. - 5. / 2., 4.);',
-                    'newPosition.z += 5. * -sin(max(0., min(1., colorProgress))* 360. * PI/180.);',
-                  '}',
+                'newPosition.z *= displacement;',
+
+                `if(textureIdx > ${imageInstancedCount/2-1}.){`,
+                  'colorProgress = pow(((slideProgress * 3. - 1.) + uv.y - uv.x)* 5. - 5. / 2., 4.);',
+                  'newPosition.z += 5. * -sin(max(0., min(1., colorProgress))* 360. * PI/180.);',
                 '}',
 
                 
@@ -467,36 +469,58 @@ const ThreejsBg = props => {
           }
         }
         else{
-          const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetWidth);
-          const w = x + (screenWidth - screenWidth/2);
-          const h = y - (screenHeight - screenHeight/2);
-          const bufferGeometry = new THREE.PlaneBufferGeometry(w,h, w, -h);
-          images.geometry.maxInstancedCount = imageInstancedCount;
-          images.geometry.index = bufferGeometry.index;
-          images.geometry.attributes.position = bufferGeometry.attributes.position;
-          images.geometry.attributes.normal = bufferGeometry.attributes.normal;
-          images.geometry.attributes.uv = bufferGeometry.attributes.uv;
-          for (let i = 0; i < imageInstancedCount; i++) {
-            const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
-            imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
-          }
-          tempImageSize = Array.from(imageSize);
+        //   const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetWidth);
+        //   const w = x + (screenWidth - screenWidth/2);
+        //   const h = y - (screenHeight - screenHeight/2);
+        //   const bufferGeometry = new THREE.PlaneBufferGeometry(w,h, w, -h);
+        //   images.geometry.maxInstancedCount = imageInstancedCount;
+        //   images.geometry.index = bufferGeometry.index;
+        //   images.geometry.attributes.position = bufferGeometry.attributes.position;
+        //   images.geometry.attributes.normal = bufferGeometry.attributes.normal;
+        //   images.geometry.attributes.uv = bufferGeometry.attributes.uv;
+          // for (let i = 0; i < imageInstancedCount; i++) {
+          //   const elem = document.querySelector(`#projects li:nth-child(${i%(imageInstancedCount/2)+1}) .imageWrap`);
+          //   imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
+          // }
+          // tempImageSize = Array.from(imageSize);
         }
       }
     }
 
     const imageEffect = (idx) => {
       if(images){
-        if(images.material.uniforms.clickedIdx.value != idx){
-          images.material.uniforms.clickedIdx.value = idx+imageInstancedCount/2;
+        if(idx !== null){
+          if(images.material.uniforms.clickedIdx.value !== idx){
+            const realIdx = idx+imageInstancedCount/2;
+            images.material.uniforms.clickedIdx.value = realIdx;
 
-          TweenMax.to(images.material.uniforms.displacementScale, 1, {delay:.6, value: 1, ease:'Power4.easeInOut'});
-          TweenMax.to(rotate, 1, {delay:.6, x: 45*Math.PI/180, y: 45*Math.PI/180, ease:'Power4.easeInOut'});
+            TweenMax.to(imageDisplacement[realIdx], 1, {delay:.6, value: 1, ease:'Power4.easeInOut'});
+            TweenMax.to(rotate, 1, {delay:.6, x: 45*Math.PI/180, y: 45*Math.PI/180, ease:'Power4.easeInOut'});
+
+            prevImageClickedIdx = idx+realIdx-1;
+          }
+        }
+        else{
+          // when closed
+          disableEase = true;
+
+          images.material.uniforms.clickedIdx.value = -1;
+          TweenMax.to(imageDisplacement, .6, {value: 0, ease:'Power3.easeOut'});
+          TweenMax.to(rotate, .6, {x:0, y:0, ease:'Power3.easeOut', onComplete:()=>{disableEase = false}});
+
+          // for(let i=0; imageOffsets[i]; i++){
+          //   const elem = document.querySelector(`#projects li:nth-child(${i%(imageInstancedCount/2)+1}) .imageWrap`);
+          //   const pos = elem.getBoundingClientRect();
+          //   const {x, y} = convert2dto3d(pos.left+ imageSize[i].w/2, pos.top + imageSize[i].h/2);
+          //   offset = {x, screenHeight, z:0};
+          //   imageOffsets[i*3+1] = -screenHeight;
+          // }
         }
       }
     }
     updateImageEffectFuction.current = {imageEffect};
 
+    const initHeight = window.innerHeight;
     const start = Date.now();
     const draw = () => {
       // const timer = (Date.now() - start) * 0.0001;
@@ -534,7 +558,7 @@ const ThreejsBg = props => {
         for(let i=0; i<imageInstancedCount; i++){
           const realCount = imageInstancedCount/2;
 
-          if(i != images.material.uniforms.clickedIdx.value){
+          if(i !== images.material.uniforms.clickedIdx.value){
             const _i = i%realCount;
             const elem = document.querySelector(`#projects li:nth-child(${i%realCount+1}) .imageWrap`);
             const pos = elem.getBoundingClientRect();
@@ -546,9 +570,12 @@ const ThreejsBg = props => {
             const {x, y} = convert2dto3d(pos.left+ imageSize[i].w/2, pos.top + imageSize[i].h/2);
             offset = {x, y, z:0};
 
+            // resize image
             if(tempImageSize.length){
-              const scaleHeight = imageSize[i].h / imageSize[i].w;
-              imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w, scaleHeight * (imageSize[i].w/tempImageSize[i].w)); 
+              const scaleHeight = imageSize[i].h / (imageSize[i].w);
+              const w = imageSize[i].w / tempImageSize[i].w;
+              const hh = (1-initHeight/window.innerHeight);
+              imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w - hh * w, scaleHeight * (imageSize[i].w/tempImageSize[i].w - hh * w)  );
             }
           }
           else{
@@ -556,31 +583,42 @@ const ThreejsBg = props => {
             rotate.y += 0.001;
           }
 
+          const ease = disableEase ? 1 : imageBGEase[i];
+
           if(i >= realCount){
-            imageOffsets[i*3+0] += (offset.x - imageOffsets[i*3+0]) * imageBGEase[i];
-            imageOffsets[i*3+1] += (offset.y - imageOffsets[i*3+1]) * imageBGEase[i];
-            imageOffsets[i*3+2] += (offset.z - imageOffsets[i*3+2]) * imageBGEase[i];
+            imageOffsets[i*3+0] += (offset.x - imageOffsets[i*3+0]) * ease;
+            imageOffsets[i*3+1] += (offset.y - imageOffsets[i*3+1]) * ease;
+            imageOffsets[i*3+2] += (offset.z - imageOffsets[i*3+2]) * ease;
+
+            // if(i === prevImageClickedIdx){
+            //   console.log(prevImageClickedIdx);
+            //   imageOffsets[prevImageClickedIdx*3+0] += (offset.x - imageOffsets[prevImageClickedIdx*3+0]) * .1;
+            //   imageOffsets[prevImageClickedIdx*3+1] += (offset.y - imageOffsets[prevImageClickedIdx*3+1]) * .1;
+            //   imageOffsets[prevImageClickedIdx*3+2] += (offset.z - imageOffsets[prevImageClickedIdx*3+2]) * .1;
+            // }
             
             imageRotate[i*3+0] += (rotate.x - imageRotate[i*3+0]) * .1;
             imageRotate[i*3+1] += (rotate.y - imageRotate[i*3+1]) * .1;
             imageRotate[i*3+2] += (rotate.z - imageRotate[i*3+2]) * .1;
           }
           else{
-            imageOffsets[i*3+0] += ((offset.x-imageBGOffsets[i].x) - imageOffsets[i*3+0]) * imageBGEase[i];
-            imageOffsets[i*3+1] += ((offset.y+imageBGOffsets[i].y) - imageOffsets[i*3+1]) * imageBGEase[i];
-            imageOffsets[i*3+2] += ((offset.z+imageBGOffsets[i].z) - imageOffsets[i*3+2]) * imageBGEase[i];
+            imageOffsets[i*3+0] += ((offset.x-imageBGOffsets[i].x) - imageOffsets[i*3+0]) * ease;
+            imageOffsets[i*3+1] += ((offset.y+imageBGOffsets[i].y) - imageOffsets[i*3+1]) * ease;
+            imageOffsets[i*3+2] += ((offset.z+imageBGOffsets[i].z) - imageOffsets[i*3+2]) * ease;
           }
           imageOffsetAttribute.setXYZ(i, imageOffsets[i*3+0], imageOffsets[i*3+1], imageOffsets[i*3+2]);
 
           imageRotateAttribute.setXYZ(i, imageRotate[i*3+0], imageRotate[i*3+1], imageRotate[i*3+2]);
 
           imageSlideProgressAttribute.setX(i, imageSlideProgress[i].value);
+          imageDisplacementAttribute.setX(i, imageDisplacement[i].value);
         }
 
         imageOffsetAttribute.needsUpdate = true;
         imageRotateAttribute.needsUpdate = true;
         imageScaleAttribute.needsUpdate = true;
         imageSlideProgressAttribute.needsUpdate = true;
+        imageDisplacementAttribute.needsUpdate = true;
 
       }
     };
@@ -605,15 +643,15 @@ const ThreejsBg = props => {
         props.dispatch(updateIsStarted(true));
         const tl = new TimelineMax();
         tl.to(options, 1.6, {planeSpeed: 2, ease:'Power3.easeInOut'},0);
-        tl.to(options, 4, {slideProgress:1, ease:'Power3.easeOut'},0);
-        tl.to(logo.position, 4, {x:0, z: 0, ease:'Power2.easeInOut'},0);
-        tl.to(rotateSpeed, 1.6, {value: .05, ease:'Power1.easeOut'},0);
-        tl.to(rotateSpeed, 1.6, {value: .004, ease:'Power3.easeInOut'},1.6);
+        tl.to(options, 2, {slideProgress:1, ease:'Power3.easeOut'},0);
+        tl.to(logo.position, 2, {x:0, z: 0, ease:'Power2.easeInOut'},0);
+        tl.to(rotateSpeed, 1.3, {value: .05, ease:'Power1.easeOut'},0);
+        tl.to(rotateSpeed, 1.3, {value: .004, ease:'Power3.easeInOut'},1.3);
         tl.add(()=>{ started =true; }, 2.6);
       }
     };
 
-
+    const initAspect = camera.aspect;
     const onWindowResize = () => {
       // camera.left = -window.innerWidth / 2;
       // camera.right = window.innerWidth / 2;

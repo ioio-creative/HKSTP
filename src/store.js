@@ -15,9 +15,10 @@ export default (url = "/") => {
   // Create a history depending on the environment
   const history = isServer
     ? createMemoryHistory({
-        initialEntries: [url]
+        initialEntries: [url],
+        basename: '/HKSTP'
       })
-    : createBrowserHistory();
+    : createBrowserHistory({basename: '/HKSTP'});
 
   const enhancers = [];
 

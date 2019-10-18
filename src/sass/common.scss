@@ -22,6 +22,7 @@ body {
 
   #root {
     height: 100%;
+    overflow: hidden;
     #bodyWrap {
       width: 100%;
       min-height:100%;
@@ -35,6 +36,9 @@ body {
       top: 0;
       left: 0;
       z-index: 0;
+    }
+    #scrollWrap{
+      width:100%;
     }
   }
 
