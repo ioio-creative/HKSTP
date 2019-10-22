@@ -37,6 +37,7 @@ const ThreejsBg = props => {
         // started = false,
         initedImage = false;
     let images,
+        imagesMaterial = null,
         offset = {x:0, y:0, z:0},
         rotate = {x:0, y:0, z:0},
         disableEase = false;
@@ -309,7 +310,7 @@ const ThreejsBg = props => {
           const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetWidth);
           const w = x + (screenWidth - screenWidth/2);
           const h = y - (screenHeight - screenHeight/2);
-          const bufferGeometry = new THREE.PlaneBufferGeometry(w,h, w*4, -h*4);
+          const bufferGeometry = new THREE.PlaneBufferGeometry(w,h, w*5, -h*5);
           const geometry = new THREE.InstancedBufferGeometry();
           geometry.maxInstancedCount = imageInstancedCount;
           geometry.index = bufferGeometry.index;
@@ -360,7 +361,7 @@ const ThreejsBg = props => {
           }
 
 
-          const material = new THREE.ShaderMaterial({
+          imagesMaterial = new THREE.ShaderMaterial({
             uniforms:{ 
                 images:{ type:'t', value: imageTexture },
                 clickedIdx:{ type: 'f', value: -1 },
@@ -452,9 +453,9 @@ const ThreejsBg = props => {
             // wireframe:true
           });
 
-          material.minFilter = THREE.NearestFilter;
+          imagesMaterial.minFilter = THREE.NearestFilter;
 
-          images = new THREE.Mesh(geometry, material);
+          images = new THREE.Mesh(geometry, imagesMaterial);
           scene.add(images);
           initedImage = true;
 
@@ -480,8 +481,12 @@ const ThreejsBg = props => {
             const realIdx = idx+realCount;
             images.material.uniforms.clickedIdx.value = realIdx;
 
-            TweenMax.to(imageDisplacement[realIdx], 1, {delay:.6, value: 1, ease:'Power4.easeInOut'});
-            TweenMax.to(rotate, 1, {delay:.6, x: 45*Math.PI/180, y: 45*Math.PI/180, ease:'Power4.easeInOut'});
+            TweenMax.to(imageDisplacement[realIdx], 1, {delay:.6, value: 1, ease:'Power4.easeInOut',
+              onStart:()=>{
+                imagesMaterial.depthTest = true;
+              }
+            });
+            // TweenMax.to(rotate, 1, {delay:.6, x: 45*Math.PI/180, y: 45*Math.PI/180, ease:'Power4.easeInOut'});
 
             prevImageClickedIdx = realIdx;
           }
@@ -497,6 +502,9 @@ const ThreejsBg = props => {
               disableEase = false;
             }
           });
+          setTimeout(()=>{
+            imagesMaterial.depthTest = false;
+          },100);
         }
       }
     }
@@ -561,6 +569,7 @@ const ThreejsBg = props => {
           }
           else{
             offset = {x:0, y:0, z:30};
+            rotate.x += 0.001;
             rotate.y += 0.001;
           }
 
