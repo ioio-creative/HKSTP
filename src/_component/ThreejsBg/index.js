@@ -15,7 +15,7 @@ const ThreejsBg = props => {
 
 
   useEffect(() => {
-    let scene, camera, renderer, dist;
+    let scene, camera, renderer, dist, gui;
     let screenWidth, screenHeight, initHeight;
     // let onWindowResize;
     const stats = new Stats();
@@ -80,7 +80,7 @@ const ThreejsBg = props => {
       renderer.setClearColor(0xffffff, 0);
       canvasWrap.current.appendChild(renderer.domElement);
 
-      const gui = new dat.GUI({ width: 300 });
+      gui = new dat.GUI({ width: 300 });
       gui.add(options, "planeSpeed").min(0).max(2).listen();
       gui.add(options, "slideProgress").min(0).max(1).listen();
       gui.domElement.parentNode.style.zIndex = 999;
@@ -297,6 +297,7 @@ const ThreejsBg = props => {
         texture.flipY = false;
         imageTexture.push(texture);
       }
+      console.log(imageTexture);
     }
     loadImageFuction.current = {loadImage};
 
@@ -468,6 +469,8 @@ const ThreejsBg = props => {
           for (let i = 0; i < imageInstancedCount; i++) {
             imageAnim(i);
           }
+
+          gui.add(imagesMaterial, "wireframe");
         }
       }
     }
@@ -494,6 +497,7 @@ const ThreejsBg = props => {
         else{
           // when closed
           disableEase = true;
+          imagesMaterial.depthTest = false;
 
           images.material.uniforms.clickedIdx.value = -1;
           TweenMax.to(imageDisplacement, .6, {value: 0, ease:'Power3.easeOut'});
@@ -502,9 +506,6 @@ const ThreejsBg = props => {
               disableEase = false;
             }
           });
-          setTimeout(()=>{
-            imagesMaterial.depthTest = false;
-          },100);
         }
       }
     }
@@ -551,6 +552,14 @@ const ThreejsBg = props => {
             const _i = i%realCount;
             const elem = document.querySelector(`#projects li:nth-child(${i%realCount+1}) .imageWrap`);
             const pos = elem.getBoundingClientRect();
+
+            if(i < realCount){
+              // console.log(i, pos.top > 0 && pos.top < window.innerHeight);
+              if(pos.top > 0 && pos.top < window.innerHeight){
+                // inScreen.push(i);
+              }
+            }
+
             if(imageTexture[_i].image){
               elem.style.height = elem.offsetWidth * (imageTexture[_i].image.height / imageTexture[_i].image.width) + 'px';
             }
