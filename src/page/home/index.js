@@ -46,7 +46,8 @@ class Home extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.homeData && !this.done) {
       const tl = new TimelineMax({ delay: .8 });
-      this.titleSpan.map((value, idx) => {
+      for(let i=0; this.titleSpan[i]; i++){
+        const value = this.titleSpan[i];
         const xory = Math.round(Math.random());
         value.style.willChange = "transform";
         const time = Math.random() * 0.5 + 0.8;
@@ -62,7 +63,7 @@ class Home extends Component {
               value.style.willChange = "";
             }
           },Math.random());
-      });
+      }
       this.done = true;
     }
 

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Html from "../../_component/html";
+// import Html from "../../_component/html";
 import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx, updateProjectItems } from "../../reducers";
 import "../../sass/page/projects.scss";
-import TweenMax from 'gsap';
+import TweenMax, {Back} from 'gsap';
 import smoothScroll from "../../_component/scroll";
 
 class Projects extends Component {
@@ -47,7 +47,6 @@ class Projects extends Component {
   
   componentDidUpdate(prevProps) {
     if(prevProps.projectsData !== this.props.projectsData){
-      console.log(this.projects);
       this.smooth = new smoothScroll("#projects", (s, y, h) => {});
       this.smooth.on();
       this.smooth.showScrollBar();
@@ -58,14 +57,15 @@ class Projects extends Component {
     }
     
     if(prevProps.isStarted !== this.props.isStarted){
+      for(let i=0; this.items[i]; i++){
+        TweenMax.set(this.items[i], {marginTop:(i%2 *2 - 1) * ( Math.random()* 100) / 16 +'rem'});
+      }
       TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
     }
 
     // when clicked image
     if(prevProps.imageClickedIdx !== this.props.imageClickedIdx && this.props.imageClickedIdx !== null){
-      // const updatedItems = Array.from(this.items);
-      // updatedItems.splice(this.props.imageClickedIdx, 1);
-      TweenMax.staggerTo(this.items, 1, {y:-document.getElementById('projects').offsetHeight*1.5, ease:'Expo.easeInOut'},.1);
+      TweenMax.staggerTo(this.items, .6, {y:-this.projects.offsetHeight*2, ease:Back.easeIn.config(1)},.06);
 
       this.smooth.off();
       this.smooth.hideScrollBar();
@@ -73,10 +73,10 @@ class Projects extends Component {
 
     // when close
     if(prevProps.imageClickedIdx !== null && this.props.imageClickedIdx === null){
-      // console.log(this.props.imageClickedIdx)
-      // const updatedItems = Array.from(this.items);
-      // updatedItems.splice(prevProps.imageClickedIdx, 1);
-      TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
+      const updatedItems = Array.from(this.items);
+      updatedItems.splice(prevProps.imageClickedIdx, 1);
+      TweenMax.staggerFromTo(updatedItems, 1.6, {y:this.projects.offsetHeight}, {delay:.6, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
+      TweenMax.set(this.items[prevProps.imageClickedIdx], {y:0, ease:'Power4.easeOut'});
       
       this.smooth.on();
       this.smooth.showScrollBar();
@@ -96,7 +96,7 @@ class Projects extends Component {
                 return (
                   <li key={idx} ref={elem => this.items[idx] = elem}>
                     {/* <span>{value.name}</span> */}
-                    <div className="imageWrap" style={{marginTop: Math.random()* 100}} onClick={()=>{this.props.dispatch(updateImageClickedIdx(idx))}} data-src={value.images.thumbnail}></div>
+                    <div className="imageWrap" onClick={()=>{this.props.dispatch(updateImageClickedIdx(idx))}} data-src={value.images.thumbnail}></div>
                   </li>
                 );
               })}

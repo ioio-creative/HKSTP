@@ -26,8 +26,9 @@
         padding-bottom:rem-calc(20);
       }
       // @for $i from 1 through 8 {
+      //   $r: random(100);
       //   &:nth-child(#{$i}) .imageWrap{
-      //     margin-top:rem-calc(random(100));
+      //     margin-top:rem-calc($r);
       //   }
       // }
       .imageWrap{

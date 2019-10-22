@@ -50,7 +50,6 @@ class ProjectSingle extends Component {
   
   componentDidUpdate(prevProps) {
     if(prevProps.projectsData !== this.props.projectsData){
-      console.log(this.projects);
       this.smooth = new smoothScroll("#projectSingle", (s, y, h) => {});
       this.smooth.on();
       this.smooth.showScrollBar();
