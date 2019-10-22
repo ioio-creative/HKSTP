@@ -441,8 +441,6 @@ const ThreejsBg = props => {
 
               'void main(){',
                 loopTexture('idx'),
-                // 'vec3 texture2 = vec3(texture.r+texture.g+texture.b);',
-                // 'gl_FragColor = vec4(mix(texture2.xyz, texture.xyz, max(0., min(1.,colorProgress))), 1.);',
                 `if(idx > ${realCount-1}.)`,
                   'gl_FragColor = texture;',
                 'else',
@@ -553,6 +551,14 @@ const ThreejsBg = props => {
             const elem = document.querySelector(`#projects li:nth-child(${i%realCount+1}) .imageWrap`);
             const pos = elem.getBoundingClientRect();
 
+           
+
+            if(imageTexture[_i].image){
+              elem.style.height = elem.offsetWidth * (imageTexture[_i].image.height / imageTexture[_i].image.width) + 'px';
+            }
+            imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
+
+
             if(i < realCount){
               // console.log(i, pos.top > 0 && pos.top < window.innerHeight);
               if(pos.top > 0 && pos.top < window.innerHeight){
@@ -560,10 +566,6 @@ const ThreejsBg = props => {
               }
             }
 
-            if(imageTexture[_i].image){
-              elem.style.height = elem.offsetWidth * (imageTexture[_i].image.height / imageTexture[_i].image.width) + 'px';
-            }
-            imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
 
             const {x, y} = convert2dto3d(pos.left+ imageSize[i].w/2, pos.top + imageSize[i].h/2);
             offset = {x, y, z:0};
