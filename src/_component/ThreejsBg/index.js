@@ -28,7 +28,8 @@ const ThreejsBg = props => {
         imageScaleAttribute,
         imageTextureIdxAttribute,
         imageSlideProgressAttribute,
-        imageDisplacementAttribute;
+        imageDisplacementAttribute,
+        imageVisibleAttribute;
     let planeWidth = 10,
         planeHeight = planeWidth * 0.75;
     const planeOffsets = [],
@@ -50,7 +51,8 @@ const ThreejsBg = props => {
         imageTexture = [],
         imageTextureIdx = [],
         imageSlideProgress = [],
-        imageDisplacement = [];
+        imageDisplacement = [],
+        imageVisible = [];
     let imageInScreenIdx = [],
         imageInScreenTexture = [];
     let tempImageSize = [],
@@ -250,7 +252,6 @@ const ThreejsBg = props => {
             'gl_FragColor = vec4(color, 1.);',
           '}'
         ].join('\n'),
-        // depthTest:false,
         side:THREE.DoubleSide 
       });
 
@@ -299,9 +300,21 @@ const ThreejsBg = props => {
         texture.flipY = false;
         imageTexture.push(texture);
       }
-      console.log(imageTexture);
     }
     loadImageFuction.current = {loadImage};
+
+    
+    const resizeImage = () => {
+      for(let i=0; i< imageInstancedCount/2; i++){
+        const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+
+        if(imageTexture[i].image){
+          elem.style.height = elem.offsetWidth * (imageTexture[i].image.height / imageTexture[i].image.width) + 'px';
+        }
+        imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
+      }
+      if(!initedImage) tempImageSize = Array.from(imageSize);
+    }
 
     const initImage = () => {
       const elem = document.querySelector('#projects li:nth-child(1) .imageWrap');
@@ -328,14 +341,16 @@ const ThreejsBg = props => {
             imageBGEase.push(Math.random()*0.2+0.08);
             imageRotate.push(0,0,0);
             imageScale.push(1,1,1);
-            imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
 
             imageTextureIdx.push(i);
 
             imageSlideProgress.push({value:0});
             imageDisplacement.push({value:0});
+            imageVisible.push(0);
           }
-          tempImageSize = Array.from(imageSize);
+          
+          resizeImage();
+
 
           imageOffsetAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageOffsets), 3 );
           geometry.addAttribute("offset", imageOffsetAttribute);
@@ -349,19 +364,9 @@ const ThreejsBg = props => {
           geometry.addAttribute("slideProgress", imageSlideProgressAttribute);
           imageDisplacementAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageDisplacement), 1 );
           geometry.addAttribute("displacement", imageDisplacementAttribute);
+          imageVisibleAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageVisible), 1 );
+          geometry.addAttribute("visible", imageVisibleAttribute);
 
-          const loopTexture = (indexName) => {
-            const t = [];
-            for(let i = 0; i<realCount; i++){
-              if(i===0){ 
-                t.push('vec4 texture;');
-              }
-              if(indexName)
-              t.push(`${i>0?'else ':''}if(${indexName} == ${i+realCount}.0)`);
-              t.push(`texture = texture2D(images[${i}], vUv);`);
-            }
-            return t.join('\n');
-          }
 
 
           imagesMaterial = new THREE.ShaderMaterial({
@@ -369,14 +374,11 @@ const ThreejsBg = props => {
                 // images:{ type:'t', value: imageTexture },
                 inScreenIdx:{ type:'f', value: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1] },
                 inScreenTexture:{ type:'t', value: imageInScreenTexture },
-                clickedIdx:{ type: 'f', value: -1 },
-                // displacementScale:{ type: 'f', value: 0 }
+                clickedIdx:{ type: 'f', value: -1 }
             },
             vertexShader: [
-              // `uniform sampler2D images[${realCount}];`,
               `uniform float inScreenIdx[12];`,
               `uniform sampler2D inScreenTexture[12];`,
-              // 'uniform float clickedIdx;',
               
               'attribute float textureIdx;',
               'attribute float slideProgress;',
@@ -384,107 +386,105 @@ const ThreejsBg = props => {
               'attribute vec3 offset;',
               'attribute vec3 rotate;',
               'attribute vec3 scale;',
+              'attribute float visible;',
 
               'varying vec2 vUv;',
               'varying float idx;',
               'varying float colorProgress;',
+              'varying float vVisible;',
               
               'void main(){',
-                'float PI = 3.14159;',
-                'vUv = uv;',
-                'idx = textureIdx;',
-                // Rotate
-                "mat4 rXPos = mat4(vec4(1.0,0.0,0.0,0.0),",
-                                  "vec4(0.0,cos(rotate.x),-sin(rotate.x),0.0),",
-                                  "vec4(0.0,sin(rotate.x),cos(rotate.x),0.0),",
-                                  "vec4(0.0,0.0,0.0,1.0));",
+                'if(visible == 1.){',
+                  'float PI = 3.14159;',
+                  'vUv = uv;',
+                  'idx = textureIdx;',
+                  'vVisible = visible;',
+                  // Rotate
+                  "mat4 rXPos = mat4(vec4(1.0,0.0,0.0,0.0),",
+                                    "vec4(0.0,cos(rotate.x),-sin(rotate.x),0.0),",
+                                    "vec4(0.0,sin(rotate.x),cos(rotate.x),0.0),",
+                                    "vec4(0.0,0.0,0.0,1.0));",
 
-                "mat4 rYPos = mat4(vec4(cos(rotate.y),0.0,sin(rotate.y),0.0),",
-                                  "vec4(0.0,1.0,0.0,0.0),",
-                                  "vec4(-sin(rotate.y),0.0,cos(rotate.y),0.0),",
-                                  "vec4(0.0,0.0,0.0,1.0));",
+                  "mat4 rYPos = mat4(vec4(cos(rotate.y),0.0,sin(rotate.y),0.0),",
+                                    "vec4(0.0,1.0,0.0,0.0),",
+                                    "vec4(-sin(rotate.y),0.0,cos(rotate.y),0.0),",
+                                    "vec4(0.0,0.0,0.0,1.0));",
 
-                "mat4 rZPos = mat4(vec4(cos(rotate.z),-sin(rotate.z),0.0,0.0),",
-                                  "vec4(sin(rotate.z),cos(rotate.z),0.0,0.0),",
-                                  "vec4(0.0,0.0,1.0,0.0),",
-                                  "vec4(0.0,0.0,0.0,1.0));",
+                  "mat4 rZPos = mat4(vec4(cos(rotate.z),-sin(rotate.z),0.0,0.0),",
+                                    "vec4(sin(rotate.z),cos(rotate.z),0.0,0.0),",
+                                    "vec4(0.0,0.0,1.0,0.0),",
+                                    "vec4(0.0,0.0,0.0,1.0));",
 
-                'mat4 sPos = mat4(vec4(scale.x,0.0,0.0,0.0),',
-                                'vec4(0.0,scale.y,0.0,0.0),',
-                                'vec4(0.0,0.0,scale.z,0.0),',
-                                'vec4(offset,1.0));',
+                  'mat4 sPos = mat4(vec4(scale.x,0.0,0.0,0.0),',
+                                  'vec4(0.0,scale.y,0.0,0.0),',
+                                  'vec4(0.0,0.0,scale.z,0.0),',
+                                  'vec4(offset,1.0));',
 
-                'mat4 matPos = sPos * rXPos * rYPos * rZPos;',
-                'vec3 newPosition = position;',
-
-                // loopTexture('textureIdx'),
-                // 'colorProgress = 1.;',
-                // 'float color = texture.r + texture.g + texture.b;',
-                // 'newPosition.z += color * 2.;',
-                // 'if(color < .3)',
-                //   'newPosition.z += 4.;',
-                // 'if(color < .5)',
-                //   'newPosition.z -= 5.;',
+                  'mat4 matPos = sPos * rXPos * rYPos * rZPos;',
+                  'vec3 newPosition = position;',
 
 
-                'for(int i=0; i<12; i++){',
-                  'if(inScreenIdx[i] == -1.)',
-                    'break;',
-                  `if(idx == inScreenIdx[i]+${realCount}.){`,
-                    'vec4 texture = texture2D(inScreenTexture[i], vUv);',
-                    'float color = texture.r + texture.g + texture.b;',
-                    'newPosition.z += color * 2.;',
+                  'for(int i=0; i<12; i++){',
+                    'if(inScreenIdx[i] == -1.)',
+                      'break;',
+                    `if(idx == inScreenIdx[i]+${realCount}.){`,
+                      'vec4 texture = texture2D(inScreenTexture[i], vUv);',
+                      'float color = texture.r + texture.g + texture.b;',
+                      'newPosition.z += color * 2.;',
 
-                    'if(color < .3)',
-                      'newPosition.z += 4.;',
-                    'if(color < .5)',
-                      'newPosition.z -= 5.;',
+                      'if(color < .3)',
+                        'newPosition.z += 4.;',
+                      'if(color < .5)',
+                        'newPosition.z -= 5.;',
 
-                    'break;',
+                      'break;',
+                    '}',
                   '}',
-                '}',
-                'newPosition.z *= displacement;',
+                  'newPosition.z *= displacement;',
 
-                `if(textureIdx > ${realCount-1}.){`,
-                  'colorProgress = pow(((slideProgress * 3. - 1.) + uv.y - uv.x)* 5. - 5. / 2., 4.);',
-                  'newPosition.z += 5. * -sin(max(0., min(1., colorProgress))* 360. * PI/180.);',
-                '}',
+                  `if(textureIdx > ${realCount-1}.){`,
+                    'colorProgress = pow(((slideProgress * 3. - 1.) + uv.y - uv.x)* 5. - 5. / 2., 4.);',
+                    'newPosition.z += 5. * -sin(max(0., min(1., colorProgress))* 360. * PI/180.);',
+                  '}',
 
-                
-                'vec4 position = projectionMatrix * modelViewMatrix * matPos * vec4(newPosition, 1.0);',
-                'gl_Position = position;',
+                  
+                  'vec4 position = projectionMatrix * modelViewMatrix * matPos * vec4(newPosition, 1.0);',
+                  
+                  'gl_Position = position;',
+                '}',
               '}'
             ].join('\n'),
             fragmentShader:[
-              // `uniform sampler2D images[${realCount}];`,
               `uniform float inScreenIdx[12];`,
               `uniform sampler2D inScreenTexture[12];`,
 
               'varying vec2 vUv;',
               'varying float idx;',
               'varying float colorProgress;',
+              'varying float vVisible;',
 
               'void main(){',
-                'vec4 color;',
-                'for(int i=0; i<12; i++){',
-                  'if(inScreenIdx[i] == -1.)',
-                    'break;',
-                  `if(idx == inScreenIdx[i]+${realCount}.){`,
-                    'color = texture2D(inScreenTexture[i], vUv);',
-                    'break;',
+                'if(vVisible == 1.){',
+                  'vec4 color = vec4(vec3(1.,1.,1.), 1.);',
+                  'for(int i=0; i<12; i++){',
+                    'if(inScreenIdx[i] == -1.)',
+                      'break;',
+                    `if(idx == inScreenIdx[i]+${realCount}.){`,
+                      'color = texture2D(inScreenTexture[i], vUv);',
+                      'break;',
+                    '}',
+                    'if(idx == inScreenIdx[i]){',
+                      'color = vec4(vec3(14./255., 45./255., 118./255.), 1.);',
+                      'break;',
+                    '}',
                   '}',
-                  'if(idx == inScreenIdx[i]){',
-                    'color = vec4(vec3(14./255., 45./255., 118./255.), 1.);',
-                    'break;',
-                  '}',
-                '}',
 
-                'gl_FragColor = color;',
+                  'gl_FragColor = color;',
+                '}',
               '}'
             ].join('\n'),
             depthTest: false,
-            side:THREE.DoubleSide,
-            // wireframe:true
+            side:THREE.DoubleSide
           });
 
           imagesMaterial.minFilter = THREE.NearestFilter;
@@ -492,6 +492,7 @@ const ThreejsBg = props => {
           images = new THREE.Mesh(geometry, imagesMaterial);
           scene.add(images);
           initedImage = true;
+
 
 
           const imageAnim = (i) => {
@@ -508,6 +509,7 @@ const ThreejsBg = props => {
       }
     }
     initImageFuction.current = {initImage}
+
 
     const imageEffect = (idx) => {
       if(images){
@@ -580,64 +582,70 @@ const ThreejsBg = props => {
       if(initedImage){
         imageInScreenIdx = [];
         imageInScreenTexture = [];
+
+
         for(let i=0; i<imageInstancedCount; i++){
           const realCount = imageInstancedCount/2;
+          let ease = disableEase ? 1 : imageBGEase[i];
 
           if(i !== images.material.uniforms.clickedIdx.value){
             const _i = i%realCount;
             const elem = document.querySelector(`#projects li:nth-child(${i%realCount+1}) .imageWrap`);
             const pos = elem.getBoundingClientRect();
 
-           
-            if(imageTexture[_i].image){
-              elem.style.height = elem.offsetWidth * (imageTexture[_i].image.height / imageTexture[_i].image.width) + 'px';
-            }
-            imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
-
 
             if(i < realCount){
-              if(pos.top > -imageSize[i].h*2 && pos.top < window.innerHeight*1.3){
+              if(pos.top > -imageSize[_i].h*2 && pos.top < window.innerHeight+imageSize[_i].h*2){
+              // if(pos.top > 0 && pos.top < window.innerHeight){
                 imageInScreenIdx.push(i);
                 imageInScreenTexture.push(imageTexture[i]);
+                
+                imageVisible[i] = 1;
+                imageVisible[i+realCount] = 1;
               }
+              else{
+                imageVisible[i] = 0;
+                imageVisible[i+realCount] = 0;
+              }
+              imageVisibleAttribute.setX(i, imageVisible[i]);
+              imageVisibleAttribute.setX(i+realCount, imageVisible[i+realCount]);
             }
 
 
-            const {x, y} = convert2dto3d(pos.left+ imageSize[i].w/2, pos.top + imageSize[i].h/2);
+
+            const {x, y} = convert2dto3d(pos.left+ imageSize[_i].w/2, pos.top + imageSize[_i].h/2);
             offset = {x, y, z:0};
 
             // resize image
             if(tempImageSize.length){
-              const scaleHeight = imageSize[i].h / (imageSize[i].w);
-              const w = imageSize[i].w / tempImageSize[i].w;
+              const scaleHeight = imageSize[_i].h / (imageSize[_i].w);
+              const w = imageSize[_i].w / tempImageSize[_i].w;
               const hh = (1-initHeight/window.innerHeight);
-              imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w - hh * w, scaleHeight * (imageSize[i].w/tempImageSize[i].w - hh * w)  );
+              imageScaleAttribute.setXY(i, imageSize[_i].w/tempImageSize[_i].w - hh * w, scaleHeight * (imageSize[_i].w/tempImageSize[_i].w - hh * w)  );
             }
           }
           else{
-            offset = {x:0, y:0, z:30};
-            rotate.x += 0.001;
-            rotate.y += 0.001;
+              offset = {x:0, y:0, z:30};
+              rotate.x += 0.001;
+              rotate.y += 0.001;
           }
 
-          let ease = disableEase ? 1 : imageBGEase[i];
 
           
           if(i >= realCount){
             if(i === prevImageClickedIdx){
               ease = imageBGEase[i];
+
+              imageRotate[i*3+0] += (rotate.x - imageRotate[i*3+0]) * .1;
+              imageRotate[i*3+1] += (rotate.y - imageRotate[i*3+1]) * .1;
+              imageRotate[i*3+2] += (rotate.z - imageRotate[i*3+2]) * .1;
             }
             imageOffsets[i*3+0] += (offset.x - imageOffsets[i*3+0]) * ease;
             imageOffsets[i*3+1] += (offset.y - imageOffsets[i*3+1]) * ease;
             imageOffsets[i*3+2] += (offset.z - imageOffsets[i*3+2]) * ease;
-            
-            imageRotate[i*3+0] += (rotate.x - imageRotate[i*3+0]) * .1;
-            imageRotate[i*3+1] += (rotate.y - imageRotate[i*3+1]) * .1;
-            imageRotate[i*3+2] += (rotate.z - imageRotate[i*3+2]) * .1;
           }
           else{
             if(i === prevImageClickedIdx-realCount){
-              // console.log(i, prevImageClickedIdx-realCount)
               ease = imageBGEase[i];
             }
             if(i === prevImageClickedIdx-realCount && images.material.uniforms.clickedIdx.value > -1){
@@ -645,7 +653,7 @@ const ThreejsBg = props => {
             }
             imageOffsets[i*3+0] += ((offset.x-imageBGOffsets[i].x) - imageOffsets[i*3+0]) * ease;
             imageOffsets[i*3+1] += ((offset.y+imageBGOffsets[i].y) - imageOffsets[i*3+1]) * ease;
-            imageOffsets[i*3+2] += ((offset.z+imageBGOffsets[i].z) - imageOffsets[i*3+2]) * ease;
+            imageOffsets[i*3+2] += ((offset.z+imageBGOffsets[i].z-0.1) - imageOffsets[i*3+2]) * ease;
           }
 
           imageOffsetAttribute.setXYZ(i, imageOffsets[i*3+0], imageOffsets[i*3+1], imageOffsets[i*3+2]);
@@ -669,6 +677,7 @@ const ThreejsBg = props => {
         imageScaleAttribute.needsUpdate = true;
         imageSlideProgressAttribute.needsUpdate = true;
         imageDisplacementAttribute.needsUpdate = true;
+        imageVisibleAttribute.needsUpdate = true;
       }
     };
 
@@ -693,11 +702,10 @@ const ThreejsBg = props => {
         const tl = new TimelineMax();
         tl.to(options, 1.6, {planeSpeed: 2, ease:'Power3.easeInOut'},0);
         tl.to(options, 2, {slideProgress:1, ease:'Power3.easeOut'},0);
-        tl.to(logo.position, 2, {x:0, z: 0, ease:'Power2.easeInOut'},0);
+        tl.to(logo.position, 2, {x:0, z: -20, ease:'Power2.easeInOut'},0);
         tl.to(rotateSpeed, 1.3, {value: .05, ease:'Power1.easeOut'},0);
         tl.to(rotateSpeed, 1.3, {value: .004, ease:'Power3.easeInOut'},1.3);
         tl.to(options, 1.6, {planeSpeed: .1, ease:'Power3.easeInOut'},1.3);
-        // tl.add(()=>{ started =true; }, 2.6);
       }
     };
 
@@ -711,7 +719,9 @@ const ThreejsBg = props => {
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
 
-      if(initedImage) initImage();
+      if(initedImage){
+        resizeImage();
+      }
 
       const screen = getScreenSize();
       screenWidth = screen.width;
