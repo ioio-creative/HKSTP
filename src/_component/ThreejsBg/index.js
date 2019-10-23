@@ -20,7 +20,8 @@ const ThreejsBg = props => {
     // let onWindowResize;
     const stats = new Stats();
 
-    const instancedCount = 10;
+    const instancedCount = 10,
+        limitedTextureCount = 16;
     let offsetAttribute,
         imageInstancedCount,
         imageOffsetAttribute,
@@ -377,8 +378,8 @@ const ThreejsBg = props => {
                 clickedIdx:{ type: 'f', value: -1 }
             },
             vertexShader: [
-              `uniform float inScreenIdx[12];`,
-              `uniform sampler2D inScreenTexture[12];`,
+              `uniform float inScreenIdx[${limitedTextureCount}];`,
+              `uniform sampler2D inScreenTexture[${limitedTextureCount}];`,
               
               'attribute float textureIdx;',
               'attribute float slideProgress;',
@@ -424,7 +425,7 @@ const ThreejsBg = props => {
                   'vec3 newPosition = position;',
 
 
-                  'for(int i=0; i<12; i++){',
+                  `for(int i=0; i<${limitedTextureCount}; i++){`,
                     'if(inScreenIdx[i] == -1.)',
                       'break;',
                     `if(idx == inScreenIdx[i]+${realCount}.){`,
@@ -455,8 +456,8 @@ const ThreejsBg = props => {
               '}'
             ].join('\n'),
             fragmentShader:[
-              `uniform float inScreenIdx[12];`,
-              `uniform sampler2D inScreenTexture[12];`,
+              `uniform float inScreenIdx[${limitedTextureCount}];`,
+              `uniform sampler2D inScreenTexture[${limitedTextureCount}];`,
 
               'varying vec2 vUv;',
               'varying float idx;',
@@ -466,7 +467,7 @@ const ThreejsBg = props => {
               'void main(){',
                 'if(vVisible == 1.){',
                   'vec4 color = vec4(vec3(1.,1.,1.), 1.);',
-                  'for(int i=0; i<12; i++){',
+                  `for(int i=0; i<${limitedTextureCount}; i++){`,
                     'if(inScreenIdx[i] == -1.)',
                       'break;',
                     `if(idx == inScreenIdx[i]+${realCount}.){`,
@@ -598,6 +599,7 @@ const ThreejsBg = props => {
               if(pos.top > -imageSize[_i].h*2 && pos.top < window.innerHeight+imageSize[_i].h*2){
               // if(pos.top > 0 && pos.top < window.innerHeight){
                 imageInScreenIdx.push(i);
+                if(imageInScreenTexture.length < limitedTextureCount)
                 imageInScreenTexture.push(imageTexture[i]);
                 
                 imageVisible[i] = 1;
@@ -662,10 +664,10 @@ const ThreejsBg = props => {
           imageDisplacementAttribute.setX(i, imageDisplacement[i].value);
         }
 
-        for(let i=imageInScreenIdx.length; i<12; i++){
+        for(let i=imageInScreenIdx.length; i<limitedTextureCount; i++){
           imageInScreenIdx.push(-1);
         }
-        for(let i=imageInScreenTexture.length; i<12; i++){
+        for(let i=imageInScreenTexture.length; i<limitedTextureCount; i++){
           imageInScreenTexture.push(imageTexture[0]);
         }
         imagesMaterial.uniforms.inScreenIdx.value = imageInScreenIdx;
