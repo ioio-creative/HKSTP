@@ -5,7 +5,7 @@ import '../../../sass/page/projectSingle.scss';
 import { updateImageClickedIdx } from "../../../reducers";
 import smoothScroll from "../../../_component/scroll";
 
-import Html from "../../../_component/html";
+// import Html from "../../../_component/html";
 import { TweenMax } from "gsap";
 
 class ProjectSingle extends Component {
@@ -69,7 +69,7 @@ class ProjectSingle extends Component {
 
   render() {
     if (this.props.projectsData) {
-      const data = this.props.projectsData.items[this.props.imageClickedIdx];
+      // const data = this.props.projectsData.items[this.props.imageClickedIdx];
 
       return (
         <div id="projectSingle">

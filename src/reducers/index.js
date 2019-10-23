@@ -137,8 +137,10 @@ const reducer = (state = initialState, action) => {
           return { ...state, homeData: action.data };
         case "projects":
           return { ...state, projectsData: action.data };
+
+        default:
+          return state;
       }
-      break;
 
     default:
       return state;

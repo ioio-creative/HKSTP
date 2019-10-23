@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 // import smoothScroll from "./scroll";

@@ -51,6 +51,8 @@ const ThreejsBg = props => {
         imageTextureIdx = [],
         imageSlideProgress = [],
         imageDisplacement = [];
+    let imageInScreenIdx = [],
+        imageInScreenTexture = [];
     let tempImageSize = [],
         prevImageClickedIdx;
 
@@ -364,13 +366,17 @@ const ThreejsBg = props => {
 
           imagesMaterial = new THREE.ShaderMaterial({
             uniforms:{ 
-                images:{ type:'t', value: imageTexture },
+                // images:{ type:'t', value: imageTexture },
+                inScreenIdx:{ type:'f', value: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1] },
+                inScreenTexture:{ type:'t', value: imageInScreenTexture },
                 clickedIdx:{ type: 'f', value: -1 },
                 // displacementScale:{ type: 'f', value: 0 }
             },
             vertexShader: [
-              `uniform sampler2D images[${realCount}];`,
-              'uniform float clickedIdx;',
+              // `uniform sampler2D images[${realCount}];`,
+              `uniform float inScreenIdx[12];`,
+              `uniform sampler2D inScreenTexture[12];`,
+              // 'uniform float clickedIdx;',
               
               'attribute float textureIdx;',
               'attribute float slideProgress;',
@@ -411,15 +417,32 @@ const ThreejsBg = props => {
                 'mat4 matPos = sPos * rXPos * rYPos * rZPos;',
                 'vec3 newPosition = position;',
 
-                loopTexture('textureIdx'),
-                'colorProgress = 1.;',
-                'float color = texture.r + texture.g + texture.b;',
-                'newPosition.z += color * 2.;',
-                'if(color < .3)',
-                  'newPosition.z += 4.;',
-                'if(color < .5)',
-                  'newPosition.z -= 5.;',
+                // loopTexture('textureIdx'),
+                // 'colorProgress = 1.;',
+                // 'float color = texture.r + texture.g + texture.b;',
+                // 'newPosition.z += color * 2.;',
+                // 'if(color < .3)',
+                //   'newPosition.z += 4.;',
+                // 'if(color < .5)',
+                //   'newPosition.z -= 5.;',
 
+
+                'for(int i=0; i<12; i++){',
+                  'if(inScreenIdx[i] == -1.)',
+                    'break;',
+                  `if(idx == inScreenIdx[i]+${realCount}.){`,
+                    'vec4 texture = texture2D(inScreenTexture[i], vUv);',
+                    'float color = texture.r + texture.g + texture.b;',
+                    'newPosition.z += color * 2.;',
+
+                    'if(color < .3)',
+                      'newPosition.z += 4.;',
+                    'if(color < .5)',
+                      'newPosition.z -= 5.;',
+
+                    'break;',
+                  '}',
+                '}',
                 'newPosition.z *= displacement;',
 
                 `if(textureIdx > ${realCount-1}.){`,
@@ -433,18 +456,30 @@ const ThreejsBg = props => {
               '}'
             ].join('\n'),
             fragmentShader:[
-              `uniform sampler2D images[${realCount}];`,
+              // `uniform sampler2D images[${realCount}];`,
+              `uniform float inScreenIdx[12];`,
+              `uniform sampler2D inScreenTexture[12];`,
 
               'varying vec2 vUv;',
               'varying float idx;',
               'varying float colorProgress;',
 
               'void main(){',
-                loopTexture('idx'),
-                `if(idx > ${realCount-1}.)`,
-                  'gl_FragColor = texture;',
-                'else',
-                  'gl_FragColor = vec4(vec3(14./255., 45./255., 118./255.), 1.);',
+                'vec4 color;',
+                'for(int i=0; i<12; i++){',
+                  'if(inScreenIdx[i] == -1.)',
+                    'break;',
+                  `if(idx == inScreenIdx[i]+${realCount}.){`,
+                    'color = texture2D(inScreenTexture[i], vUv);',
+                    'break;',
+                  '}',
+                  'if(idx == inScreenIdx[i]){',
+                    'color = vec4(vec3(14./255., 45./255., 118./255.), 1.);',
+                    'break;',
+                  '}',
+                '}',
+
+                'gl_FragColor = color;',
               '}'
             ].join('\n'),
             depthTest: false,
@@ -543,6 +578,8 @@ const ThreejsBg = props => {
 
 
       if(initedImage){
+        imageInScreenIdx = [];
+        imageInScreenTexture = [];
         for(let i=0; i<imageInstancedCount; i++){
           const realCount = imageInstancedCount/2;
 
@@ -552,7 +589,6 @@ const ThreejsBg = props => {
             const pos = elem.getBoundingClientRect();
 
            
-
             if(imageTexture[_i].image){
               elem.style.height = elem.offsetWidth * (imageTexture[_i].image.height / imageTexture[_i].image.width) + 'px';
             }
@@ -560,9 +596,9 @@ const ThreejsBg = props => {
 
 
             if(i < realCount){
-              // console.log(i, pos.top > 0 && pos.top < window.innerHeight);
-              if(pos.top > 0 && pos.top < window.innerHeight){
-                // inScreen.push(i);
+              if(pos.top > -imageSize[i].h*2 && pos.top < window.innerHeight*1.3){
+                imageInScreenIdx.push(i);
+                imageInScreenTexture.push(imageTexture[i]);
               }
             }
 
@@ -604,6 +640,9 @@ const ThreejsBg = props => {
               // console.log(i, prevImageClickedIdx-realCount)
               ease = imageBGEase[i];
             }
+            if(i === prevImageClickedIdx-realCount && images.material.uniforms.clickedIdx.value > -1){
+              offset.y = screenHeight;
+            }
             imageOffsets[i*3+0] += ((offset.x-imageBGOffsets[i].x) - imageOffsets[i*3+0]) * ease;
             imageOffsets[i*3+1] += ((offset.y+imageBGOffsets[i].y) - imageOffsets[i*3+1]) * ease;
             imageOffsets[i*3+2] += ((offset.z+imageBGOffsets[i].z) - imageOffsets[i*3+2]) * ease;
@@ -614,6 +653,16 @@ const ThreejsBg = props => {
           imageSlideProgressAttribute.setX(i, imageSlideProgress[i].value);
           imageDisplacementAttribute.setX(i, imageDisplacement[i].value);
         }
+
+        for(let i=imageInScreenIdx.length; i<12; i++){
+          imageInScreenIdx.push(-1);
+        }
+        for(let i=imageInScreenTexture.length; i<12; i++){
+          imageInScreenTexture.push(imageTexture[0]);
+        }
+        imagesMaterial.uniforms.inScreenIdx.value = imageInScreenIdx;
+        imagesMaterial.uniforms.inScreenTexture.value = imageInScreenTexture;
+        // console.log(imageInScreenTexture)
 
         imageOffsetAttribute.needsUpdate = true;
         imageRotateAttribute.needsUpdate = true;

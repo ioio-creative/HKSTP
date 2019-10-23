@@ -65,7 +65,9 @@ class Projects extends Component {
 
     // when clicked image
     if(prevProps.imageClickedIdx !== this.props.imageClickedIdx && this.props.imageClickedIdx !== null){
-      TweenMax.staggerTo(this.items, .6, {y:-this.projects.offsetHeight*2, ease:Back.easeIn.config(1)},.06);
+      const updatedItems = Array.from(this.items);
+      updatedItems.splice(this.props.imageClickedIdx, 1);
+      TweenMax.staggerTo(updatedItems, .6, {y:-this.projects.offsetHeight*2, ease:Back.easeIn.config(1)},.06);
 
       this.smooth.off();
       this.smooth.hideScrollBar();
