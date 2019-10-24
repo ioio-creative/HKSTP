@@ -23,6 +23,7 @@ class Projects extends Component {
     this.items = [];
     this.projects = null;
     this.smooth = null;
+    this.inScreenItems = [];
   }
 
   static actions = () => [fetchDataBy(this.pageName)];
@@ -58,7 +59,7 @@ class Projects extends Component {
     
     if(prevProps.isStarted !== this.props.isStarted){
       for(let i=0; this.items[i]; i++){
-        TweenMax.set(this.items[i], {marginTop:(i%2 *2 - 1) * ( Math.random()* 100) / 16 +'rem'});
+        TweenMax.set(this.items[i], {paddingTop:(i%2 *2 - 1) * ( Math.random()* 100) / 16 +'rem'});
       }
       TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
     }
@@ -67,7 +68,20 @@ class Projects extends Component {
     if(prevProps.imageClickedIdx !== this.props.imageClickedIdx && this.props.imageClickedIdx !== null){
       const updatedItems = Array.from(this.items);
       updatedItems.splice(this.props.imageClickedIdx, 1);
-      TweenMax.staggerTo(updatedItems, .6, {y:-this.projects.offsetHeight*2, ease:Back.easeIn.config(1)},.06);
+
+
+      this.inScreenItems = [];
+      for(let i=0; i<updatedItems.length; i++){
+        const elem = updatedItems[i];
+        const imageWrap = elem.querySelector('.imageWrap');
+        const elemOffset = elem.getBoundingClientRect();
+
+        if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top < window.innerHeight){
+          this.inScreenItems.push(elem);
+        }
+      }
+
+      TweenMax.staggerTo(this.inScreenItems, 1, {y:-this.projects.offsetHeight*2, ease:Back.easeIn.config(.5)},.06);
 
       this.smooth.off();
       this.smooth.hideScrollBar();
@@ -77,7 +91,7 @@ class Projects extends Component {
     if(prevProps.imageClickedIdx !== null && this.props.imageClickedIdx === null){
       const updatedItems = Array.from(this.items);
       updatedItems.splice(prevProps.imageClickedIdx, 1);
-      TweenMax.staggerFromTo(updatedItems, 1.6, {y:this.projects.offsetHeight}, {delay:.6, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
+      TweenMax.staggerFromTo(this.inScreenItems, 1.6, {y:this.projects.offsetHeight}, {delay:.6, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
       TweenMax.set(this.items[prevProps.imageClickedIdx], {y:0, ease:'Power4.easeOut'});
       
       this.smooth.on();
