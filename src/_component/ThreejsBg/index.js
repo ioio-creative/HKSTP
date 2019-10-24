@@ -647,15 +647,25 @@ const ThreejsBg = props => {
             imageOffsets[i*3+2] += (offset.z - imageOffsets[i*3+2]) * ease;
           }
           else{
+            // target blue bg
             if(i === prevImageClickedIdx-realCount){
-              ease = imageBGEase[i];
+              ease = imageBGEase[i]*.35;
             }
+            // target blue bg
             if(i === prevImageClickedIdx-realCount && images.material.uniforms.clickedIdx.value > -1){
-              offset.y = screenHeight;
+              imageRotate[i*3+1] += (90*Math.PI/180 - imageRotate[i*3+1]) * ease;
+
+              imageOffsets[i*3+0] += (0 - imageOffsets[i*3+0]) * ease;
+              imageOffsets[i*3+1] += (0 - imageOffsets[i*3+1]) * ease;
+              imageOffsets[i*3+2] += (0 - imageOffsets[i*3+2]) * ease;
             }
-            imageOffsets[i*3+0] += ((offset.x-imageBGOffsets[i].x) - imageOffsets[i*3+0]) * ease;
-            imageOffsets[i*3+1] += ((offset.y+imageBGOffsets[i].y) - imageOffsets[i*3+1]) * ease;
-            imageOffsets[i*3+2] += ((offset.z+imageBGOffsets[i].z-0.1) - imageOffsets[i*3+2]) * ease;
+            else{ // other blue bg
+              imageRotate[i*3+1] += (0 - imageRotate[i*3+1]) * ease;
+
+              imageOffsets[i*3+0] += ((offset.x-imageBGOffsets[i].x) - imageOffsets[i*3+0]) * ease;
+              imageOffsets[i*3+1] += ((offset.y+imageBGOffsets[i].y) - imageOffsets[i*3+1]) * ease;
+              imageOffsets[i*3+2] += ((offset.z+imageBGOffsets[i].z) - imageOffsets[i*3+2]) * ease;
+            }
           }
 
           imageOffsetAttribute.setXYZ(i, imageOffsets[i*3+0], imageOffsets[i*3+1], imageOffsets[i*3+2]);
