@@ -336,7 +336,7 @@ const ThreejsBg = props => {
           geometry.attributes.uv = bufferGeometry.attributes.uv;
         
           for (let i = 0; i < imageInstancedCount; i++) {
-            const elem = document.querySelector(`#projects li:nth-child(${i%(realCount)+1}) .imageWrap`);
+            // const elem = document.querySelector(`#projects li:nth-child(${i%(realCount)+1}) .imageWrap`);
             imageOffsets.push(0,-screenHeight,0);
             imageBGOffsets.push({x:Math.random()+.1, y:Math.random()*2+.5, z:0});
             imageBGEase.push(Math.random()*0.2+0.08);
@@ -373,7 +373,7 @@ const ThreejsBg = props => {
           imagesMaterial = new THREE.ShaderMaterial({
             uniforms:{ 
                 // images:{ type:'t', value: imageTexture },
-                inScreenIdx:{ type:'f', value: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1] },
+                inScreenIdx:{ type:'f', value: [] },
                 inScreenTexture:{ type:'t', value: imageInScreenTexture },
                 clickedIdx:{ type: 'f', value: -1 }
             },
