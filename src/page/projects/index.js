@@ -47,21 +47,20 @@ class Projects extends Component {
   }
   
   componentDidUpdate(prevProps) {
-    if(prevProps.projectsData !== this.props.projectsData){
-      this.smooth = new smoothScroll("#projects", (s, y, h) => {});
-      this.smooth.on();
-      this.smooth.showScrollBar();
-    }
-
-    if(!this.props.projectItems){
-      this.props.dispatch(updateProjectItems(this.items));
-    }
-    
     if(prevProps.isStarted !== this.props.isStarted){
       for(let i=0; this.items[i]; i++){
         TweenMax.set(this.items[i], {paddingTop:((Math.random()*50+20) + ((i%2) * (Math.random()*50+50))) / 16 +'rem'});
       }
       TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
+
+      if(this.props.projectsData){ 
+        this.smooth = new smoothScroll("#projects", (s, y, h) => {});
+        this.smooth.on();
+        this.smooth.showScrollBar();
+      }
+      if(!this.props.projectItems){
+        this.props.dispatch(updateProjectItems(this.items));
+      }
     }
 
     // when clicked image
@@ -100,6 +99,9 @@ class Projects extends Component {
   }
 
   render() {
+    if(!this.props.isStarted)
+      return false;
+    
     if (this.props.projectsData) {
       // const currentLang = this.props.lang;
       const data = this.props.projectsData;

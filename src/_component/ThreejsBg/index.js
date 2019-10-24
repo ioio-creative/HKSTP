@@ -165,22 +165,23 @@ const ThreejsBg = props => {
       const smallBallSize = 2.5;
       const ballDist = 15;
       const cylinderHeight = ballDist * .8;
+      const shpereDetail = 32;
 
       const material = new THREE.MeshBasicMaterial({ color: 0xe9e9e9 });
       
-      const topShpereGeometry = new THREE.SphereGeometry(smallBallSize, 16, 16);
+      const topShpereGeometry = new THREE.SphereGeometry(smallBallSize, shpereDetail, shpereDetail);
       const topShpere = new THREE.Mesh(topShpereGeometry, material);
       topShpere.position.set(0, ballDist*Math.sin(45*Math.PI/180), ballDist*Math.cos(45*Math.PI/180));
       
-      const botShpereGeometry = new THREE.SphereGeometry(smallBallSize, 16, 16);
+      const botShpereGeometry = new THREE.SphereGeometry(smallBallSize, shpereDetail, shpereDetail);
       const botShpere = new THREE.Mesh(botShpereGeometry, material);
       botShpere.position.set(0, ballDist*Math.sin(-45*Math.PI/180), ballDist*Math.cos(-45*Math.PI/180));
 
-      const leftShpereGeometry = new THREE.SphereGeometry(smallBallSize, 16, 16);
+      const leftShpereGeometry = new THREE.SphereGeometry(smallBallSize, shpereDetail, shpereDetail);
       const leftShpere = new THREE.Mesh(leftShpereGeometry, material);
       leftShpere.position.set(-ballDist*Math.sin(45*Math.PI/180), 0, -ballDist*Math.cos(45*Math.PI/180));
 
-      const rightShpereGeometry = new THREE.SphereGeometry(smallBallSize, 16, 16);
+      const rightShpereGeometry = new THREE.SphereGeometry(smallBallSize, shpereDetail, shpereDetail);
       const rightShpere = new THREE.Mesh(rightShpereGeometry, material);
       rightShpere.position.set(-ballDist*Math.sin(-45*Math.PI/180), 0, -ballDist*Math.cos(-45*Math.PI/180));
 
@@ -206,7 +207,7 @@ const ThreejsBg = props => {
       rightCylinder.rotation.set(90 * Math.PI/180, 0, 45 * Math.PI/180);
 
       // all
-      let centerShpereGeometry = new THREE.SphereGeometry(bigBallSize, 16, 16);
+      let centerShpereGeometry = new THREE.SphereGeometry(bigBallSize, shpereDetail, shpereDetail);
       topShpere.updateMatrix();
       centerShpereGeometry.merge(topShpere.geometry, topShpere.matrix);
       botShpere.updateMatrix();
@@ -294,28 +295,41 @@ const ThreejsBg = props => {
     };
 
     const loadImage = () => {
+      let textureCount = 0;
       const lth = document.querySelectorAll('#projects li').length;
       for (let i = 0; i < lth; i++) {
         const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
-        const texture = new THREE.TextureLoader().load(elem.getAttribute('data-src'));
-        texture.flipY = false;
-        imageTexture.push(texture);
+        new THREE.TextureLoader().load(
+          elem.getAttribute('data-src'),
+          (t)=>{
+            t.flipY = false;
+            imageTexture[i] = t;
+
+            if(textureCount === lth-1){
+              resizeImage();
+            }
+            textureCount++;
+          }
+        );
       }
     }
     loadImageFuction.current = {loadImage};
 
     
     const resizeImage = () => {
-      for(let i=0; i< imageInstancedCount/2; i++){
-        const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+      if(imageTexture.length){
+        for(let i=0; i< imageInstancedCount/2; i++){
+          const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
 
-        if(imageTexture[i].image){
-          elem.style.height = elem.offsetWidth * (imageTexture[i].image.height / imageTexture[i].image.width) + 'px';
+          if(imageTexture[i].image){
+            elem.style.height = elem.offsetWidth * (imageTexture[i].image.height / imageTexture[i].image.width) + 'px';
+          }
+          imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
         }
-        imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
       }
-      if(!initedImage) tempImageSize = Array.from(imageSize);
+      if(!tempImageSize.length) tempImageSize = Array.from(imageSize);
     }
+
 
     const initImage = () => {
       const elem = document.querySelector('#projects li:nth-child(1) .imageWrap');
@@ -350,8 +364,6 @@ const ThreejsBg = props => {
             imageVisible.push(0);
           }
           
-          resizeImage();
-
 
           imageOffsetAttribute = new THREE.InstancedBufferAttribute( new Float32Array(imageOffsets), 3 );
           geometry.addAttribute("offset", imageOffsetAttribute);
@@ -580,7 +592,7 @@ const ThreejsBg = props => {
       offsetAttribute.needsUpdate = true;
 
 
-      if(initedImage){
+      if(initedImage && imageSize.length){
         imageInScreenIdx = [];
         imageInScreenTexture = [];
 
