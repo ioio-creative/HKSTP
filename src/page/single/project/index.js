@@ -21,6 +21,7 @@ class ProjectSingle extends Component {
     this.pageName = ProjectSingle.pageName;
     this.state = {};
     this.smooth = null;
+    this.projectSingle = null;
   }
 
   // static actions = title => [fetchDataBy(this.pageName, this.query, title)];
@@ -58,22 +59,31 @@ class ProjectSingle extends Component {
     if(this.props.imageClickedIdx !== null){
       if(prevProps.imageClickedIdx !== this.props.imageClickedIdx){
         // console.log(prevProps.imageClickedIdx, this.props.imageClickedIdx);
-        TweenMax.set('#projectSingle',{y:'0%'});
+        if(this.projectSingle){
+          TweenMax.set(this.projectSingle,{y:'0%'});
+          TweenMax.to(this.projectSingle, .3, {autoAlpha:1});
+        }
       }
     }
     else if(prevProps.imageClickedIdx > -1 && this.props.imageClickedIdx === null){
-      TweenMax.set('#projectSingle',{y:'100%'});
+      if(this.projectSingle)
+        TweenMax.set(this.projectSingle,{y:'100%'});
       // console.log(this.props.imageClickedIdx);
     }
   }
 
   render() {
-    if (this.props.projectsData) {
-      // const data = this.props.projectsData.items[this.props.imageClickedIdx];
-
+    if(this.props.imageClickedIdx === null)
+      return false;
+    
+    if(this.props.projectsData){
       return (
-        <div id="projectSingle">
-          <div id="closeBtn" onClick={()=>{this.props.dispatch(updateImageClickedIdx(null))}}>Close button</div>
+        <div ref={elem => this.projectSingle = elem} id="projectSingle">
+          <div id="closeBtn" onClick={()=>{
+            TweenMax.to(this.projectSingle, .3, {autoAlpha:0,onComplete:()=>{
+              this.props.dispatch(updateImageClickedIdx(null))
+            }})
+          }}>Close button</div>
         </div>
       );
     }

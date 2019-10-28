@@ -57,7 +57,7 @@ const ThreejsBg = props => {
     let imageInScreenIdx = [],
         imageInScreenTexture = [];
     let tempImageSize = [],
-        prevImageClickedIdx;
+        imageClickedIdx;
 
     let logo,
         logoRotateSpeed = {value: 0},
@@ -353,7 +353,7 @@ const ThreejsBg = props => {
             // const elem = document.querySelector(`#projects li:nth-child(${i%(realCount)+1}) .imageWrap`);
             imageOffsets.push(0,-screenHeight,0);
             imageBGOffsets.push({x:Math.random()+.1, y:Math.random()*2+.5, z:0});
-            imageBGEase.push(Math.random()*0.2+0.08);
+            imageBGEase.push(Math.random()*0.1+0.1);
             imageRotate.push(0,0,0);
             imageScale.push(1,1,1);
 
@@ -539,7 +539,7 @@ const ThreejsBg = props => {
             });
             // TweenMax.to(rotate, 1, {delay:.6, x: 45*Math.PI/180, y: 45*Math.PI/180, ease:'Power4.easeInOut'});
 
-            prevImageClickedIdx = realIdx;
+            imageClickedIdx = realIdx;
           }
         }
         else{
@@ -549,9 +549,10 @@ const ThreejsBg = props => {
 
           images.material.uniforms.clickedIdx.value = -1;
           TweenMax.to(imageDisplacement, .6, {value: 0, ease:'Power3.easeOut'});
-          TweenMax.to(rotate, .4, {x:0, y:0, ease:'Power3.easeOut', 
+          TweenMax.to(rotate, .3, {x:0, y:0, ease:'Power3.easeOut', 
             onComplete:()=>{
               disableEase = false;
+              imageClickedIdx = null;
             }
           });
         }
@@ -647,24 +648,29 @@ const ThreejsBg = props => {
 
           
           if(i >= realCount){
-            if(i === prevImageClickedIdx){
-              ease = imageBGEase[i];
-
+            if(i === imageClickedIdx){
               imageRotate[i*3+0] += (rotate.x - imageRotate[i*3+0]) * .1;
               imageRotate[i*3+1] += (rotate.y - imageRotate[i*3+1]) * .1;
               imageRotate[i*3+2] += (rotate.z - imageRotate[i*3+2]) * .1;
+              ease = imageBGEase[i];
             }
+            else{
+              imageRotate[i*3+0] += (0 - imageRotate[i*3+0]) * .1;
+              imageRotate[i*3+1] += (0 - imageRotate[i*3+1]) * .1;
+              imageRotate[i*3+2] += (0 - imageRotate[i*3+2]) * .1;
+            }
+            
             imageOffsets[i*3+0] += (offset.x - imageOffsets[i*3+0]) * ease;
             imageOffsets[i*3+1] += (offset.y - imageOffsets[i*3+1]) * ease;
             imageOffsets[i*3+2] += (offset.z - imageOffsets[i*3+2]) * ease;
           }
           else{
             // target blue bg
-            if(i === prevImageClickedIdx-realCount){
-              ease = imageBGEase[i]*.35;
+            if(i === imageClickedIdx-realCount){
+              ease = imageBGEase[i];
             }
             // target blue bg
-            if(i === prevImageClickedIdx-realCount && images.material.uniforms.clickedIdx.value > -1){
+            if(i === imageClickedIdx-realCount && images.material.uniforms.clickedIdx.value > -1){
               imageRotate[i*3+1] += (90*Math.PI/180 - imageRotate[i*3+1]) * ease;
 
               imageOffsets[i*3+0] += (0 - imageOffsets[i*3+0]) * ease;
