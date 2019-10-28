@@ -81,42 +81,13 @@ class ProjectSingle extends Component {
         <div ref={elem => this.projectSingle = elem} id="projectSingle">
           <div id="scrollWrap">
             <div id="closeBtn" onClick={()=>{
-              TweenMax.to(this.projectSingle, .3, {autoAlpha:0,onComplete:()=>{
-                this.props.dispatch(updateImageClickedIdx(null))
-              }})
+              TweenMax.to(this.projectSingle, .3, {autoAlpha:0})
+              this.props.dispatch(updateImageClickedIdx(null))
             }}>Close button</div>
 
             <div id="content">
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
-              <div>single content single content single content single content single content</div>
+              <div className="clearfix"><div>content</div></div>
+              <div className="clearfix"><div>content</div></div>
             </div>
           </div>
         </div>

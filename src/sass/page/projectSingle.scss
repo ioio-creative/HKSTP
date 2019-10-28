@@ -9,7 +9,7 @@
   left:0;
   opacity: 0;
   visibility: hidden;
-  background:rgba(255,255,255,.6);
+  // background:rgba(255,255,255,.6);
   @include transform(translate3d(0,100%,0));
   #closeBtn{
     position: relative;
@@ -24,8 +24,27 @@
 
   }
   #content{
-    padding-top:100px;
-    padding-bottom:100px;
+    padding-left:50%;
+    padding-top:rem-calc(100);
+    padding-bottom:rem-calc(100);
+    padding-right:rem-calc(100);
     text-align: center;
+    div{
+      width:100%;
+      div{
+        width:100%;
+        background:#eee;
+        margin-top:rem-calc(50);
+        color:#aaa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:after{
+          content:'';
+          display: block;
+          padding-top:56.25%;
+        }
+      }
+    }
   }
 }

@@ -8,7 +8,6 @@
   top:0;
   left:0;
   #scrollWrap{
-    // min-height: 100vh;
     padding: rem-calc(200 50 100);
     &.hide{
       transform: translateY(100%);
@@ -20,7 +19,6 @@
     grid-column-gap: rem-calc(100);
     grid-row-gap: rem-calc(100);
     li {
-      opacity: 0;
       // background: #ff000090;
       span{
         padding-bottom:rem-calc(20);

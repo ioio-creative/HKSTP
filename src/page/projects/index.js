@@ -22,6 +22,7 @@ class Projects extends Component {
     this.state = {};
     this.items = [];
     this.projects = null;
+    this.scrollWrap = null;
     this.smooth = null;
     this.inScreenItems = [];
   }
@@ -51,7 +52,7 @@ class Projects extends Component {
       for(let i=0; this.items[i]; i++){
         TweenMax.set(this.items[i], {paddingTop:((Math.random()*50+20) + ((i%2) * (Math.random()*50+50))) / 16 +'rem'});
       }
-      TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
+      TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, ease:'Expo.easeOut'},.1);
 
       if(this.props.projectsData){ 
         this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
@@ -80,7 +81,7 @@ class Projects extends Component {
         }
       }
 
-      TweenMax.staggerTo(this.inScreenItems, 1, {y:-this.projects.offsetHeight*2, ease:Back.easeIn.config(.5)},.06);
+      TweenMax.staggerTo(this.inScreenItems, .7, {y:-window.innerHeight*2, ease:Back.easeIn.config(1)},.06);
 
       this.smooth.off();
       this.smooth.hideScrollBar();
@@ -90,8 +91,8 @@ class Projects extends Component {
     if(prevProps.imageClickedIdx !== null && this.props.imageClickedIdx === null){
       const updatedItems = Array.from(this.items);
       updatedItems.splice(prevProps.imageClickedIdx, 1);
-      TweenMax.staggerFromTo(this.inScreenItems, 1.6, {y:this.projects.offsetHeight}, {y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
-      TweenMax.set(this.items[prevProps.imageClickedIdx], {y:0, ease:'Power4.easeOut'});
+      TweenMax.staggerFromTo(this.inScreenItems, 1.6, {y:window.innerHeight*2}, {y:0, ease:'Expo.easeOut'},.1);
+      TweenMax.set(this.items[prevProps.imageClickedIdx], {y:0});
       
       this.smooth.on();
       this.smooth.showScrollBar();
@@ -108,7 +109,7 @@ class Projects extends Component {
 
       return (
         <div ref={elem => this.projects = elem} id="projects">
-          <div id="scrollWrap" className={!this.props.isStarted ? 'hide' : ''}>
+          <div ref={elem => this.scrollWrap = elem} id="scrollWrap" className={!this.props.isStarted ? 'hide' : ''}>
             <ul id="items">
               {data.items.map((value, idx) => {
                 return (
