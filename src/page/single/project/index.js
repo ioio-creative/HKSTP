@@ -50,24 +50,24 @@ class ProjectSingle extends Component {
   }
   
   componentDidUpdate(prevProps) {
-    if(prevProps.projectsData !== this.props.projectsData){
-      this.smooth = new smoothScroll("#projectSingle", (s, y, h) => {});
-      this.smooth.on();
-      this.smooth.showScrollBar();
-    }
-
     if(this.props.imageClickedIdx !== null){
       if(prevProps.imageClickedIdx !== this.props.imageClickedIdx){
-        // console.log(prevProps.imageClickedIdx, this.props.imageClickedIdx);
         if(this.projectSingle){
+          this.smooth = new smoothScroll("#projectSingle #scrollWrap", (s, y, h) => {});
+          this.smooth.on();
+          this.smooth.showScrollBar();
           TweenMax.set(this.projectSingle,{y:'0%'});
           TweenMax.to(this.projectSingle, .6, {delay:1,autoAlpha:1});
         }
       }
     }
     else if(prevProps.imageClickedIdx > -1 && this.props.imageClickedIdx === null){
-      if(this.projectSingle)
+      if(this.projectSingle){
+        this.smooth.off();
+        this.smooth.hideScrollBar();
+        this.smooth = null;
         TweenMax.set(this.projectSingle,{y:'100%'});
+      }
       // console.log(this.props.imageClickedIdx);
     }
   }
@@ -79,18 +79,45 @@ class ProjectSingle extends Component {
     if(this.props.projectsData){
       return (
         <div ref={elem => this.projectSingle = elem} id="projectSingle">
-          <div id="closeBtn" onClick={()=>{
-            TweenMax.to(this.projectSingle, .3, {autoAlpha:0,onComplete:()=>{
-              this.props.dispatch(updateImageClickedIdx(null))
-            }})
-          }}>Close button</div>
+          <div id="scrollWrap">
+            <div id="closeBtn" onClick={()=>{
+              TweenMax.to(this.projectSingle, .3, {autoAlpha:0,onComplete:()=>{
+                this.props.dispatch(updateImageClickedIdx(null))
+              }})
+            }}>Close button</div>
 
-          <div id="content">
-            <div>single content single content single content single content single content</div>
-            <div>single content single content single content single content single content</div>
-            <div>single content single content single content single content single content</div>
-            <div>single content single content single content single content single content</div>
-            <div>single content single content single content single content single content</div>
+            <div id="content">
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+              <div>single content single content single content single content single content</div>
+            </div>
           </div>
         </div>
       );

@@ -54,7 +54,7 @@ class Projects extends Component {
       TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, autoAlpha:1, ease:'Expo.easeOut'},.1);
 
       if(this.props.projectsData){ 
-        this.smooth = new smoothScroll("#projects", (s, y, h) => {});
+        this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
         this.smooth.on();
         this.smooth.showScrollBar();
       }
@@ -108,7 +108,7 @@ class Projects extends Component {
 
       return (
         <div ref={elem => this.projects = elem} id="projects">
-          <div className={`scrollWrap ${!this.props.isStarted ? 'hide' : ''}`}>
+          <div id="scrollWrap" className={!this.props.isStarted ? 'hide' : ''}>
             <ul id="items">
               {data.items.map((value, idx) => {
                 return (
