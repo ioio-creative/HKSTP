@@ -8,14 +8,19 @@
   left:0;
   opacity: 0;
   visibility: hidden;
+  background:rgba(255,255,255,.6);
   @include transform(translate3d(0,100%,0));
   #closeBtn{
     position: relative;
     top:50vh;
-    left:50px;
+    left:rem-calc(50);
     padding:rem-calc(10);
     background: #000;
     color:#fff;
     display: inline-block;
+  }
+  #content{
+    padding-top:100px;
+    text-align: center;
   }
 }

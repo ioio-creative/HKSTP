@@ -61,7 +61,7 @@ class ProjectSingle extends Component {
         // console.log(prevProps.imageClickedIdx, this.props.imageClickedIdx);
         if(this.projectSingle){
           TweenMax.set(this.projectSingle,{y:'0%'});
-          TweenMax.to(this.projectSingle, .3, {autoAlpha:1});
+          TweenMax.to(this.projectSingle, .6, {delay:1,autoAlpha:1});
         }
       }
     }
@@ -84,6 +84,14 @@ class ProjectSingle extends Component {
               this.props.dispatch(updateImageClickedIdx(null))
             }})
           }}>Close button</div>
+
+          <div id="content">
+            <div>single content single content single content single content single content</div>
+            <div>single content single content single content single content single content</div>
+            <div>single content single content single content single content single content</div>
+            <div>single content single content single content single content single content</div>
+            <div>single content single content single content single content single content</div>
+          </div>
         </div>
       );
     }
