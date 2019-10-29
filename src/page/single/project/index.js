@@ -38,7 +38,7 @@ class ProjectSingle extends Component {
           this.smooth.on();
           this.smooth.showScrollBar();
           TweenMax.set(this.projectSingle,{y:'0%'});
-          TweenMax.to(this.projectSingle, .6, {delay:1,autoAlpha:1});
+          TweenMax.to(this.projectSingle, .6, {delay:2,autoAlpha:1});
         }
       }
     }

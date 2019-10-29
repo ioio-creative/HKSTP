@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import { updateLanguage } from "../../../src/reducers";
 // import smoothScroll from "./scroll";
 
 import Nav from "../nav";
@@ -43,6 +44,11 @@ const PageWrap = props => {
   //     }
   //   }
   // },[props.imageClickedIdx]);
+
+  useEffect(()=>{
+    if(props.match.params.lang !== props.lang)
+      props.dispatch(updateLanguage(props.match.params.lang));
+  },[]);
 
   return (
     <>

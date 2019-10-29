@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import PageWrap from "./_component/pagewrap";
-// import { updateLanguage } from "../src/reducers";
 import { connect } from "react-redux";
 import "./sass/style.scss";
 
