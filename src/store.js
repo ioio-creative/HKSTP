@@ -15,8 +15,7 @@ export default (url = "/") => {
   // Create a history depending on the environment
   const history = isServer
     ? createMemoryHistory({
-        initialEntries: [url],
-        basename: '/HKSTP'
+        initialEntries: [url]
       })
     : createBrowserHistory({basename: '/HKSTP'});
 

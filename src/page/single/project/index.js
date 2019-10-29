@@ -24,29 +24,10 @@ class ProjectSingle extends Component {
     this.projectSingle = null;
   }
 
-  // static actions = title => [fetchDataBy(this.pageName, this.query, title)];
-
-  // static pushData(data) {
-  //   return fetchDataSuccess(this.pageName, data);
-  // }
-
   componentWillMount() {
-    // if (!this.props.projectSingleData)
-    //   this.props.dispatch(
-    //     fetchDataBy(this.pageName, this.query, this.props.match.params.title)
-    //   );
-    // else if (this.props.projectSingleData.uid !== this.props.match.params.title)
-    //   this.props.dispatch(
-    //     fetchDataBy(this.pageName, this.query, this.props.match.params.title)
-    //   );
   }
 
   componentWillReceiveProps(nextProps) {
-    // if (nextProps.location.key !== this.props.location.key) {
-    //   this.props.dispatch(
-    //     fetchDataBy(this.pageName, this.query, nextProps.match.params.title)
-    //   );
-    // }
   }
   
   componentDidUpdate(prevProps) {
@@ -101,7 +82,6 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     projectsData: state.projectsData ? state.projectsData : null,
-
     imageClickedIdx: state.imageClickedIdx
   };
 };
