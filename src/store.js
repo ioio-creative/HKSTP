@@ -17,7 +17,7 @@ export default (url = "/") => {
     ? createMemoryHistory({
         initialEntries: [url]
       })
-    : createBrowserHistory({basename: '/HKSTP'});
+    : createBrowserHistory({basename: '/HKSTP/'});
 
   const enhancers = [];
 

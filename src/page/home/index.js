@@ -82,7 +82,7 @@ class Home extends Component {
         <Html id="home" title="Home" description={`This is Home page!`}>
           <div id="title">
             <h1 className="cap">
-              <div>
+              <div className="blue">
                 {data.title1.split("").map((value, idx) => {
                   return (
                     <span key={idx}>
@@ -96,7 +96,7 @@ class Home extends Component {
               <div>
                 {data.title2.split("").map((value, idx) => {
                   return (
-                    <span key={idx}>
+                    <span key={idx} className="orange">
                       <span ref={elem => (this.titleSpan[i++] = elem)}>
                         {value}
                       </span>

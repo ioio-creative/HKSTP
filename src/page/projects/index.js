@@ -49,9 +49,9 @@ class Projects extends Component {
   
   componentDidUpdate(prevProps) {
     if(prevProps.isStarted !== this.props.isStarted){
-      for(let i=0; this.items[i]; i++){
-        TweenMax.set(this.items[i], {paddingTop:((Math.random()*50+20) + ((i%2) * (Math.random()*50+50))) / 16 +'rem'});
-      }
+      // for(let i=0; this.items[i]; i++){
+      //   TweenMax.set(this.items[i], {paddingTop:((Math.random()*50+20) + ((i%2) * (Math.random()*50+50))) / 16 +'rem'});
+      // }
       TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, ease:'Expo.easeOut'},.1);
 
       if(this.props.projectsData){ 
@@ -114,7 +114,15 @@ class Projects extends Component {
               {data.items.map((value, idx) => {
                 return (
                   <li key={idx} ref={elem => this.items[idx] = elem}>
-                    {/* <span>{value.name}</span> */}
+                    <div className="info">
+                      <div className="logoWrap"><div className="logo"></div></div>
+                      <div className="infoWrap">
+                        <div className="wrap">
+                          <p>{value.name}</p>
+                          <span className="cat h3">{value.category}</span>
+                        </div>
+                      </div>
+                    </div>
                     <div className="imageWrap" onClick={()=>{this.props.dispatch(updateImageClickedIdx(idx))}} data-src={value.images.thumbnail}></div>
                   </li>
                 );

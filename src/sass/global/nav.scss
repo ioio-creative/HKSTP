@@ -13,16 +13,20 @@
     left: rem-calc(20);
   }
   &#categoryWrap{
-    width:calc(100% - #{rem-calc(130 + 40 + 34 + 40)});
+    width:100%;
     top: 0;
-    left: rem-calc(130 + 40);
+    left: 0;
     overflow: hidden;
+    text-align: center;
     ul{
       display: inline-block;
       white-space: nowrap;
       li{
+        width: rem-calc(130);
+        white-space: initial;
         display: inline-block;
         padding: rem-calc(20);
+        cursor: pointer;
       }
     }
   }
@@ -31,8 +35,8 @@
     right: rem-calc(20);
   }
   &#langBtn {
-    bottom: rem-calc(20);
-    right: rem-calc(20);
+    bottom: rem-calc(35);
+    right: rem-calc(35);
     border-radius: 50%;
     background: $black;
     color: $white;
@@ -40,14 +44,17 @@
   }
   &#touchToStart {
     width: rem-calc(86);
-    bottom: rem-calc(20);
+    bottom: rem-calc(35);
     left: 0;
     right: 0;
     margin: auto;
   }
   &#shortDes {
-    width: rem-calc(140);
-    bottom: rem-calc(20);
-    left: rem-calc(20);
+    width: rem-calc(160);
+    bottom: rem-calc(0);
+    left: rem-calc(40);
+    padding-left:rem-calc(10);
+    padding-bottom:rem-calc(30);
+    border-left:rem-calc(1) solid $black;
   }
 }

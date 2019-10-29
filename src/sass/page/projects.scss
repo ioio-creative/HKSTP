@@ -19,16 +19,61 @@
     grid-column-gap: rem-calc(100);
     grid-row-gap: rem-calc(100);
     li {
-      // background: #ff000090;
-      span{
-        padding-bottom:rem-calc(20);
+      display: grid;
+      // grid-template-rows: repeat(1, 1fr);
+      &:nth-child(2n+1){
+        .info{
+          align-self: end;
+        }
       }
-      // @for $i from 1 through 8 {
-      //   $r: random(100);
-      //   &:nth-child(#{$i}) .imageWrap{
-      //     margin-top:rem-calc($r);
-      //   }
-      // }
+      &:nth-child(2n){
+        .info{
+          grid-row: 2;
+          .logoWrap{
+            .logo{
+              margin-top:rem-calc(20);
+            }
+          }
+          .infoWrap{
+            .wrap{
+              padding-top: rem-calc(20);
+              padding-bottom:0;
+            }
+          }
+        }
+        .imageWrap{
+          align-self: end;
+        }
+      }
+      .info{
+        width: 100%;
+        display: flex;
+        .logoWrap{
+          width: rem-calc(45);
+          .logo{
+            width:100%;
+            background:$white;
+            border-radius: 50%;
+            border:rem-calc(1) solid $black;
+            &:before{
+              content:'';
+              display: block;
+              padding-top:100%;
+            }
+          }
+        }
+        .infoWrap{
+          .wrap{
+            border-left:rem-calc(1) solid $black;
+            margin-left: rem-calc(20);
+            padding-left: rem-calc(10);
+            padding-bottom: 5vh;
+            .cat{
+              color: $orange;
+            }
+          }
+        }
+      }
       .imageWrap{
         width:100%;
       }

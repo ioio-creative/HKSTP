@@ -8,19 +8,13 @@
     },
     "projects": {
       "categories":[
-        "All",
-        "Category 1",
-        "Category 2",
-        "Category 3",
-        "Category 4",
-        "Category 5",
-        "Category 6",
-        "Category 7"
+        "Incubatee Graduates",
+        "Rising Stars"
       ],
       "items": [
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -37,7 +31,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -54,7 +48,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -71,7 +65,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -88,7 +82,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -105,7 +99,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -122,7 +116,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -139,7 +133,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -156,7 +150,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -173,7 +167,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -190,7 +184,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -207,7 +201,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -224,7 +218,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -241,7 +235,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -258,7 +252,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -275,7 +269,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -292,7 +286,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -309,7 +303,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -326,7 +320,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -343,7 +337,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -360,7 +354,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -377,7 +371,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Incubatee Graduates",
           "images": {
             "logo": "",
             "featured": "",
@@ -394,7 +388,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -411,7 +405,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -428,7 +422,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -445,7 +439,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -462,7 +456,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -479,7 +473,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -496,7 +490,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -513,7 +507,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -530,7 +524,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -547,7 +541,7 @@
         },
         {
           "name": "IOIO Creative Limited",
-          "category": "Multimedia",
+          "category": "Rising Stars",
           "images": {
             "logo": "",
             "featured": "",
@@ -574,14 +568,8 @@
     },
     "projects": {
       "categories":[
-        "所有類別",
-        "類別 1",
-        "類別 2",
-        "類別 3",
-        "類別 4",
-        "類別 5",
-        "類別 6",
-        "類別 7"
+        "Incubatee Graduates2",
+        "Rising Stars2"
       ],
       "items": [
         {
