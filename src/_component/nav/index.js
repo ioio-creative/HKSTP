@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateLanguage } from "../../reducers";
+import { updateLanguage, updateCategory } from "../../reducers";
 // import smoothScroll from '../pagewrap/scroll';
 
 class Nav extends Component {
@@ -64,7 +64,7 @@ class Nav extends Component {
           {
             projectsData &&
             projectsData.categories.map((value, idx)=>{
-              return <li key={idx}>{value}</li>
+              return <li key={idx} className={this.props.category === value || (this.props.category === '' && idx === 0) ? 'active' : '' } onClick={()=> this.props.dispatch(updateCategory(value))}>{value}</li>
             })
           }
             <li>About HKSTP</li>
@@ -89,7 +89,8 @@ const mapStateToProps = state => {
     lang: state.lang,
     isStarted: state.isStarted,
     homeData: state.homeData ? state.homeData : null,
-    projectsData: state.projectsData ? state.projectsData : null
+    projectsData: state.projectsData ? state.projectsData : null,
+    category: state.category
   };
 };
 

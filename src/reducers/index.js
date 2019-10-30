@@ -9,6 +9,7 @@ export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
 export const UPDATE_ISSTARTED = "UPDATE_ISSTARTED";
 export const UPDATE_IMAGECLICKEDIDX = "UPDATE_IMAGECLICKEDIDX";
 export const UPDATE_PROJECTITEMS = "UPDATE_PROJECTITEMS";
+export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
 
 export const FETCH_REQUEST = "FETCH_REQUEST";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
@@ -18,6 +19,7 @@ export const updateLanguage = lang => ({ type: UPDATE_LANGUAGE, lang: lang });
 export const updateIsStarted = isStarted => ({ type: UPDATE_ISSTARTED, isStarted: isStarted });
 export const updateImageClickedIdx = imageClickedIdx => ({ type: UPDATE_IMAGECLICKEDIDX, imageClickedIdx: imageClickedIdx });
 export const updateProjectItems = projectItems => ({ type:UPDATE_PROJECTITEMS , projectItems: projectItems })
+export const updateCategory = category => ({ type:UPDATE_CATEGORY , category: category })
 
 export const fetchDataRequest = () => ({ type: FETCH_REQUEST });
 export const fetchDataSuccess = (pageName, data) => ({ type: FETCH_SUCCESS, pageName: pageName, data: data});
@@ -111,6 +113,7 @@ const initialState = {
   isMobile: false,
   isStarted: false,
   imageClickedIdx: null,
+  category:'',
 
   homeData: null,
   projectsData: null,
@@ -130,6 +133,9 @@ const reducer = (state = initialState, action) => {
 
     case UPDATE_PROJECTITEMS:
         return { ...state, projectItems: action.projectItems };
+      
+    case UPDATE_CATEGORY:
+        return { ...state, category: action.category }
 
     case FETCH_SUCCESS:
       switch (action.pageName) {

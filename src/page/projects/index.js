@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // import Html from "../../_component/html";
-import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx, updateProjectItems } from "../../reducers";
+import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx } from "../../reducers";
 import "../../sass/page/projects.scss";
 import TweenMax, {Back} from 'gsap';
 import smoothScroll from "../../_component/scroll";
@@ -49,9 +49,6 @@ class Projects extends Component {
   
   componentDidUpdate(prevProps) {
     if(prevProps.isStarted !== this.props.isStarted){
-      // for(let i=0; this.items[i]; i++){
-      //   TweenMax.set(this.items[i], {paddingTop:((Math.random()*50+20) + ((i%2) * (Math.random()*50+50))) / 16 +'rem'});
-      // }
       TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, ease:'Expo.easeOut'},.1);
 
       if(this.props.projectsData){ 
@@ -59,9 +56,9 @@ class Projects extends Component {
         this.smooth.on();
         this.smooth.showScrollBar();
       }
-      if(!this.props.projectItems){
-        this.props.dispatch(updateProjectItems(this.items));
-      }
+      // if(!this.props.projectItems){
+      //   this.props.dispatch(updateProjectItems(this.items));
+      // }
     }
 
     // when clicked image
@@ -97,6 +94,13 @@ class Projects extends Component {
       this.smooth.on();
       this.smooth.showScrollBar();
     }
+
+    if(prevProps.category !== this.props.category){
+      this.smooth.to(0);
+      // if(!this.props.projectItems){
+      //   this.props.dispatch(updateProjectItems(this.items));
+      // }
+    }
   }
 
   render() {
@@ -104,18 +108,33 @@ class Projects extends Component {
       return false;
     
     if (this.props.projectsData) {
-      // const currentLang = this.props.lang;
       const data = this.props.projectsData;
+      const newItems = [];
+      this.items = [];
+      
+      // filtering data by category
+      for(let i=0; i<data.items.length; i++){
+        const value = data.items[i];
+        if(this.props.category === ''){
+          if(value.category === data.categories[0])
+            newItems.push(value);
+        }
+        else{
+          if(value.category === this.props.category) 
+            newItems.push(value);
+        }
+      }
+    
 
       return (
         <div ref={elem => this.projects = elem} id="projects">
           <div ref={elem => this.scrollWrap = elem} id="scrollWrap" className={!this.props.isStarted ? 'hide' : ''}>
             <ul id="items">
-              {data.items.map((value, idx) => {
+              {newItems.map((value, idx) => {
                 return (
                   <li key={idx} ref={elem => this.items[idx] = elem}>
                     <div className="info">
-                      <div className="logoWrap"><div className="logo"></div></div>
+                      <div className="logoWrap"><div className="logo"><span>{idx}</span></div></div>
                       <div className="infoWrap">
                         <div className="wrap">
                           <p>{value.name}</p>
@@ -140,7 +159,8 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     projectsData: state.projectsData,
-    projectItems: state.projectItems,
+    // projectItems: state.projectItems,
+    category: state.category,
     isStarted: state.isStarted,
     imageClickedIdx: state.imageClickedIdx
   };
