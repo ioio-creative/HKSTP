@@ -70,18 +70,20 @@ class Projects extends Component {
       // fade out the info
       TweenMax.to(this.items[this.props.imageClickedIdx].querySelector('.info'), .3, {autoAlpha:0, ease: 'Power4.easeOut'});
 
+      // slide out if items are in screen area
       this.inScreenItems = [];
       for(let i=0; i<updatedItems.length; i++){
         const elem = updatedItems[i];
         const imageWrap = elem.querySelector('.imageWrap');
         const elemOffset = elem.getBoundingClientRect();
 
-        if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top < window.innerHeight+imageWrap.offsetHeight*2){
+        if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top < window.innerHeight){
           this.inScreenItems.push(elem);
         }
       }
       TweenMax.staggerTo(this.inScreenItems, .7, {y:-window.innerHeight*2, ease:Back.easeIn.config(1)},.06);
 
+      // turn off scrolling
       this.smooth.off();
       this.smooth.hideScrollBar();
     }
@@ -101,6 +103,7 @@ class Projects extends Component {
         }
       });
 
+      // turn on scrolling
       this.smooth.on();
       this.smooth.showScrollBar();
     }
@@ -114,8 +117,6 @@ class Projects extends Component {
         return el != null;
       });
 
-      this.props.dispatch(updateProjectItems(this.items));
-      
       // fade in the info
       if(prevProps.category !== ''){
         const infos = [];
@@ -124,6 +125,8 @@ class Projects extends Component {
         }
         TweenMax.staggerFromTo(infos, .6, {autoAlpha: 0}, {delay:.3, autoAlpha: 1,ease: 'Power2.easeOut'},.06);
       }
+      
+      this.props.dispatch(updateProjectItems(this.items));
     }
   }
 

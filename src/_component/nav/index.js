@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateLanguage, updateCategory } from "../../reducers";
-import { TweenMax } from "gsap";
+import { TweenMax, Back } from "gsap";
 // import smoothScroll from '../pagewrap/scroll';
 
 class Nav extends Component {
@@ -40,7 +40,7 @@ class Nav extends Component {
         const idx = this.props.projectsData.categories.indexOf(this.props.category)+1;
         const target = document.querySelector(`#categoryWrap li:nth-child(${idx})`);
         const offsetLeft = target.offsetLeft;
-        TweenMax.to(this.projectNum, .6, { x:offsetLeft+target.offsetWidth/2-this.projectNum.offsetWidth/2+'px', eaes:'Expo.easeOut'});
+        TweenMax.to(this.projectNum, .4, { x:offsetLeft+target.offsetWidth/2-this.projectNum.offsetWidth/2, ease:Back.easeOut.config(1.7)});
       }
     }
   }
