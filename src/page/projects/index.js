@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // import Html from "../../_component/html";
-import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx } from "../../reducers";
+import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx, updateProjectItems } from "../../reducers";
 import "../../sass/page/projects.scss";
 import TweenMax, {Back} from 'gsap';
 import smoothScroll from "../../_component/scroll";
@@ -25,6 +25,7 @@ class Projects extends Component {
     this.scrollWrap = null;
     this.smooth = null;
     this.inScreenItems = [];
+    this.clickable = true;
   }
 
   static actions = () => [fetchDataBy(this.pageName)];
@@ -56,16 +57,18 @@ class Projects extends Component {
         this.smooth.on();
         this.smooth.showScrollBar();
       }
-      // if(!this.props.projectItems){
-      //   this.props.dispatch(updateProjectItems(this.items));
-      // }
+      if(!this.props.projectItems){
+        this.props.dispatch(updateProjectItems(this.items));
+      }
     }
 
     // when clicked image
     if(prevProps.imageClickedIdx !== this.props.imageClickedIdx && this.props.imageClickedIdx !== null){
+      this.clickable = false;
       const updatedItems = Array.from(this.items);
       updatedItems.splice(this.props.imageClickedIdx, 1);
-
+      // fade out the info
+      TweenMax.to(this.items[this.props.imageClickedIdx].querySelector('.info'), .3, {autoAlpha:0, ease: 'Power4.easeOut'});
 
       this.inScreenItems = [];
       for(let i=0; i<updatedItems.length; i++){
@@ -73,7 +76,7 @@ class Projects extends Component {
         const imageWrap = elem.querySelector('.imageWrap');
         const elemOffset = elem.getBoundingClientRect();
 
-        if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top < window.innerHeight){
+        if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top < window.innerHeight+imageWrap.offsetHeight*2){
           this.inScreenItems.push(elem);
         }
       }
@@ -88,18 +91,31 @@ class Projects extends Component {
     if(prevProps.imageClickedIdx !== null && this.props.imageClickedIdx === null){
       const updatedItems = Array.from(this.items);
       updatedItems.splice(prevProps.imageClickedIdx, 1);
+      // slide to screen area
       TweenMax.staggerFromTo(this.inScreenItems, 1.6, {y:window.innerHeight*2}, {y:0, ease:'Expo.easeOut'},.1);
       TweenMax.set(this.items[prevProps.imageClickedIdx], {y:0});
-      
+
+      // fade in the info
+      TweenMax.to(this.items[prevProps.imageClickedIdx].querySelector('.info'), .8, {autoAlpha:1, ease: 'Power2.easeOut',
+        onComplete:()=>{
+          this.clickable = true;
+        }
+      });
+
       this.smooth.on();
       this.smooth.showScrollBar();
     }
 
+    // update category
     if(prevProps.category !== this.props.category){
       this.smooth.to(0);
-      // if(!this.props.projectItems){
-      //   this.props.dispatch(updateProjectItems(this.items));
-      // }
+
+      // remove null value
+      this.items = this.items.filter(function (el) {
+        return el != null;
+      });
+
+      this.props.dispatch(updateProjectItems(this.items));
     }
   }
 
@@ -109,7 +125,7 @@ class Projects extends Component {
     
     if (this.props.projectsData) {
       const data = this.props.projectsData;
-      const newItems = [];
+      const filteredData = [];
       this.items = [];
       
       // filtering data by category
@@ -117,11 +133,11 @@ class Projects extends Component {
         const value = data.items[i];
         if(this.props.category === ''){
           if(value.category === data.categories[0])
-            newItems.push(value);
+            filteredData.push(value);
         }
         else{
           if(value.category === this.props.category) 
-            newItems.push(value);
+            filteredData.push(value);
         }
       }
     
@@ -130,7 +146,7 @@ class Projects extends Component {
         <div ref={elem => this.projects = elem} id="projects">
           <div ref={elem => this.scrollWrap = elem} id="scrollWrap" className={!this.props.isStarted ? 'hide' : ''}>
             <ul id="items">
-              {newItems.map((value, idx) => {
+              {filteredData.map((value, idx) => {
                 return (
                   <li key={idx} ref={elem => this.items[idx] = elem}>
                     <div className="info">
@@ -142,7 +158,7 @@ class Projects extends Component {
                         </div>
                       </div>
                     </div>
-                    <div className="imageWrap" onClick={()=>{this.props.dispatch(updateImageClickedIdx(idx))}} data-src={value.images.thumbnail}></div>
+                    <div className="imageWrap" onClick={()=>{this.clickable && this.props.dispatch(updateImageClickedIdx(idx))}} data-src={value.images.thumbnail}></div>
                   </li>
                 );
               })}
@@ -159,7 +175,7 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     projectsData: state.projectsData,
-    // projectItems: state.projectItems,
+    projectItems: state.projectItems,
     category: state.category,
     isStarted: state.isStarted,
     imageClickedIdx: state.imageClickedIdx

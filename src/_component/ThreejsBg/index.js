@@ -861,8 +861,21 @@ const ThreejsBg = props => {
           initImageFunction.current.initImage();
         }
       }
+
+      // fade in the info
+      const infos = [];
+      for(let i=0; i<props.projectItems.length; i++){
+        infos.push(props.projectItems[i].querySelector('.info'));
+      }
+      TweenMax.staggerFromTo(infos, .6, {autoAlpha: 0}, {delay:.3, autoAlpha: 1,ease: 'Power2.easeOut'},.06);
     }
   },[props.category]);
+
+  
+  // useEffect(()=>{
+  //   console.log(props.projectItems)
+    
+  // },[props.projectItems]);
   
 
   return <div ref={canvasWrap} id="canvasWrap" />
@@ -873,7 +886,7 @@ const mapStateToProps = state => {
     lang: state.lang,
     isStarted: state.isStarted,
     projectsData: state.projectsData ? state.projectsData : null,
-    // projectItems: state.projectItems,
+    projectItems: state.projectItems,
     category: state.category,
     imageClickedIdx: state.imageClickedIdx
   };
