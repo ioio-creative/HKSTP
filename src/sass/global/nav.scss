@@ -16,11 +16,11 @@
     width:100%;
     top: 0;
     left: 0;
-    overflow: hidden;
     text-align: center;
     ul{
       display: inline-block;
       white-space: nowrap;
+      position: relative;
       li{
         width: rem-calc(130);
         white-space: initial;
@@ -31,7 +31,22 @@
           font-weight: bold;
         }
       }
+      #projectNum{
+        width:rem-calc(35);
+        height:rem-calc(35);
+        font-weight: normal;
+        border:rem-calc(1) solid $black;
+        border-radius: 50%;
+        position: absolute;
+        top:100%;
+        left:0%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include transform(translate3d(calc(130px / 2 - 35px / 2), 0, 0));
+      }
     }
+    
   }
   &#logo {
     top: rem-calc(20);

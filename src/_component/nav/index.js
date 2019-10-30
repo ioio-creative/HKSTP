@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { updateLanguage, updateCategory } from "../../reducers";
+import { TweenMax } from "gsap";
 // import smoothScroll from '../pagewrap/scroll';
 
 class Nav extends Component {
@@ -9,6 +10,7 @@ class Nav extends Component {
     super(props);
 
     this.state = {};
+    this.projectNum = null;
   }
 
   getAnotherLanguage() {
@@ -29,11 +31,18 @@ class Nav extends Component {
     );
   }
 
-  componentDidMount(){
-    // const smooth = new smoothScroll("#categoryWrap ul", (s, y, h) => {
-      //onScroll(s, y, h);
-    // });
-    // smooth.on();
+  
+  componentDidUpdate(prevProps){
+    if(prevProps.category === '' && this.props.category === this.props.projectsData.categories[0])
+    {}
+    else{
+      if(prevProps.category !== this.props.category){
+        const idx = this.props.projectsData.categories.indexOf(this.props.category)+1;
+        const target = document.querySelector(`#categoryWrap li:nth-child(${idx})`);
+        const offsetLeft = target.offsetLeft;
+        TweenMax.to(this.projectNum, .6, { x:offsetLeft+target.offsetWidth/2-this.projectNum.offsetWidth/2+'px', eaes:'Expo.easeOut'});
+      }
+    }
   }
 
   onClick = () => {
@@ -49,8 +58,6 @@ class Nav extends Component {
 
     return (
       <>
-        {/* <Link to={`/${currentLang}/projects/`}>Projects</Link>
-        &nbsp; &nbsp; */}
         <div ref={elem => this.hof = elem} id="hof" className={`fixed cap ${!this.props.isStarted ? 'hide' : ''}`}>
         {
           homeData &&
@@ -64,10 +71,13 @@ class Nav extends Component {
           {
             projectsData &&
             projectsData.categories.map((value, idx)=>{
-              return <li key={idx} className={this.props.category === value || (this.props.category === '' && idx === 0) ? 'active' : '' } onClick={()=> this.props.dispatch(updateCategory(value))}>{value}</li>
+              return <li key={idx} className={this.props.category === value || (this.props.category === '' && idx === 0) ? 'active' : '' } onClick={()=> this.props.dispatch(updateCategory(value))}>
+                {value}
+              </li>
             })
           }
             <li>About HKSTP</li>
+            <span ref={elem => this.projectNum = elem} id="projectNum">{this.props.projectItems && this.props.projectItems.length}</span>
           </ul>
         </div>
         <div id="logo" className="fixed">logo</div>
@@ -90,6 +100,7 @@ const mapStateToProps = state => {
     isStarted: state.isStarted,
     homeData: state.homeData ? state.homeData : null,
     projectsData: state.projectsData ? state.projectsData : null,
+    projectItems: state.projectItems,
     category: state.category
   };
 };

@@ -80,7 +80,6 @@ class Projects extends Component {
           this.inScreenItems.push(elem);
         }
       }
-
       TweenMax.staggerTo(this.inScreenItems, .7, {y:-window.innerHeight*2, ease:Back.easeIn.config(1)},.06);
 
       this.smooth.off();
@@ -116,6 +115,15 @@ class Projects extends Component {
       });
 
       this.props.dispatch(updateProjectItems(this.items));
+      
+      // fade in the info
+      if(prevProps.category !== ''){
+        const infos = [];
+        for(let i=0; i<this.items.length; i++){
+          infos.push(this.items[i].querySelector('.info'));
+        }
+        TweenMax.staggerFromTo(infos, .6, {autoAlpha: 0}, {delay:.3, autoAlpha: 1,ease: 'Power2.easeOut'},.06);
+      }
     }
   }
 

@@ -45,9 +45,11 @@ const ThreejsBg = props => {
 
     let images,
         imagesMaterial = null,
+        changedCategory = false,
         offset = {x:0, y:0, z:0},
         rotate = {x:0, y:0, z:0},
-        disableEase = false;
+        disableEase = false,
+        tween = [];
         
     let imageInstancedCount,
         imageOffsetAttribute,
@@ -413,14 +415,15 @@ const ThreejsBg = props => {
           geometry.addAttribute("visible", imageVisibleAttribute);
 
 
-
+          changedCategory = !changedCategory;
           imagesMaterial = new THREE.ShaderMaterial({
             uniforms:{ 
                 // images:{ type:'t', value: imageTexture },
                 inScreenIdx:{ type:'f', value: [] },
                 inScreenTexture:{ type:'t', value: imageInScreenTexture },
                 clickedIdx:{ type: 'f', value: -1 },
-                isGary:{ type:'bool', value: options.gary }
+                isGary:{ type:'bool', value: options.gary },
+                changedCategory: {type:'bool', value: changedCategory}
             },
             vertexShader: [
               `uniform float inScreenIdx[${limitedTextureCount}];`,
@@ -506,6 +509,7 @@ const ThreejsBg = props => {
               `uniform float inScreenIdx[${limitedTextureCount}];`,
               `uniform sampler2D inScreenTexture[${limitedTextureCount}];`,
               'uniform bool isGary;',
+              'uniform bool changedCategory;',
 
               'varying vec2 vUv;',
               'varying float idx;',
@@ -527,7 +531,10 @@ const ThreejsBg = props => {
                       'break;',
                     '}',
                     'if(idx == inScreenIdx[i]){',
-                      'color = vec4(vec3(14./255., 45./255., 118./255.), 1.);',
+                      'if(changedCategory)',
+                        'color = vec4(vec3(14./255., 45./255., 118./255.), 1.);', // blue
+                      'else',
+                        'color = vec4(vec3(236./255., 105./255., 0./255.), 1.);', // orange
                       'break;',
                     '}',
                   '}',
@@ -552,7 +559,7 @@ const ThreejsBg = props => {
 
 
           const imageAnim = (i) => {
-            TweenMax.fromTo(imageSlideProgress[i], Math.random()+1, {value:0},{delay:Math.random()*8+2, value:1,ease:'Power3.easeInOut', 
+            tween[i] = TweenMax.fromTo(imageSlideProgress[i], Math.random()+1, {value:0},{delay:Math.random()*8+2, value:1,ease:'Power3.easeInOut', 
               onComplete:()=>{imageAnim(i)}
             });
           }
@@ -602,7 +609,10 @@ const ThreejsBg = props => {
     updateImageEffectFunction.current = {imageEffect};
 
     const removeImage = () => {
-      TweenMax.killAll();
+      // TweenMax.killAll();
+      for(let i=0; i<tween.length; i++){
+        tween[i].kill();
+      }
       scene.remove(images);
       images.geometry.dispose();
       images.material.dispose();
@@ -861,13 +871,6 @@ const ThreejsBg = props => {
           initImageFunction.current.initImage();
         }
       }
-
-      // fade in the info
-      const infos = [];
-      for(let i=0; i<props.projectItems.length; i++){
-        infos.push(props.projectItems[i].querySelector('.info'));
-      }
-      TweenMax.staggerFromTo(infos, .6, {autoAlpha: 0}, {delay:.3, autoAlpha: 1,ease: 'Power2.easeOut'},.06);
     }
   },[props.category]);
 
