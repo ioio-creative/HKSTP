@@ -326,34 +326,35 @@ const ThreejsBg = props => {
       const lth = document.querySelectorAll('#projects li').length;
 
       const loadTexture = (i, elem) => {
-        const image = document.createElement('img');
-        image.crossOrigin = "anonymous";
+        // const image = document.createElement('img');
+        // image.crossOrigin = "anonymous";
 
-        image.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = 2048;
-          canvas.height = 1024;
+        // image.onload = () => {
+        //   const canvas = document.createElement('canvas');
+        //   canvas.width = 2048;
+        //   canvas.height = 1024;
 
-          // Draw image on canvas, scaled to fit
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(image, 0, 0, 2048, 1024);
+        //   // Draw image on canvas, scaled to fit
+        //   const ctx = canvas.getContext('2d');
+        //   ctx.drawImage(image, 0, 0, 2048, 1024);
 
-          const t = new THREE.CanvasTexture(canvas);
-          t.flipY = false;
-          imageTexture[i] = t;
-          imageTextureSize[i] = {w: image.width, h: image.height}
-          resizeImage();
-        }
-        image.src = elem.getAttribute('data-src');
+        //   const t = new THREE.CanvasTexture(canvas);
+        //   t.flipY = false;
+        //   imageTexture[i] = t;
+        //   imageTextureSize[i] = {w: image.width, h: image.height}
+        //   resizeImage();
+        //   console.log(1)
+        // }
+        // image.src = elem.getAttribute('data-src');
 
-        // new THREE.TextureLoader().load(
-        //   elem.getAttribute('data-src'),
-        //   (t)=>{
-        //     t.flipY = false;
-        //     imageTexture[i] = t;
-        //     resizeImage();
-        //   }
-        // );
+        new THREE.TextureLoader().load(
+          elem.getAttribute('data-src'),
+          (t)=>{
+            t.flipY = false;
+            imageTexture[i] = t;
+            resizeImage();
+          }
+        );
       }
 
       for (let i = 0; i < lth; i++) {
@@ -361,7 +362,7 @@ const ThreejsBg = props => {
         if(elem){
           const offset = elem.getBoundingClientRect();
 
-          if(offset.top > 0 && offset.top < window.innerHeight*1.7 && !imageLoaded[i]){
+          if(offset.top > 0 && offset.top-elem.offsetHeight < window.innerHeight*2 && !imageLoaded[i]){
             imageLoaded[i] = true;
             loadTexture(i, elem);
           }
@@ -377,8 +378,9 @@ const ThreejsBg = props => {
           if(imageTexture[i]){
             const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
             if(elem){
-              if(imageTextureSize[i]){
-                elem.style.height = elem.offsetWidth * (imageTextureSize[i].h / imageTextureSize[i].w) + 'px';
+              if(imageTexture[i].image){
+                elem.style.height = elem.offsetWidth * (imageTexture[i].image.height / imageTexture[i].image.width) + 'px';
+                // elem.style.height = elem.offsetWidth * (imageTextureSize[i].h / imageTextureSize[i].w) + 'px';
               }
             }
             imageSize[i] = {w:elem.offsetWidth, h:elem.offsetHeight};
@@ -671,7 +673,6 @@ const ThreejsBg = props => {
       logo.rotation.y += (logoRotateSpeed.value - logo.rotation.y) * .1;
       logo.material.uniforms.slideProgress.value = options.slideProgress;
 
-      loadImage();
 
       for (let i = 0; i < instancedCount; i++) {
         let x = planeOffsets[i * 3 + 0];
@@ -697,6 +698,7 @@ const ThreejsBg = props => {
       planeOffsetAttribute.needsUpdate = true;
 
 
+      loadImage();
       if(initedImage && imageSize.length){
         imageInScreenIdx = [];
         imageInScreenTexture = [];
