@@ -123,7 +123,7 @@ class Projects extends Component {
         for(let i=0; i<this.items.length; i++){
           infos.push(this.items[i].querySelector('.info'));
         }
-        TweenMax.staggerFromTo(infos, .6, {autoAlpha: 0}, {delay:.3, autoAlpha: 1,ease: 'Power2.easeOut'},.06);
+        TweenMax.staggerFromTo(infos, .6, {autoAlpha: 0}, {delay:.3, autoAlpha: 1, overwrite:'all',ease: 'Power2.easeOut'},.06);
       }
       
       this.props.dispatch(updateProjectItems(this.items));
