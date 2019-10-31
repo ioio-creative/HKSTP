@@ -654,7 +654,7 @@ var SmoothScroll = function(elem, scrollFunc) {
       }
     } else {
       if (!isOn) {
-        reset();
+        // reset();
         on();
       }
       if (disable) onEnable();

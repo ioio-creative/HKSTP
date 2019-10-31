@@ -44,7 +44,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        @include transform(translate3d(calc(130px / 2 - 35px / 2), 0, 0));
+        @include transform(translate3d(rem-calc(130 / 2 - 35 / 2), 0, 0));
       }
     }
     
