@@ -68,7 +68,7 @@ const ThreejsBg = props => {
         imageSize = [],
         imageTexture = [],
         imageTextureIdx = [],
-        imageTextureSize = [],
+        // imageTextureSize = [],
         imageSlideProgress = [],
         imageDisplacement = [],
         imageVisible = [],
@@ -321,50 +321,48 @@ const ThreejsBg = props => {
       scene.add(plane);
     };
 
+    const loadTexture = (i, src) => {
+      // const image = document.createElement('img');
+      // image.crossOrigin = "anonymous";
+
+      // image.onload = () => {
+      //   const canvas = document.createElement('canvas');
+      //   canvas.width = 2048;
+      //   canvas.height = 1024;
+
+      //   // Draw image on canvas, scaled to fit
+      //   const ctx = canvas.getContext('2d');
+      //   ctx.drawImage(image, 0, 0, 2048, 1024);
+
+      //   const t = new THREE.CanvasTexture(canvas);
+      //   t.flipY = false;
+      //   imageTexture[i] = t;
+      //   imageTextureSize[i] = {w: image.width, h: image.height}
+      //   resizeImage();
+      //   console.log(1)
+      // }
+      // image.src = elem.getAttribute('data-src');
+
+      new THREE.TextureLoader().load(
+        src,
+        (t)=>{
+          t.flipY = false;
+          imageTexture[i] = t;
+          resizeImage();
+        }
+      );
+    }
+
     const loadImage = () => {
-      // let textureCount = 0;
       const lth = document.querySelectorAll('#projects li').length;
-
-      const loadTexture = (i, elem) => {
-        // const image = document.createElement('img');
-        // image.crossOrigin = "anonymous";
-
-        // image.onload = () => {
-        //   const canvas = document.createElement('canvas');
-        //   canvas.width = 2048;
-        //   canvas.height = 1024;
-
-        //   // Draw image on canvas, scaled to fit
-        //   const ctx = canvas.getContext('2d');
-        //   ctx.drawImage(image, 0, 0, 2048, 1024);
-
-        //   const t = new THREE.CanvasTexture(canvas);
-        //   t.flipY = false;
-        //   imageTexture[i] = t;
-        //   imageTextureSize[i] = {w: image.width, h: image.height}
-        //   resizeImage();
-        //   console.log(1)
-        // }
-        // image.src = elem.getAttribute('data-src');
-
-        new THREE.TextureLoader().load(
-          elem.getAttribute('data-src'),
-          (t)=>{
-            t.flipY = false;
-            imageTexture[i] = t;
-            resizeImage();
-          }
-        );
-      }
 
       for (let i = 0; i < lth; i++) {
         const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
         if(elem){
           const offset = elem.getBoundingClientRect();
-
           if(offset.top > 0 && offset.top-elem.offsetHeight < window.innerHeight*2 && !imageLoaded[i]){
             imageLoaded[i] = true;
-            loadTexture(i, elem);
+            loadTexture(i, elem.getAttribute('data-src'));
           }
         }
       }
@@ -395,6 +393,7 @@ const ThreejsBg = props => {
 
     const initImage = () => {
       const elem = document.querySelector('#projects li:nth-child(1) .imageWrap');
+
       if(elem){
         if(!initedImage){
           initHeight = window.innerHeight;
@@ -444,7 +443,7 @@ const ThreejsBg = props => {
           imagesMaterial = new THREE.ShaderMaterial({
             uniforms:{ 
                 // images:{ type:'t', value: imageTexture },
-                inScreenIdx:{ type:'f', value: [] },
+                inScreenIdx:{ type:'f', value: [0,1,2,3] },
                 inScreenTexture:{ type:'t', value: imageInScreenTexture },
                 clickedIdx:{ type: 'f', value: -1 },
                 isGary:{ type:'bool', value: options.gary },
@@ -581,7 +580,7 @@ const ThreejsBg = props => {
           scene.add(images);
           initedImage = true;
 
-
+          resizeImage();
 
           const imageAnim = (i) => {
             tween[i] = TweenMax.fromTo(imageSlideProgress[i], Math.random()+1, {value:0},{delay:Math.random()*8+2, value:1,ease:'Power3.easeInOut', 
@@ -634,7 +633,6 @@ const ThreejsBg = props => {
     updateImageEffectFunction.current = {imageEffect};
 
     const removeImage = () => {
-      // TweenMax.killAll();
       for(let i=0; i<tween.length; i++){
         tween[i].kill();
       }
@@ -652,7 +650,7 @@ const ThreejsBg = props => {
       imageSize = [];
       imageTexture = [];
       imageTextureIdx = [];
-      imageTextureSize = [];
+      // imageTextureSize = [];
       imageSlideProgress = [];
       imageDisplacement = [];
       imageVisible = [];
@@ -880,11 +878,13 @@ const ThreejsBg = props => {
   },[canvasWrap]);
   
   useEffect(()=>{
-    initImageFunction.current.initImage();
+    if(props.isStarted)
+      initImageFunction.current.initImage();
   },[props.isStarted]);
   
   useEffect(()=>{
-    updateImageEffectFunction.current.imageEffect(props.imageClickedIdx);
+    if(props.imageClickedIdx)
+      updateImageEffectFunction.current.imageEffect(props.imageClickedIdx);
   },[props.imageClickedIdx]);
 
   useEffect(()=>{
