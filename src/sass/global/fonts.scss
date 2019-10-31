@@ -24,7 +24,7 @@
 
 $defaultFont: sans-serif;
 
-@mixin font($fontsize: 34, $lineHeight: 48) {
+@mixin font($fontsize: 50, $lineHeight: 50) {
   font-size: rem-calc($fontsize);
   line-height: rem-calc($lineHeight);
 }

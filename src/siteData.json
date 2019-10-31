@@ -21,12 +21,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -38,12 +41,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1494633114655-819eb91fde40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -55,12 +61,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&w=1024&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -72,12 +81,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1571265711236-2d6e856274eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -89,12 +101,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546409128-3afbbd72b95c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -106,12 +121,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546417492-3f58b4f55148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1268&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -123,12 +141,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546026502-797e11a59f50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -140,12 +161,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546769821-d1137cf15c15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1230&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -157,12 +181,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -174,12 +201,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1494633114655-819eb91fde40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -191,12 +221,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&w=1024&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -208,12 +241,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1571265711236-2d6e856274eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -225,12 +261,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546409128-3afbbd72b95c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -242,12 +281,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546417492-3f58b4f55148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1268&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -259,12 +301,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546026502-797e11a59f50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -276,12 +321,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546769821-d1137cf15c15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1230&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -293,12 +341,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -310,12 +361,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1494633114655-819eb91fde40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -327,12 +381,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&w=1024&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -344,12 +401,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1571265711236-2d6e856274eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -361,12 +421,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546409128-3afbbd72b95c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -378,12 +441,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546417492-3f58b4f55148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1268&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -395,12 +461,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546026502-797e11a59f50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -412,12 +481,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546769821-d1137cf15c15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1230&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -429,12 +501,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -446,12 +521,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1494633114655-819eb91fde40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -463,12 +541,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&w=1024&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -480,12 +561,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1571265711236-2d6e856274eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -497,12 +581,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546409128-3afbbd72b95c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -514,12 +601,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546417492-3f58b4f55148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1268&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -531,12 +621,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546026502-797e11a59f50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -548,12 +641,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546769821-d1137cf15c15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1230&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         }
       ]
@@ -581,12 +677,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1494633114655-819eb91fde40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -598,12 +697,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -615,12 +717,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&w=1024&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -632,12 +737,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546409128-3afbbd72b95c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -649,12 +757,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546417492-3f58b4f55148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1268&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -666,12 +777,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546026502-797e11a59f50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -683,12 +797,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546769821-d1137cf15c15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1230&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -700,12 +817,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -717,12 +837,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1494633114655-819eb91fde40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -734,12 +857,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&w=1024&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -751,12 +877,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1571265711236-2d6e856274eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -768,12 +897,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546409128-3afbbd72b95c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -785,12 +917,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546417492-3f58b4f55148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1268&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -802,12 +937,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546026502-797e11a59f50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -819,12 +957,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546769821-d1137cf15c15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1230&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -836,12 +977,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -853,12 +997,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1494633114655-819eb91fde40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -870,12 +1017,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&w=1024&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -887,12 +1037,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1571265711236-2d6e856274eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -904,12 +1057,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546409128-3afbbd72b95c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -921,12 +1077,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546417492-3f58b4f55148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1268&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -938,12 +1097,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546026502-797e11a59f50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -955,12 +1117,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546769821-d1137cf15c15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1230&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -972,12 +1137,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -989,12 +1157,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1494633114655-819eb91fde40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -1006,12 +1177,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&w=1024&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -1023,12 +1197,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1571265711236-2d6e856274eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -1040,12 +1217,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546409128-3afbbd72b95c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -1057,12 +1237,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546417492-3f58b4f55148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1268&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -1074,12 +1257,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546026502-797e11a59f50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         },
         {
@@ -1091,12 +1277,15 @@
             "thumbnail": "https://images.unsplash.com/photo-1546769821-d1137cf15c15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1230&q=80"
           },
           "details": {
-            "teamSize": 15,
-            "address": "Unit A802, 8/F, Tai Chiap Factory Building, 17 Yuk Yat St, To Kwa Wan, Kowloon",
-            "callingCode": 852,
-            "telephone": 37098437,
-            "email": "info@ioiocreative.com",
-            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way."
+            "introduction": "IOIO provides clients with a\"one stop\" approach, allowing us to be with our clients every step of the way.",
+            "Awards":[
+              {"year":2018, "name": "Awards title"},
+              {"year":2019, "name": "Awards title"}
+            ],
+            "showcase":[
+              {"type":"image", "src":"", "description":"123"},
+              {"type":"video", "src":"", "description":""}
+            ]
           }
         }
       ]

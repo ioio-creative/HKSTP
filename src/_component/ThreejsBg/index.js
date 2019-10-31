@@ -113,7 +113,8 @@ const ThreejsBg = props => {
       gui.add(options, "slideProgress").min(0).max(1).name('color of logo slider').listen();
       const g = gui.add(options, "gary").name('set Gary image');
       g.onChange(()=>{
-        imagesMaterial.uniforms.isGary.value = options.gary;
+        if(imagesMaterial)
+          imagesMaterial.uniforms.isGary.value = options.gary;
       })
       gui.domElement.parentNode.style.zIndex = 999;
 
@@ -313,7 +314,9 @@ const ThreejsBg = props => {
           "attribute vec3 offset;\n" + shader.vertexShader;
         shader.vertexShader = shader.vertexShader.replace(
           "#include <begin_vertex>",
-          ["vec3 transformed = vec3(position + offset);"].join("\n")
+          ['vec3 newPosition = position;',
+          'newPosition.z = (sin(newPosition.x + offset.y) + sin(newPosition.y + offset.y)) * .3;',
+          "vec3 transformed = vec3(newPosition + offset);"].join("\n")
         );
       };
 
@@ -883,8 +886,7 @@ const ThreejsBg = props => {
   },[props.isStarted]);
   
   useEffect(()=>{
-    if(props.imageClickedIdx)
-      updateImageEffectFunction.current.imageEffect(props.imageClickedIdx);
+    updateImageEffectFunction.current.imageEffect(props.imageClickedIdx);
   },[props.imageClickedIdx]);
 
   useEffect(()=>{

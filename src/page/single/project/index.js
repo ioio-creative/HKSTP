@@ -57,6 +57,7 @@ class ProjectSingle extends Component {
     if(this.props.imageClickedIdx === null)
       return false;
     
+    const data = this.props.projectsData.items[this.props.imageClickedIdx];
     if(this.props.projectsData){
       return (
         <div ref={elem => this.projectSingle = elem} id="projectSingle">
@@ -64,11 +65,30 @@ class ProjectSingle extends Component {
             <div id="closeBtn" onClick={()=>{
               TweenMax.to(this.projectSingle, .3, {autoAlpha:0})
               this.props.dispatch(updateImageClickedIdx(null))
-            }}>Close button</div>
+            }}><span></span><span></span></div>
 
-            <div id="content">
-              <div className="clearfix"><div>content</div></div>
-              <div className="clearfix"><div>content</div></div>
+            <div id="wrap">
+              <div id="info">
+                <div id="logo"></div>
+                <div id="infoContent">
+                  <h1>{data.name}</h1>
+                  <div id="cat">{data.category}</div>
+                </div>
+              </div>
+              <div id="content">
+                <div id="intro" className="contentItem">
+                  <div className="title">Introduction</div>
+                  {data.details.introduction}
+                </div>
+                <div id="awards" className="contentItem">
+                  <div className="title">Awards</div>
+                  <ul>
+                    <li><div className="year">2019</div><div className="awradsTitle">awrads title</div></li>
+                    <li><div className="year">2019</div><div className="awradsTitle">awrads title</div></li>
+                    <li><div className="year">2019</div><div className="awradsTitle">awrads title</div></li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>

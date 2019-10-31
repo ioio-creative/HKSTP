@@ -50,7 +50,7 @@ class Projects extends Component {
   
   componentDidUpdate(prevProps) {
     if(prevProps.isStarted !== this.props.isStarted){
-      TweenMax.staggerFromTo(this.items, 1.6, {y:window.innerHeight}, {delay:2, y:0, ease:'Expo.easeOut'},.1);
+      TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {delay:2, y:0, ease:'Expo.easeOut'},.1);
 
       if(this.props.projectsData){ 
         this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
@@ -77,7 +77,7 @@ class Projects extends Component {
         const imageWrap = elem.querySelector('.imageWrap');
         const elemOffset = elem.getBoundingClientRect();
 
-        if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top < window.innerHeight){
+        if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top-imageWrap.offsetHeight < window.innerHeight){
           this.inScreenItems.push(elem);
         }
       }

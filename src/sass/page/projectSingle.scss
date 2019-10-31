@@ -12,37 +12,110 @@
   // background:rgba(255,255,255,.6);
   @include transform(translate3d(0,100%,0));
   #closeBtn{
-    position: relative;
-    top:50vh;
-    left:rem-calc(50);
+    width:rem-calc(50);
+    position: absolute;
+    top:rem-calc(100);
+    right:rem-calc(100);
     padding:rem-calc(10);
-    background: #000;
-    color:#fff;
     display: inline-block;
+    &:before{
+      content:'';
+      display: block;
+      padding-top:100%;
+    }
+    span{
+      width: 100%;
+      height: rem-calc(5);
+      background: #000;
+      display: block;
+      position: absolute;
+      top:50%;
+      left:50%;
+      &:nth-child(1){
+        transform: translate3d(-50%,-50%,0) rotate(45deg);
+      }
+      &:nth-child(2){
+        transform: translate3d(-50%,-50%,0) rotate(-45deg);
+      }
+    }
   }
-  #scrollWrap{
-
-  }
-  #content{
-    padding-left:50%;
-    padding-top:rem-calc(100);
-    padding-bottom:rem-calc(100);
-    padding-right:rem-calc(100);
-    text-align: center;
-    div{
-      width:100%;
-      div{
-        width:100%;
-        background:#eee;
-        margin-top:rem-calc(50);
-        color:#aaa;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &:after{
+  #wrap{
+    padding:rem-calc(100 150 0 100);
+    display: flex;
+    #info{
+      flex:1;
+      #logo{
+        width:15%;
+        border:rem-calc(1) solid $black;
+        border-radius: 50%;
+        &:before{
           content:'';
           display: block;
-          padding-top:56.25%;
+          padding-top:100%;
+        }
+      }
+      #infoContent{
+        margin-top:rem-calc(20);
+        border-left:rem-calc(1) solid $black;
+        padding-left:rem-calc(15);
+        h1{
+          font-weight: bold;
+          position: relative;
+          top:rem-calc(-5);
+        }
+        #cat{
+          color:$orange;
+        }
+      }
+    }
+    #content{
+      flex:1.5;
+      padding-bottom:rem-calc(100);
+      // text-align: center;
+      .contentItem{
+        width:100%;
+        margin-top:rem-calc(50);
+        color:$black;
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+        padding: rem-calc(25);
+        // &:after{
+        //   content:'';
+        //   display: block;
+        //   padding-top:56.25%;
+        // }
+        &:first-child{
+          margin-top:0;
+        }
+        &#intro{
+          background:$white;
+        }
+        &#awards{
+          background:$orange;
+          color:$white;
+          ul{
+            width:100%;
+            li{
+              display: flex;
+              border-bottom:rem-calc(1) solid $black;
+              padding-bottom:rem-calc(10);
+              margin-top:rem-calc(20);
+              &:first-child{
+                margin-top:0;
+              }
+              .year{
+                padding-right:rem-calc(20);
+              }
+              .awradsTitle{
+                flex:1;
+              }
+            }
+          }
+        }
+        .title{
+          color:$black;
+          padding-bottom:rem-calc(15);
         }
       }
     }
