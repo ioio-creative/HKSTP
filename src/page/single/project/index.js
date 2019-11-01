@@ -77,7 +77,7 @@ class ProjectSingle extends Component {
                 <div id="logo"></div>
                 <div id="infoContent">
                   <h1>{data.name}</h1>
-                  <div id="cat">{data.category}</div>
+                  <div id="cat">{data.category.name}</div>
                 </div>
               </div>
               <div id="content">

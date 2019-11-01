@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // import Html from "../../_component/html";
-import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx, updateProjectItems } from "../../reducers";
+import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx, updateProjectItems, updateCategory } from "../../reducers";
 import "../../sass/page/projects.scss";
 import TweenMax, {Back} from 'gsap';
 import smoothScroll from "../../_component/scroll";
@@ -56,7 +56,10 @@ class Projects extends Component {
         this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
         this.smooth.on();
         this.smooth.showScrollBar();
+        if(!this.props.category)
+          this.props.dispatch(updateCategory(this.props.projectsData.categories[0].slug));
       }
+
       if(!this.props.projectItems){
         this.props.dispatch(updateProjectItems(this.items));
       }
@@ -108,25 +111,26 @@ class Projects extends Component {
       this.smooth.showScrollBar();
     }
 
+    // 
     // update category
-    if(prevProps.category !== this.props.category){
-      this.smooth.to(0);
-
-      // remove null value
-      this.items = this.items.filter(function (el) {
-        return el != null;
-      });
-
+    if(prevProps.category !== this.props.category || prevProps.projectsData !== this.props.projectsData){
       // fade in the info
       if(prevProps.category !== ''){
+        if(this.smooth) this.smooth.to(0);
+
+        // remove null value
+        this.items = this.items.filter(function (el) {
+          return el !== null;
+        });
+
         const infos = [];
         for(let i=0; i<this.items.length; i++){
           infos.push(this.items[i].querySelector('.info'));
         }
         TweenMax.staggerFromTo(infos, .6, {autoAlpha: 0}, {delay:.3, autoAlpha: 1, overwrite:'all',ease: 'Power2.easeOut'},.06);
+        
+        this.props.dispatch(updateProjectItems(this.items));
       }
-      
-      this.props.dispatch(updateProjectItems(this.items));
     }
   }
 
@@ -143,11 +147,11 @@ class Projects extends Component {
       for(let i=0; i<data.items.length; i++){
         const value = data.items[i];
         if(this.props.category === ''){
-          if(value.category === data.categories[0])
+          if(value.category.slug === data.categories[0].slug)
             filteredData.push(value);
         }
         else{
-          if(value.category === this.props.category) 
+          if(value.category.slug === this.props.category) 
             filteredData.push(value);
         }
       }
@@ -165,7 +169,7 @@ class Projects extends Component {
                       <div className="infoWrap">
                         <div className="wrap">
                           <p>{value.name}</p>
-                          <span className="cat h3">{value.category}</span>
+                          <span className="cat h3">{value.category.name}</span>
                         </div>
                       </div>
                     </div>

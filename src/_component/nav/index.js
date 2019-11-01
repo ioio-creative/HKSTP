@@ -43,11 +43,11 @@ class Nav extends Component {
       },2000)
     }
 
-    if(prevProps.category === '' && this.props.category === this.props.projectsData.categories[0])
+    if(prevProps.category === '' && this.props.category === this.props.projectsData.categories[0].slug)
     {}
     else{
       if(prevProps.category !== this.props.category){
-        const idx = this.props.projectsData.categories.indexOf(this.props.category)+1;
+        const idx = this.props.projectsData.categories.findIndex(v => v.slug === this.props.category)+1;
         const target = document.querySelector(`#categoryWrap li:nth-child(${idx})`);
         const offsetLeft = target.offsetLeft;
         TweenMax.to(this.projectNum, .4, { x:offsetLeft+target.offsetWidth/2-this.projectNum.offsetWidth/2, ease:Back.easeOut.config(1.7)});
@@ -81,8 +81,8 @@ class Nav extends Component {
           {
             projectsData &&
             projectsData.categories.map((value, idx)=>{
-              return <li key={idx} className={this.props.category === value || (this.props.category === '' && idx === 0) ? 'active' : '' } onClick={()=> this.props.dispatch(updateCategory(value))}>
-                {value}
+              return <li key={idx} className={this.props.category === value.slug || (this.props.category === '' && idx === 0) ? 'active' : '' } onClick={()=> this.props.dispatch(updateCategory(value.slug))}>
+                {value.name}
               </li>
             })
           }

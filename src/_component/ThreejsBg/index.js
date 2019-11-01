@@ -7,13 +7,14 @@ import Stats from "stats.js";
 import { TweenMax, TimelineMax } from "gsap";
 import { updateIsStarted } from "../../reducers";
 
-const usePrevious = (value) => {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
+// const usePrevious = (value) => {
+//   const ref = useRef();
+//   useEffect(() => {
+//     ref.current = value;
+//   });
+//   return ref.current;
+// }
+
 
 const ThreejsBg = props => {
   const canvasWrap = useRef(null);
@@ -21,9 +22,6 @@ const ThreejsBg = props => {
   const removeImageFunction = useRef(null);
   const updateImageEffectFunction = useRef(null);
   const loadImageFunction = useRef(null);
-  const {category} = props;
-  const prevCategory = usePrevious({category});
-
 
   useEffect(() => {
     let scene, camera, renderer, dist, gui;
@@ -358,14 +356,14 @@ const ThreejsBg = props => {
 
     const loadImage = () => {
       const lth = document.querySelectorAll('#projects li').length;
-
+      
       for (let i = 0; i < lth; i++) {
         const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
         if(elem){
           const offset = elem.getBoundingClientRect();
           if(offset.top > 0 && offset.top-elem.offsetHeight < window.innerHeight*2 && !imageLoaded[i]){
-            imageLoaded[i] = true;
             loadTexture(i, elem.getAttribute('data-src'));
+            imageLoaded[i] = true;
           }
         }
       }
@@ -375,7 +373,8 @@ const ThreejsBg = props => {
     
     const resizeImage = () => {
       if(imageTexture.length){
-        for(let i=0; i< imageInstancedCount/2; i++){
+        const lth = document.querySelectorAll(`#projects li`).length;
+        for(let i=0; i< lth; i++){
           if(imageTexture[i]){
             const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
             if(elem){
@@ -394,13 +393,14 @@ const ThreejsBg = props => {
     }
 
 
-    const initImage = () => {
+    const initImage = (catIdx) => {
       const elem = document.querySelector('#projects li:nth-child(1) .imageWrap');
 
       if(elem){
         if(!initedImage){
           initHeight = window.innerHeight;
           imageInstancedCount = document.querySelectorAll('#projects li').length * 2;
+
           const realCount = imageInstancedCount/2;
           const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetWidth);
           const w = x + (screenWidth - screenWidth/2);
@@ -442,7 +442,7 @@ const ThreejsBg = props => {
           geometry.addAttribute("visible", imageVisibleAttribute);
 
 
-          changedCategory = !changedCategory;
+          changedCategory = catIdx;
           imagesMaterial = new THREE.ShaderMaterial({
             uniforms:{ 
                 // images:{ type:'t', value: imageTexture },
@@ -559,9 +559,9 @@ const ThreejsBg = props => {
                     '}',
                     'if(idx == inScreenIdx[i]){',
                       'if(changedCategory)',
-                        'color = vec4(vec3(14./255., 45./255., 118./255.), 1.);', // blue
-                      'else',
                         'color = vec4(vec3(236./255., 105./255., 0./255.), 1.);', // orange
+                      'else',
+                        'color = vec4(vec3(14./255., 45./255., 118./255.), 1.);', // blue
                       'break;',
                     '}',
                   '}',
@@ -636,32 +636,35 @@ const ThreejsBg = props => {
     updateImageEffectFunction.current = {imageEffect};
 
     const removeImage = () => {
-      for(let i=0; i<tween.length; i++){
-        tween[i].kill();
+      if(images){
+        for(let i=0; i<tween.length; i++){
+          tween[i].kill();
+        }
+        scene.remove(images);
+        images.geometry.dispose();
+        images.material.dispose();
+        images = undefined;
+        imagesMaterial = undefined;
+
+        imageOffsets = [];
+        imageBGOffsets = [];
+        imageBGEase = [];
+        imageRotate = [];
+        imageScale = [];
+        imageSize = [];
+        imageTexture = [];
+        imageTextureIdx = [];
+        imageSlideProgress = [];
+        imageDisplacement = [];
+        imageVisible = [];
+        imageLoaded = [];
+        imageInScreenIdx = [];
+        imageInScreenTexture = [];
+        imageClickedIdx = undefined;
+        tempImageSize = [];
+
+        initedImage = false;
       }
-      scene.remove(images);
-      images.geometry.dispose();
-      images.material.dispose();
-      images = undefined;
-      imagesMaterial = undefined;
-
-      imageOffsets = [];
-      imageBGOffsets = [];
-      imageBGEase = [];
-      imageRotate = [];
-      imageScale = [];
-      imageSize = [];
-      imageTexture = [];
-      imageTextureIdx = [];
-      // imageTextureSize = [];
-      imageSlideProgress = [];
-      imageDisplacement = [];
-      imageVisible = [];
-      imageLoaded = [];
-      imageClickedIdx = undefined;
-      tempImageSize = [];
-
-      initedImage = false;
     }
     removeImageFunction.current = {removeImage}
 
@@ -682,17 +685,12 @@ const ThreejsBg = props => {
         if (y > screenHeight / 2 + planeHeight+1) {
           let botPos = -screenHeight / 2 - planeHeight-1;
           planeSpeed[i] = Math.random()+.5;
-          // if (!started) {
-            planeOffsets[i * 3 + 1] = botPos;
-            const r = getRandomXY(botPos);
-            x = r.x;
-            y = r.y;
-            planeOffsets[i * 3 + 0] = x;
-            planeOffsets[i * 3 + 1] = y;
-          // } else {
-          //   x = 0;
-          //   y = botPos;
-          // }
+          planeOffsets[i * 3 + 1] = botPos;
+          const r = getRandomXY(botPos);
+          x = r.x;
+          y = r.y;
+          planeOffsets[i * 3 + 0] = x;
+          planeOffsets[i * 3 + 1] = y;
         }
         planeOffsetAttribute.setXY(i, x, y);
       }
@@ -868,59 +866,48 @@ const ThreejsBg = props => {
       }
 
       const screen = getScreenSize();
-      screenWidth = screen.width;
-      screenHeight = screen.height;
-    };
-    window.addEventListener("resize", onWindowResize);
-    document.addEventListener("click", onClick);
+        screenWidth = screen.width;
+        screenHeight = screen.height;
+      };
+      window.addEventListener("resize", onWindowResize);
+      document.addEventListener("click", onClick);
 
-    return () => {
-      window.removeEventListener("resize", onWindowResize);
-      document.removeEventListener("click", onClick);
-    };
-  },[canvasWrap]);
+      return () => {
+        window.removeEventListener("resize", onWindowResize);
+        document.removeEventListener("click", onClick);
+      };
+    },[canvasWrap]);
   
-  useEffect(()=>{
-    if(props.isStarted)
-      initImageFunction.current.initImage();
-  },[props.isStarted]);
-  
-  useEffect(()=>{
-    updateImageEffectFunction.current.imageEffect(props.imageClickedIdx);
-  },[props.imageClickedIdx]);
 
-  useEffect(()=>{
-    if(prevCategory){
-      if(prevCategory.category === '' && props.category === props.projectsData.categories[0])
-      {}
-      else{
-        if(props.category){
-          removeImageFunction.current.removeImage();
-          initImageFunction.current.initImage();
-        }
+    // when clicked image
+    useEffect(()=>{
+      updateImageEffectFunction.current.imageEffect(props.imageClickedIdx);
+    },[props.imageClickedIdx]);
+
+
+    // when updated category or language
+    useEffect(()=>{
+      if(props.projectItems){
+        const idx = props.projectsData.categories.findIndex(v => v.slug === props.category);
+
+        removeImageFunction.current.removeImage();
+        initImageFunction.current.initImage( idx < 0 ? 0 : idx);
       }
-    }
-  },[props.category]);
-
-  
-  // useEffect(()=>{
-  //   console.log(props.projectItems)
+    },[props.projectItems]);
     
-  // },[props.projectItems]);
-  
 
-  return <div ref={canvasWrap} id="canvasWrap" />
-};
-
-const mapStateToProps = state => {
-  return {
-    lang: state.lang,
-    isStarted: state.isStarted,
-    projectsData: state.projectsData ? state.projectsData : null,
-    projectItems: state.projectItems,
-    category: state.category,
-    imageClickedIdx: state.imageClickedIdx
+    return <div ref={canvasWrap} id="canvasWrap" />
   };
+
+  const mapStateToProps = state => {
+    return {
+      lang: state.lang,
+      isStarted: state.isStarted,
+      projectsData: state.projectsData ? state.projectsData : null,
+      projectItems: state.projectItems,
+      category: state.category,
+      imageClickedIdx: state.imageClickedIdx
+    };
 };
 
 export default connect(mapStateToProps)(ThreejsBg);
