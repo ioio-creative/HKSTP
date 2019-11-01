@@ -878,6 +878,10 @@ const ThreejsBg = props => {
       };
     },[canvasWrap]);
   
+    
+    // useEffect(()=>{
+    //   initImageFunction.current.initImage();
+    // },[props.isStarted])
 
     // when clicked image
     useEffect(()=>{
@@ -887,7 +891,7 @@ const ThreejsBg = props => {
 
     // when updated category or language
     useEffect(()=>{
-      if(props.projectItems){
+      if(props.projectItems && props.imageClickedIdx === null){
         const idx = props.projectsData.categories.findIndex(v => v.slug === props.category);
 
         removeImageFunction.current.removeImage();

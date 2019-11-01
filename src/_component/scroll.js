@@ -496,11 +496,14 @@ var SmoothScroll = function(elem, scrollFunc) {
     // keep at bottom while resizing
     if (-targetX > elemWidth && targetX < 0) targetX = -elemWidth + 1;
     if (-targetY > elemHeight && targetY < 0) targetY = -elemHeight + 1;
+    if(_this.elem.getBoundingClientRect().height < _this.elem.parentNode.offsetHeight)
+      targetY = 0;
 
     // Get closer to the target value at each frame, using ease.
     // Other easing methods are also ok.
     currentX += (targetX - currentX) * ease;
     currentY += (targetY - currentY) * ease;
+
 
     // Uncomment this line to scroll horizontally
     // currentX += (targetX - currentX) * ease;
