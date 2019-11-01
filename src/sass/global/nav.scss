@@ -3,7 +3,7 @@
   z-index: 99;
   opacity: 1;
   visibility: visible;
-  transition: all .6s cubic-bezier(0.19, 1, 0.22, 1) 2s;
+  transition: all .6s cubic-bezier(0.19, 1, 0.22, 1);
   &.hide{
     opacity: 0;
     visibility: hidden;

@@ -11,6 +11,7 @@ class Nav extends Component {
 
     this.state = {};
     this.projectNum = null;
+    this.categoryWrap = null;
   }
 
   getAnotherLanguage() {
@@ -31,8 +32,17 @@ class Nav extends Component {
     );
   }
 
+  componentDidMount(){
+    TweenMax.set(this.categoryWrap, {transitionDelay: '2s'});
+  }
   
   componentDidUpdate(prevProps){
+    if(prevProps.isStarted !== this.props.isStarted){
+      setTimeout(()=>{
+        this.categoryWrap.setAttribute('style','');
+      },2000)
+    }
+
     if(prevProps.category === '' && this.props.category === this.props.projectsData.categories[0])
     {}
     else{
@@ -66,7 +76,7 @@ class Nav extends Component {
           })
         }
         </div>
-        <div id="categoryWrap" className={`fixed ${!this.props.isStarted ? 'hide' : ''}`}>
+        <div ref={elem => this.categoryWrap = elem} id="categoryWrap" className={`fixed ${!this.props.isStarted ? 'hide' : this.props.imageClickedIdx !== null ? 'hide' : ''}`}>
           <ul>
           {
             projectsData &&
@@ -81,8 +91,8 @@ class Nav extends Component {
           </ul>
         </div>
         <div id="logo" className="fixed">logo</div>
-        <div id="touchToStart" className="fixed">touch here</div>
-        <div id="shortDes" className="fixed h6">{ homeData && homeData.shortDes }</div>
+        <div id="touchToStart" className={`fixed ${this.props.isStarted ? 'hide' : ''}`}>touch here</div>
+        <div id="shortDes" className={`fixed h6 ${this.props.isStarted ? 'hide' : ''}`}>{ homeData && homeData.shortDes }</div>
         <Link id="langBtn"  className="fixed"
           to={this.getAnotherLanguage()}
           onClick={this.onClick}
@@ -101,7 +111,8 @@ const mapStateToProps = state => {
     homeData: state.homeData ? state.homeData : null,
     projectsData: state.projectsData ? state.projectsData : null,
     projectItems: state.projectItems,
-    category: state.category
+    category: state.category,
+    imageClickedIdx: state.imageClickedIdx
   };
 };
 

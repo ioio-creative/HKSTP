@@ -18,6 +18,7 @@
     right:rem-calc(100);
     padding:rem-calc(10);
     display: inline-block;
+    will-change: transform;
     &:before{
       content:'';
       display: block;

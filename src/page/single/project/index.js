@@ -22,6 +22,7 @@ class ProjectSingle extends Component {
     this.state = {};
     this.smooth = null;
     this.projectSingle = null;
+    this.closeBtn = null;
   }
 
   componentWillMount() {
@@ -34,7 +35,10 @@ class ProjectSingle extends Component {
     if(this.props.imageClickedIdx !== null){
       if(prevProps.imageClickedIdx !== this.props.imageClickedIdx){
         if(this.projectSingle){
-          this.smooth = new smoothScroll("#projectSingle #scrollWrap", (s, y, h) => {});
+          this.smooth = new smoothScroll("#projectSingle #scrollWrap", (s, y, h) => {
+            if(this.closeBtn)
+              TweenMax.set(this.closeBtn,{force3D:true, y: Math.max(0, -y)});
+          });
           this.smooth.on();
           this.smooth.showScrollBar();
           TweenMax.set(this.projectSingle,{y:'0%'});
@@ -44,6 +48,7 @@ class ProjectSingle extends Component {
     }
     else if(prevProps.imageClickedIdx > -1 && this.props.imageClickedIdx === null){
       if(this.projectSingle){
+        this.closeBtn = null;
         this.smooth.off();
         this.smooth.hideScrollBar();
         this.smooth = null;
@@ -62,7 +67,7 @@ class ProjectSingle extends Component {
       return (
         <div ref={elem => this.projectSingle = elem} id="projectSingle">
           <div id="scrollWrap">
-            <div id="closeBtn" onClick={()=>{
+            <div ref={elem => this.closeBtn = elem} id="closeBtn" onClick={()=>{
               TweenMax.to(this.projectSingle, .3, {autoAlpha:0})
               this.props.dispatch(updateImageClickedIdx(null))
             }}><span></span><span></span></div>
