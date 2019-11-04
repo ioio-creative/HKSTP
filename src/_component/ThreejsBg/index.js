@@ -915,6 +915,12 @@ const ThreejsBg = props => {
       }
     },[props.page])
 
+    useEffect(()=>{
+      if(props.isHideProjects){
+        removeImageFunction.current.removeImage();
+      }
+    },[props.isHideProjects])
+
     return <div ref={canvasWrap} id="canvasWrap" />
   };
 
@@ -926,7 +932,8 @@ const ThreejsBg = props => {
       projectItems: state.projectItems,
       category: state.category,
       imageClickedIdx: state.imageClickedIdx,
-      page: state.page
+      page: state.page,
+      isHideProjects: state.isHideProjects
     };
 };
 
