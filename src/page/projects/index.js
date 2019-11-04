@@ -160,7 +160,7 @@ class Projects extends Component {
     // back to projects page
     // if(prevProps.category !== this.props.category)
     if(prevProps.category !== this.props.category || 
-      prevProps.projectsData !== this.props.projectsData ||
+      // prevProps.projectsData !== this.props.projectsData ||
       (prevProps.isHideProjects !== this.props.isHideProjects && this.props.page === 'projects')
     ){
       // fade in the info
