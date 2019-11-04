@@ -5,15 +5,15 @@ import OrbitControls from "three-orbitcontrols";
 import * as dat from "dat.gui";
 import Stats from "stats.js";
 import { TweenMax, TimelineMax } from "gsap";
-import { updateIsStarted } from "../../reducers";
+import { updateIsStarted, updatePage } from "../../reducers";
 
-// const usePrevious = (value) => {
-//   const ref = useRef();
-//   useEffect(() => {
-//     ref.current = value;
-//   });
-//   return ref.current;
-// }
+const usePrevious = (value) => {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 
 const ThreejsBg = props => {
@@ -22,6 +22,8 @@ const ThreejsBg = props => {
   const removeImageFunction = useRef(null);
   const updateImageEffectFunction = useRef(null);
   const loadImageFunction = useRef(null);
+  const updateStopEaseFunction = useRef(null);
+  const prevProps = usePrevious({page: props.page});
 
   useEffect(() => {
     let scene, camera, renderer, dist, gui;
@@ -621,10 +623,7 @@ const ThreejsBg = props => {
         }
         else{
           // when closed
-          disableEase = true;
-          setTimeout(()=>{
-            disableEase = false;
-          },100)
+          stopEase();
           imagesMaterial.depthTest = false;
 
           images.material.uniforms.clickedIdx.value = -1;
@@ -634,6 +633,14 @@ const ThreejsBg = props => {
       }
     }
     updateImageEffectFunction.current = {imageEffect};
+
+    const stopEase = () => {
+      disableEase = true;
+      setTimeout(()=>{
+        disableEase = false;
+      },100)
+    }
+    updateStopEaseFunction.current = {stopEase};
 
     const removeImage = () => {
       if(images){
@@ -840,6 +847,7 @@ const ThreejsBg = props => {
     const onClick = () => {
       if(!clicked){
         clicked =true;
+        props.dispatch(updatePage('projects'));
         props.dispatch(updateIsStarted(true));
         const tl = new TimelineMax();
         tl.to(options, 1.6, {planeSpeed: 2, ease:'Power3.easeInOut'},0);
@@ -891,14 +899,21 @@ const ThreejsBg = props => {
 
     // when updated category or language
     useEffect(()=>{
-      if(props.projectItems && props.imageClickedIdx === null){
+      if(props.projectItems && props.imageClickedIdx === null && props.page === 'projects'){
         const idx = props.projectsData.categories.findIndex(v => v.slug === props.category);
 
         removeImageFunction.current.removeImage();
         initImageFunction.current.initImage( idx < 0 ? 0 : idx);
       }
     },[props.projectItems]);
-    
+
+    useEffect(()=>{
+      if(prevProps){
+        if(prevProps.page !== 'projects' && props.page === 'projects'){
+          updateStopEaseFunction.current.stopEase();
+        }
+      }
+    },[props.page])
 
     return <div ref={canvasWrap} id="canvasWrap" />
   };
@@ -910,7 +925,8 @@ const ThreejsBg = props => {
       projectsData: state.projectsData ? state.projectsData : null,
       projectItems: state.projectItems,
       category: state.category,
-      imageClickedIdx: state.imageClickedIdx
+      imageClickedIdx: state.imageClickedIdx,
+      page: state.page
     };
 };
 

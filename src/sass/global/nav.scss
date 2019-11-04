@@ -9,8 +9,8 @@
     visibility: hidden;
   }
   &#hof{
-    top: rem-calc(20);
-    left: rem-calc(20);
+    top: rem-calc(50);
+    left: rem-calc(50);
   }
   &#categoryWrap{
     width:100%;
@@ -25,7 +25,8 @@
         width: rem-calc(130);
         white-space: initial;
         display: inline-block;
-        padding: rem-calc(20);
+        margin-top: rem-calc(20);
+        padding: rem-calc(30 20);
         cursor: pointer;
         &.active{
           font-weight: bold;
@@ -50,8 +51,8 @@
     
   }
   &#logo {
-    top: rem-calc(20);
-    right: rem-calc(20);
+    top: rem-calc(50);
+    right: rem-calc(50);
   }
   &#langBtn {
     bottom: rem-calc(35);

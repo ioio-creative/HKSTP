@@ -8,6 +8,7 @@ import Nav from "../nav";
 import Home from "../../page/home";
 import Projects from "../../page/projects";
 import ProjectSingle from "../../page/single/project";
+import About from "../../page/about";
 
 import ThreejsBg from "../ThreejsBg";
 
@@ -58,13 +59,14 @@ const PageWrap = props => {
           <Route
             exact
             path="/:lang/"
-            render={props => (
-              <>
+            render={props => {
+              return <>
                 <Home {...props} />
                 <Projects {...props} />
                 <ProjectSingle {...props} />
+                <About {...props} />
               </>
-            )}
+            }}
           />
           {/* <Route
                         exact
@@ -89,7 +91,9 @@ const PageWrap = props => {
 
 const mapStateToProps = state => {
   return { 
-    lang: state.lang
+    lang: state.lang,
+    isStarted: state.isStarted,
+    page: state.page
     // imageClickedIdx: state.imageClickedIdx
   };
 };

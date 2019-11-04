@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // import Html from "../../_component/html";
-import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx, updateProjectItems, updateCategory } from "../../reducers";
+import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx, updateProjectItems, updateCategory, updateHideProjects } from "../../reducers";
 import "../../sass/page/projects.scss";
 import TweenMax, {Back} from 'gsap';
 import smoothScroll from "../../_component/scroll";
@@ -42,10 +42,43 @@ class Projects extends Component {
     // }
   }
 
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.lang !== this.props.lang) {
       this.props.dispatch(fetchDataBy(this.pageName));
     }
+  }
+
+  getInScreenItems(items){
+    const inScreenItems = [];
+    for(let i=0; i<items.length; i++){
+      const elem = items[i];
+      const imageWrap = elem.querySelector('.imageWrap');
+      const elemOffset = elem.getBoundingClientRect();
+
+      if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top-imageWrap.offsetHeight < window.innerHeight){
+        inScreenItems.push(elem);
+      }
+    }
+    return inScreenItems;
+  }
+
+  slideOutItems(items){
+    this.inScreenItems = [];
+    this.inScreenItems = this.getInScreenItems(items);
+    TweenMax.staggerTo(this.inScreenItems, .6, {y:-window.innerHeight*2, ease:Back.easeIn.config(1)},.04,
+    ()=>{
+      if(this.props.page !== 'projects'){
+        this.props.dispatch(updateHideProjects(true))
+      }
+    });
+  }
+
+  slideInItems(prevIdx){
+    // TweenMax.set(this.projects,{clearProps:'all'});
+    TweenMax.staggerFromTo(this.inScreenItems, 1.6, {y:window.innerHeight*2}, {y:0, overwrite:'all', ease:'Expo.easeOut'},.1);
+    if(prevIdx)
+      TweenMax.set(this.items[prevIdx], {y:0});
   }
   
   componentDidUpdate(prevProps) {
@@ -65,6 +98,26 @@ class Projects extends Component {
       }
     }
 
+    // changed page
+    if(this.props.isStarted){
+      // others page
+      if(prevProps.page === 'projects' && this.props.page !== 'projects'){
+        this.slideOutItems(this.items);
+        
+        // turn off scrolling
+        this.smooth.off();
+        this.smooth.hideScrollBar();
+      }
+      // projects page
+      // else if(prevProps.page !== 'projects' && this.props.page === 'projects'){
+      //   this.slideInItems(prevProps.imageClickedIdx);
+        
+      //   // turn on scrolling
+      //   this.smooth.on();
+      //   this.smooth.showScrollBar();
+      // }
+    }
+
     // when clicked image
     if(prevProps.imageClickedIdx !== this.props.imageClickedIdx && this.props.imageClickedIdx !== null){
       this.clickable = false;
@@ -74,17 +127,7 @@ class Projects extends Component {
       TweenMax.to(this.items[this.props.imageClickedIdx].querySelector('.info'), .3, {autoAlpha:0, ease: 'Power4.easeOut'});
 
       // slide out if items are in screen area
-      this.inScreenItems = [];
-      for(let i=0; i<updatedItems.length; i++){
-        const elem = updatedItems[i];
-        const imageWrap = elem.querySelector('.imageWrap');
-        const elemOffset = elem.getBoundingClientRect();
-
-        if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top-imageWrap.offsetHeight < window.innerHeight){
-          this.inScreenItems.push(elem);
-        }
-      }
-      TweenMax.staggerTo(this.inScreenItems, .7, {y:-window.innerHeight*2, ease:Back.easeIn.config(1)},.06);
+      this.slideOutItems(updatedItems);
 
       // turn off scrolling
       this.smooth.off();
@@ -95,9 +138,9 @@ class Projects extends Component {
     if(prevProps.imageClickedIdx !== null && this.props.imageClickedIdx === null){
       const updatedItems = Array.from(this.items);
       updatedItems.splice(prevProps.imageClickedIdx, 1);
-      // slide to screen area
-      TweenMax.staggerFromTo(this.inScreenItems, 1.6, {y:window.innerHeight*2}, {y:0, ease:'Expo.easeOut'},.1);
-      TweenMax.set(this.items[prevProps.imageClickedIdx], {y:0});
+
+      // slide in to screen area
+      this.slideInItems(prevProps.imageClickedIdx);
 
       // fade in the info
       TweenMax.to(this.items[prevProps.imageClickedIdx].querySelector('.info'), .8, {autoAlpha:1, ease: 'Power2.easeOut',
@@ -113,32 +156,48 @@ class Projects extends Component {
 
     // 
     // update category
+    // update language
+    // back to projects page
     // if(prevProps.category !== this.props.category)
-    if(prevProps.category !== this.props.category || prevProps.projectsData !== this.props.projectsData){
+    if(prevProps.category !== this.props.category || 
+      prevProps.projectsData !== this.props.projectsData ||
+      (prevProps.isHideProjects !== this.props.isHideProjects && this.props.page === 'projects')
+    ){
       // fade in the info
       if(prevProps.category !== '' && this.props.imageClickedIdx === null){
-        if(this.smooth) this.smooth.to(0);
+        if(this.props.page === 'projects'){
+          if(this.smooth) 
+            this.smooth.to(0);
 
-        // remove null value
-        this.items = this.items.filter(function (el) {
-          return el !== null;
-        });
+          // remove null value
+          this.items = this.items.filter(function (el) {
+            return el !== null;
+          });
 
-        const infos = [];
-        for(let i=0; i<this.items.length; i++){
-          infos.push(this.items[i].querySelector('.info'));
-        }
+          if(prevProps.isHideProjects !== this.props.isHideProjects){
+            TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {y:0, ease:'Expo.easeOut'},.1);
+            
+            this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
+            // turn on scrolling
+            this.smooth.on();
+            this.smooth.showScrollBar();
+          }
+
+          const infos = [];
+          for(let i=0; i<this.items.length; i++){
+            infos.push(this.items[i].querySelector('.info'));
+          }
           TweenMax.staggerFromTo(infos, .6, {autoAlpha: 0}, {delay:.3, autoAlpha: 1, overwrite:'all',ease: 'Power2.easeOut'},.06);
 
-        
-        this.props.dispatch(updateProjectItems(this.items));
+          this.props.dispatch(updateProjectItems(this.items));
+        }
       }
     }
   }
 
   render() {
-    if(!this.props.isStarted)
-      return false;
+    if(!this.props.isStarted || this.props.isHideProjects)
+      return (null);
     
     if (this.props.projectsData) {
       const data = this.props.projectsData;
@@ -195,7 +254,9 @@ const mapStateToProps = state => {
     projectItems: state.projectItems,
     category: state.category,
     isStarted: state.isStarted,
-    imageClickedIdx: state.imageClickedIdx
+    imageClickedIdx: state.imageClickedIdx,
+    page: state.page,
+    isHideProjects: state.isHideProjects
   };
 };
 

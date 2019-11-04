@@ -10,7 +10,7 @@
   opacity: 0;
   visibility: hidden;
   // background:rgba(255,255,255,.6);
-  @include transform(translate3d(0,100%,0));
+  // @include transform(translate3d(0,100%,0));
   #closeBtn{
     width:rem-calc(50);
     position: absolute;
@@ -41,7 +41,7 @@
     }
   }
   #wrap{
-    padding:rem-calc(100 150 0 100);
+    padding:rem-calc(100 150 100 100);
     display: flex;
     #info{
       flex:1;
@@ -71,7 +71,6 @@
     }
     #content{
       flex:1.5;
-      padding-bottom:rem-calc(100);
       // text-align: center;
       .contentItem{
         width:100%;
@@ -91,6 +90,7 @@
         }
         &#intro{
           background:$white;
+          border:rem-calc(1) solid $lightgrey;
         }
         &#awards{
           background:$orange;

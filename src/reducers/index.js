@@ -10,6 +10,8 @@ export const UPDATE_ISSTARTED = "UPDATE_ISSTARTED";
 export const UPDATE_IMAGECLICKEDIDX = "UPDATE_IMAGECLICKEDIDX";
 export const UPDATE_PROJECTITEMS = "UPDATE_PROJECTITEMS";
 export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
+export const UPDATE_PAGE = "UPDATE_PAGE";
+export const UPDATE_HIDEPROJECTS = "UPDATE_HIDEPROJECTS";
 
 export const FETCH_REQUEST = "FETCH_REQUEST";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
@@ -20,6 +22,8 @@ export const updateIsStarted = isStarted => ({ type: UPDATE_ISSTARTED, isStarted
 export const updateImageClickedIdx = imageClickedIdx => ({ type: UPDATE_IMAGECLICKEDIDX, imageClickedIdx: imageClickedIdx });
 export const updateProjectItems = projectItems => ({ type:UPDATE_PROJECTITEMS , projectItems: projectItems })
 export const updateCategory = category => ({ type:UPDATE_CATEGORY , category: category })
+export const updatePage = page => ({ type:UPDATE_PAGE , page: page })
+export const updateHideProjects = isHideProjects => ({ type:UPDATE_HIDEPROJECTS , isHideProjects: isHideProjects })
 
 export const fetchDataRequest = () => ({ type: FETCH_REQUEST });
 export const fetchDataSuccess = (pageName, data) => ({ type: FETCH_SUCCESS, pageName: pageName, data: data});
@@ -114,6 +118,8 @@ const initialState = {
   isStarted: false,
   imageClickedIdx: null,
   category:'',
+  page: 'home',
+  isHideProjects: false,
 
   homeData: null,
   projectsData: null,
@@ -132,10 +138,16 @@ const reducer = (state = initialState, action) => {
       return { ...state, imageClickedIdx: action.imageClickedIdx };
 
     case UPDATE_PROJECTITEMS:
-        return { ...state, projectItems: action.projectItems };
+      return { ...state, projectItems: action.projectItems };
       
     case UPDATE_CATEGORY:
-        return { ...state, category: action.category }
+      return { ...state, category: action.category }
+
+    case UPDATE_PAGE:
+      return { ...state, page: action.page }
+      
+    case UPDATE_HIDEPROJECTS:
+      return { ...state, isHideProjects: action.isHideProjects }
 
     case FETCH_SUCCESS:
       switch (action.pageName) {
