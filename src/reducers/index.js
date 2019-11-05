@@ -155,6 +155,8 @@ const reducer = (state = initialState, action) => {
           return { ...state, homeData: action.data };
         case "projects":
           return { ...state, projectsData: action.data };
+        case "about":
+          return { ...state, aboutData: action.data };
 
         default:
           return state;

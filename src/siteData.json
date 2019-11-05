@@ -653,6 +653,26 @@
           }
         }
       ]
+    },
+    "about":{
+      "image":{
+        "thumbnail":"https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
+      },
+      "introduction":"Comprising Science Park, InnoCentre and Industrial Estates, Hong Kong Science & Technology Parks Corporation (HKSTP) is a statutory body dedicated to building a vibrant innovation and technology ecosystem to connect stakeholders.",
+      "articles":[
+        {
+          "name":"HKSTP wins Technology/IT Incubator of the Year at International Business Innovation Association Awards",
+          "details":""
+        },
+        {
+          "name":"HKSTP wins Technology/IT Incubator of the Year at International Business Innovation Association Awards",
+          "details":""
+        },
+        {
+          "name":"HKSTP wins Technology/IT Incubator of the Year at International Business Innovation Association Awards",
+          "details":""
+        }
+      ]
     }
   },
   "zh": {
@@ -1307,6 +1327,26 @@
               {"type":"video", "src":"", "description":""}
             ]
           }
+        }
+      ]
+    },
+    "about":{
+      "image":{
+        "thumbnail":"https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
+      },
+      "introduction":"Comprising 科學園, InnoCentre and Industrial Estates, Hong Kong Science & Technology Parks Corporation (HKSTP) is a statutory body dedicated to building a vibrant innovation and technology ecosystem to connect stakeholders.",
+      "articles":[
+        {
+          "name":"HKSTP wins Technology/IT Incubator of the Year at International Business Innovation Association Awards",
+          "details":""
+        },
+        {
+          "name":"HKSTP wins Technology/IT Incubator of the Year at International Business Innovation Association Awards",
+          "details":""
+        },
+        {
+          "name":"HKSTP wins Technology/IT Incubator of the Year at International Business Innovation Association Awards",
+          "details":""
         }
       ]
     }
