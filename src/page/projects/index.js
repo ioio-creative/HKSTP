@@ -32,22 +32,19 @@ class Projects extends Component {
 
   static pushData = data => fetchDataSuccess(this.pageName, data);
 
-  componentWillMount() {
-    if (!this.props.projectsData) {
+  componentDidMount() {
+    if (!this.props.projectsData && this.props.match.params.lang === this.props.lang) {
       this.props.dispatch(fetchDataBy(this.pageName));
     }
-    // else {
-    //   if (this.props.projectsData[0].lang.split("-")[0] !== this.props.lang)
-    //     this.props.dispatch(fetchDataBy(this.pageName));
-    // }
   }
 
-
-  componentWillReceiveProps(nextProps) {
+  shouldComponentUpdate(nextProps){
     if (nextProps.lang !== this.props.lang) {
       this.props.dispatch(fetchDataBy(this.pageName));
     }
+    return true;
   }
+
 
   getInScreenItems(items){
     const inScreenItems = [];

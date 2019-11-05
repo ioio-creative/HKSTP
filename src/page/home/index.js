@@ -27,20 +27,17 @@ class Home extends Component {
 
   static pushData = data => fetchDataSuccess(this.pageName, data);
 
-  componentWillMount() {
-    if (!this.props.homeData) {
+  componentDidMount() {
+    if (!this.props.homeData && this.props.match.params.lang === this.props.lang) {
       this.props.dispatch(fetchDataBy(this.pageName));
     }
-    // else {
-    //   if (this.props.homeData.lang.split("-")[0] !== this.props.lang)
-    //     this.props.dispatch(fetchDataBy(this.pageName));
-    // }
   }
 
-  componentWillReceiveProps(nextProps) {
+  shouldComponentUpdate(nextProps){
     if (nextProps.lang !== this.props.lang) {
       this.props.dispatch(fetchDataBy(this.pageName));
     }
+    return true;
   }
 
   componentDidUpdate(prevProps) {

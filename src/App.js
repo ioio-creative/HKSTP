@@ -101,10 +101,6 @@ class App extends Component {
     this.adjustFontSize();
   }
 
-  componentWillMount() {
-    this.onResize();
-  }
-
   componentDidMount() {
     this.onResize();
     window.addEventListener("resize", this.onResize);

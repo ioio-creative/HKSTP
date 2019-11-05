@@ -45,8 +45,9 @@
     display: flex;
     #info{
       flex:1;
+      padding-top:rem-calc(20);
       #logo{
-        width:15%;
+        width:17%;
         border:rem-calc(1) solid $black;
         border-radius: 50%;
         &:before{

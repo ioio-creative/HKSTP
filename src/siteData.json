@@ -1,5 +1,12 @@
 {
   "en": {
+    "global":{
+      "introduction": "Introduction",
+      "awards": "Awards",
+      "showcase": "Showcase",
+      "article": "Article",
+      "moreDetails": "More Details"
+    },
     "home": {
       "title1": "HK",
       "title2": "STP",
@@ -741,6 +748,13 @@
     }
   },
   "zh": {
+    "global":{
+      "introduction": "介紹",
+      "awards": "獎項",
+      "showcase": "展示",
+      "article": "文章",
+      "moreDetails": "更多"
+    },
     "home": {
       "title1": "香港",
       "title2": "STP",
@@ -755,8 +769,8 @@
       "items": [
         {
           "name": "IOIO Creative Limited",
-          "website"
-: {"url":"https://google.com"},          "category": {"name": "Incubatee 畢業生", "slug":"incubatee-graduates"},
+          "website": {"url":"https://google.com"},
+          "category": {"name": "Incubatee 畢業生", "slug":"incubatee-graduates"},
           "images": {
             "logo": "",
             "featured": "",

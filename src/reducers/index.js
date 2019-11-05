@@ -15,6 +15,7 @@ export const UPDATE_HIDEPROJECTS = "UPDATE_HIDEPROJECTS";
 
 export const FETCH_REQUEST = "FETCH_REQUEST";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
+export const FETCH_GLOBAL_SUCCESS = "FETCH_GLOBAL_SUCCESS";
 export const FETCH_FAILURE = "FETCH_FAILURE";
 
 export const updateLanguage = lang => ({ type: UPDATE_LANGUAGE, lang: lang });
@@ -27,6 +28,7 @@ export const updateHideProjects = isHideProjects => ({ type:UPDATE_HIDEPROJECTS 
 
 export const fetchDataRequest = () => ({ type: FETCH_REQUEST });
 export const fetchDataSuccess = (pageName, data) => ({ type: FETCH_SUCCESS, pageName: pageName, data: data});
+export const fetchGlobalDataSuccess = (data) => ({ type: FETCH_GLOBAL_SUCCESS, data: data});
 export const fetchDataError = () => ({ type: FETCH_FAILURE });
 
 const promise = (
@@ -66,6 +68,13 @@ const promise = (
   });
 };
 
+export const fetchGlobalData = () => (dispatch, getState) => {
+  const state = getState();
+  let { lang } = state;
+  const results = siteData[lang]['global'];
+  dispatch(fetchGlobalDataSuccess(results));
+}
+
 export const fetchDataBy = pageName => (dispatch, getState) => {
   const state = getState();
   const cache = myCache.get(`${pageName}Data`);
@@ -102,7 +111,7 @@ export const fetchDataBy = pageName => (dispatch, getState) => {
     });
     resolve(results);
 
-    console.log(pageName, siteData[lang][pageName]);
+    // console.log(pageName, siteData[lang][pageName]);
   };
 
   return promise(pageName, dispatch, fetchData, cache, lang);
@@ -148,6 +157,9 @@ const reducer = (state = initialState, action) => {
       
     case UPDATE_HIDEPROJECTS:
       return { ...state, isHideProjects: action.isHideProjects }
+
+    case FETCH_GLOBAL_SUCCESS:
+      return { ...state, globalData: action.data }
 
     case FETCH_SUCCESS:
       switch (action.pageName) {

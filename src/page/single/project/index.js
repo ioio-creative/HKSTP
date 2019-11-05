@@ -25,12 +25,6 @@ class ProjectSingle extends Component {
     this.projectSingle = null;
     this.closeBtn = null;
   }
-
-  componentWillMount() {
-  }
-
-  componentWillReceiveProps(nextProps) {
-  }
   
   componentDidUpdate(prevProps) {
     if(this.props.imageClickedIdx !== null){
@@ -86,7 +80,7 @@ class ProjectSingle extends Component {
               </div>
               <div id="content">
                 <div id="intro" className="contentItem">
-                  <div className="title">Introduction</div>
+                  <div className="title">{this.props.globalData && this.props.globalData.introduction}</div>
                   {data.details.introduction}
                   <div id="tags">
                     {data.details.tags.map((value, idx)=>{
@@ -97,7 +91,7 @@ class ProjectSingle extends Component {
                   </div>
                 </div>
                 <div id="awards" className="contentItem">
-                  <div className="title">Awards</div>
+                  <div className="title">{this.props.globalData && this.props.globalData.awards}</div>
                   <ul>
                   {
                     data.details.awards.map((value, idx)=>{
@@ -113,15 +107,20 @@ class ProjectSingle extends Component {
                   </ul>
                 </div>
                 <div id="showcase" className="contentItem">
-                  <div className="title">Showcase</div>
+                  <div className="title">{this.props.globalData && this.props.globalData.showcase}</div>
                   <ul>
                   {
                     data.details.showcase.map((value, idx)=>{
                       return(
                         <li key={idx} className={value.type}>
-                          {value.type === 'image' && <img src={value.src} /> }
-                          {value.type === 'video' && <video muted controls><source src={value.src} type="video/mp4"></source></video> }
-                          {value.description && <p>{value.description}</p>}
+                          {
+                            value.src && 
+                            <>
+                            {value.type === 'image' && <img src={value.src} alt="" /> }
+                            {value.type === 'video' && <video muted controls><source src={value.src} type="video/mp4"></source></video> }
+                            {value.description && <p>{value.description}</p>}
+                            </>
+                          }
                         </li>
                       )
                     })
@@ -142,7 +141,8 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     projectsData: state.projectsData ? state.projectsData : null,
-    imageClickedIdx: state.imageClickedIdx
+    imageClickedIdx: state.imageClickedIdx,
+    globalData: state.globalData
   };
 };
 

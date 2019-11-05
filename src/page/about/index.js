@@ -30,16 +30,17 @@ class About extends Component {
 
   static pushData = data => fetchDataSuccess(this.pageName, data);
 
-  componentWillMount() {
-    if (!this.props.projectsData) {
+  componentDidMount() {
+    if (!this.props.projectsData && this.props.match.params.lang === this.props.lang) {
       this.props.dispatch(fetchDataBy(this.pageName));
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  shouldComponentUpdate(nextProps){
     if (nextProps.lang !== this.props.lang) {
       this.props.dispatch(fetchDataBy(this.pageName));
     }
+    return true;
   }
 
   componentDidUpdate(prevProps) {
@@ -75,9 +76,9 @@ class About extends Component {
                   <h1 className="cap"><span className="blue">HK</span><span className="orange">STP</span></h1>
                 </div>
                 <div id="intro" className="contentWrap">
-                  <div className="title">Introduction</div>
+                  <div className="title">{this.props.globalData && this.props.globalData.introduction}</div>
                   {data.introduction}
-                  <div id="image"><img src={data.image.thumbnail}/></div>
+                  <div id="image"><img src={data.image.thumbnail} alt=""/></div>
                 </div>
 
                 <ul id="articles">
@@ -86,12 +87,12 @@ class About extends Component {
                       return (
                         <li key={idx}>
                           <p>{value.name}</p>
-                          <span className="detailBtn">More Details</span>
+                          <span className="detailBtn">{this.props.globalData && this.props.globalData.moreDetails}</span>
                         </li>
                       )
                     })
                   }
-                  <span id="title" className="cap">Articles</span>
+                  <span id="title" className="cap">{this.props.globalData && this.props.globalData.article}</span>
                 </ul>
               </div>
             </div>
@@ -106,7 +107,8 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     page: state.page,
-    aboutData: state.aboutData
+    aboutData: state.aboutData,
+    globalData: state.globalData
   };
 };
 

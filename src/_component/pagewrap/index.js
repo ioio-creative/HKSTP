@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateLanguage } from "../../../src/reducers";
+import { updateLanguage, fetchGlobalData } from "../../../src/reducers";
 // import smoothScroll from "./scroll";
 
 import Nav from "../nav";
@@ -20,74 +20,67 @@ import ThreejsBg from "../ThreejsBg";
 //   return ref.current;
 // }
 
-const PageWrap = props => {
-  // const { imageClickedIdx } = props;
-  const bodyWrap = useRef(null);
-  // const [scroll, setScroll] = useState(null);
-  // const prevProps = usePrevious({imageClickedIdx});
-  
+class PageWrap extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.bodyWrap = null;
+  }
 
-  // useEffect(() => {
-  //     const smooth = new smoothScroll("#projects", (s, y, h) => {
-  //       // onScroll(s, y, h);
-  //     });
-  //     smooth.on();
-  //     smooth.showScrollBar();
 
-  //     // setScroll(smooth);
-  //   },[Projects]);
+  shouldComponentUpdate(nextProps){
+    if(this.props.lang !== nextProps.lang){
+      this.props.dispatch(fetchGlobalData());
+      return true;
+    }
+    return false;
+  }
 
-  // useEffect(()=>{
-  //   if(props.imageClickedIdx){
-  //     if(prevProps.imageClickedIdx !== props.imageClickedIdx){
-  //       scroll.hideScrollBar();
-  //       scroll.off();
-  //     }
-  //   }
-  // },[props.imageClickedIdx]);
+  componentDidMount() {
+    this.props.dispatch(fetchGlobalData());
+    if(this.props.match.params.lang !== this.props.lang)
+      this.props.dispatch(updateLanguage(this.props.match.params.lang));
+  }
 
-  useEffect(()=>{
-    if(props.match.params.lang !== props.lang)
-      props.dispatch(updateLanguage(props.match.params.lang));
-  },[]);
-
-  return (
-    <>
-      <Nav {...props} />
-      <div ref={bodyWrap} id="bodyWrap" className={`body_wrap ${props.lang}`}>
-        <Switch>
-          <Route
-            exact
-            path="/:lang/"
-            render={props => {
-              return <>
-                <Home {...props} />
-                <Projects {...props} />
-                <ProjectSingle {...props} />
-                <About {...props} />
-              </>
-            }}
-          />
-          {/* <Route
-                        exact
-                        path="/:lang/projects/"
-                        render={props => <Projects {...props} />}
-                    />
-                    <Route
-                        path="/:lang/project/:title/:page?/"
-                        render={props => <ProjectSingle {...props} />}
-                    />
-                    <Route
-                        path="/:lang/page-not-found/"
-                        render={props => <PageNotFound {...props} />}
-                    />
-                    <Redirect from="*" to={"/" + props.lang + "/page-not-found/"} /> */}
-        </Switch>
-      </div>
-      <ThreejsBg {...props} />
-    </>
-  );
-};
+  render(){
+    return (
+      <>
+        <Nav {...this.props} />
+        <div ref={elem => this.bodyWrap = elem} id="bodyWrap" className={`body_wrap ${this.props.lang}`}>
+          <Switch>
+            <Route
+              exact
+              path="/:lang/"
+              render={props => {
+                return <>
+                  <Home {...props} />
+                  <Projects {...props} />
+                  <ProjectSingle {...props} />
+                  <About {...props} />
+                </>
+              }}
+            />
+            {/* <Route
+                          exact
+                          path="/:lang/projects/"
+                          render={props => <Projects {...props} />}
+                      />
+                      <Route
+                          path="/:lang/project/:title/:page?/"
+                          render={props => <ProjectSingle {...props} />}
+                      />
+                      <Route
+                          path="/:lang/page-not-found/"
+                          render={props => <PageNotFound {...props} />}
+                      />
+                      <Redirect from="*" to={"/" + props.lang + "/page-not-found/"} /> */}
+          </Switch>
+        </div>
+        <ThreejsBg {...this.props} />
+      </>
+    )
+  }
+}
 
 const mapStateToProps = state => {
   return { 
