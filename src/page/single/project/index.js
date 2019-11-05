@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import '../../../sass/page/projectSingle.scss';
 import { updateImageClickedIdx } from "../../../reducers";
 import smoothScroll from "../../../_component/scroll";
+import QRCode from "qrcode.react";
+import '../../../sass/page/projectSingle.scss';
 
 // import Html from "../../../_component/html";
 import { TweenMax } from "gsap";
@@ -78,19 +79,53 @@ class ProjectSingle extends Component {
                 <div id="infoContent">
                   <h1>{data.name}</h1>
                   <div id="cat">{data.category.name}</div>
+                  <div id="qrcode">
+                    <QRCode value={data.website.url} renderAs="svg"/>
+                  </div>
                 </div>
               </div>
               <div id="content">
                 <div id="intro" className="contentItem">
                   <div className="title">Introduction</div>
                   {data.details.introduction}
+                  <div id="tags">
+                    {data.details.tags.map((value, idx)=>{
+                      return(
+                        <span key={idx}>{idx > 0 && ', '}{value}</span>
+                      )
+                    })}
+                  </div>
                 </div>
                 <div id="awards" className="contentItem">
                   <div className="title">Awards</div>
                   <ul>
-                    <li><div className="year">2019</div><div className="awradsTitle">awrads title</div></li>
-                    <li><div className="year">2019</div><div className="awradsTitle">awrads title</div></li>
-                    <li><div className="year">2019</div><div className="awradsTitle">awrads title</div></li>
+                  {
+                    data.details.awards.map((value, idx)=>{
+                      return(
+                        <li key={idx}>
+                          <div className="year">{value.year}</div>
+                          <div className="awradsTitle">{value.name}</div>
+                          <div className="awradsResult">{value.result}</div>
+                        </li>
+                      )
+                    })
+                  }
+                  </ul>
+                </div>
+                <div id="showcase" className="contentItem">
+                  <div className="title">Showcase</div>
+                  <ul>
+                  {
+                    data.details.showcase.map((value, idx)=>{
+                      return(
+                        <li key={idx} className={value.type}>
+                          {value.type === 'image' && <img src={value.src} /> }
+                          {value.type === 'video' && <video muted controls><source src={value.src} type="video/mp4"></source></video> }
+                          {value.description && <p>{value.description}</p>}
+                        </li>
+                      )
+                    })
+                  }
                   </ul>
                 </div>
               </div>

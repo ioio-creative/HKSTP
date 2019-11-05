@@ -41,7 +41,7 @@
     }
   }
   #wrap{
-    padding:rem-calc(100 150 100 100);
+    padding:rem-calc(100 160 100 100);
     display: flex;
     #info{
       flex:1;
@@ -66,6 +66,14 @@
         }
         #cat{
           color:$orange;
+          padding-top:rem-calc(15);
+        }
+        #qrcode{
+          padding-top:rem-calc(25);
+          svg{
+            width:rem-calc(100);
+            height:rem-calc(100);
+          }
         }
       }
     }
@@ -91,26 +99,67 @@
         &#intro{
           background:$white;
           border:rem-calc(1) solid $lightgrey;
+          #tags{
+            margin-top:rem-calc(20);
+            padding-top:rem-calc(20);
+            border-top: rem-calc(1) solid $grey;
+            color:$grey;
+          }
         }
         &#awards{
-          background:$orange;
+          background:$lightorange;
           color:$white;
+          padding-bottom:rem-calc(40);
           ul{
             width:100%;
             li{
               display: flex;
-              border-bottom:rem-calc(1) solid $black;
+              border-bottom:rem-calc(1) solid $organegrey;
               padding-bottom:rem-calc(10);
               margin-top:rem-calc(20);
               &:first-child{
                 margin-top:0;
               }
               .year{
-                padding-right:rem-calc(20);
+                padding-right:rem-calc(40);
               }
               .awradsTitle{
                 flex:1;
               }
+              .awradsResult{
+
+              }
+            }
+          }
+        }
+        &#showcase{
+          .title{
+            transform: translate3d(-50%,0,0);
+          }
+          li{
+            margin-top:rem-calc(50);
+            background:$white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            &:first-child{
+              margin-top:0;
+            }
+            &.image{
+              transform: translate3d(-50%,0,0);
+            }
+            &.video{
+              width:80%;
+              float: right;
+              video{
+                width:100%;
+              }
+            }
+            p{
+              width:80%;
+              padding-left:rem-calc(15);
+              margin:rem-calc(20 0);
+              border-left:rem-calc(2) solid $lightorange;
             }
           }
         }
