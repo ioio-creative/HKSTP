@@ -26,6 +26,7 @@
     "node-sass": "^4.12.0",
     "prismic-javascript": "^2.0.3",
     "prop-types": "^15.7.2",
+    "qrcode.react": "^0.9.3",
     "query-string": "^6.2.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",

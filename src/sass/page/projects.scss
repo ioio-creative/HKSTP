@@ -13,6 +13,16 @@
       transform: translateY(100%);
     }
   }
+  #heading{
+    width:rem-calc(465);
+    text-align: center;
+    position: relative;
+    left:50%;
+    padding:rem-calc(20 0 100);
+    transform: translate3d(-50%,0,0);
+    font-size:rem-calc(26);
+    line-height:rem-calc(36);
+  }
   #items {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

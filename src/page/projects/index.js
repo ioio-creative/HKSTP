@@ -26,6 +26,7 @@ class Projects extends Component {
     this.smooth = null;
     this.inScreenItems = [];
     this.clickable = true;
+    this.heading = null;
   }
 
   static actions = () => [fetchDataBy(this.pageName)];
@@ -51,9 +52,10 @@ class Projects extends Component {
     for(let i=0; i<items.length; i++){
       const elem = items[i];
       const imageWrap = elem.querySelector('.imageWrap');
+      const info = elem.querySelector('.info');
       const elemOffset = elem.getBoundingClientRect();
 
-      if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop > 0 && elemOffset.top-imageWrap.offsetHeight < window.innerHeight){
+      if(elemOffset.top+imageWrap.offsetHeight+imageWrap.offsetTop+info.offsetHeight > 0 && elemOffset.top-imageWrap.offsetHeight < window.innerHeight){
         inScreenItems.push(elem);
       }
     }
@@ -63,7 +65,7 @@ class Projects extends Component {
   slideOutItems(items){
     this.inScreenItems = [];
     this.inScreenItems = this.getInScreenItems(items);
-    TweenMax.staggerTo(this.inScreenItems, .6, {y:-window.innerHeight*2, ease:Back.easeIn.config(1)},.04,
+    TweenMax.staggerTo(this.inScreenItems, .6, {y:-window.innerHeight*2.5, ease:Back.easeIn.config(1)},.04,
     ()=>{
       if(this.props.page !== 'projects'){
         this.props.dispatch(updateHideProjects(true))
@@ -81,6 +83,7 @@ class Projects extends Component {
   componentDidUpdate(prevProps) {
     if(prevProps.isStarted !== this.props.isStarted){
       TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {delay:2, y:0, ease:'Expo.easeOut'},.1);
+      TweenMax.fromTo(this.heading, 1, {autoAlpha:0},{delay:2, autoAlpha:1, ease: 'Power4.easeOut' });
 
       if(this.props.projectsData){ 
         this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
@@ -100,6 +103,7 @@ class Projects extends Component {
       // others page
       if(prevProps.page === 'projects' && this.props.page !== 'projects'){
         this.slideOutItems(this.items);
+        TweenMax.to(this.heading, .3, {autoAlpha:0, ease: 'Power4.easeOut' });
         
         // turn off scrolling
         this.smooth.off();
@@ -123,6 +127,7 @@ class Projects extends Component {
       // fade out the info
       TweenMax.to(this.items[this.props.imageClickedIdx].querySelector('.info'), .3, {autoAlpha:0, ease: 'Power4.easeOut'});
 
+      TweenMax.to(this.heading, .3, {autoAlpha:0, ease: 'Power4.easeOut' });
       // slide out if items are in screen area
       this.slideOutItems(updatedItems);
 
@@ -145,6 +150,7 @@ class Projects extends Component {
           this.clickable = true;
         }
       });
+      TweenMax.to(this.heading, .8, {autoAlpha:1, ease: 'Power2.easeOut' });
 
       // turn on scrolling
       this.smooth.on();
@@ -173,6 +179,7 @@ class Projects extends Component {
 
           if(prevProps.isHideProjects !== this.props.isHideProjects){
             TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {y:0, ease:'Expo.easeOut'},.1);
+            TweenMax.fromTo(this.heading, 1, {autoAlpha:0},{autoAlpha:1, ease: 'Power4.easeOut' });
             
             this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
             // turn on scrolling
@@ -213,11 +220,12 @@ class Projects extends Component {
             filteredData.push(value);
         }
       }
-    
+
 
       return (
         <div ref={elem => this.projects = elem} id="projects">
           <div ref={elem => this.scrollWrap = elem} id="scrollWrap" className={!this.props.isStarted ? 'hide' : ''}>
+            <p ref={elem => this.heading = elem} id="heading">{ this.props.category && data.categories[data.categories.findIndex(value=> value.slug === this.props.category)].description }</p>
             <ul id="items">
               {filteredData.map((value, idx) => {
                 return (

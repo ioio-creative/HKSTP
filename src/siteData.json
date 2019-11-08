@@ -15,8 +15,8 @@
     },
     "projects": {
       "categories":[
-        {"name": "Incubatee Graduates", "slug": "incubatee-graduates"},
-        {"name": "Rising Stars", "slug": "rising-stars"}
+        {"name": "Incubatee Graduates", "slug": "incubatee-graduates","description":"Mambers that having completed the programme and as a great achiever in their business and market"},
+        {"name": "Rising Stars", "slug": "rising-stars","description":"Rising Star from members in the current programmes, including incubates and LEAP companies."}
       ],
       "items": [
         {
@@ -763,8 +763,8 @@
     },
     "projects": {
       "categories":[
-        {"name": "Incubatee 畢業生", "slug": "incubatee-graduates"},
-        {"name": "新星", "slug": "rising-stars"}
+        {"name": "Incubatee 畢業生", "slug": "incubatee-graduates","description":"Mambers that having completed the programme and as a great achiever in their business and market"},
+        {"name": "新星", "slug": "rising-stars","description":"Rising Star from members in the current programmes, including incubates and LEAP companies."}
       ],
       "items": [
         {
