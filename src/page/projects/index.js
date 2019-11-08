@@ -225,7 +225,7 @@ class Projects extends Component {
       return (
         <div ref={elem => this.projects = elem} id="projects">
           <div ref={elem => this.scrollWrap = elem} id="scrollWrap" className={!this.props.isStarted ? 'hide' : ''}>
-            <p ref={elem => this.heading = elem} id="heading">{ this.props.category && data.categories[data.categories.findIndex(value=> value.slug === this.props.category)].description }</p>
+            <p ref={elem => this.heading = elem} id="heading" className="h2" dangerouslySetInnerHTML={{__html: this.props.category && data.categories[data.categories.findIndex(value=> value.slug === this.props.category)].description }}></p>
             <ul id="items">
               {filteredData.map((value, idx) => {
                 return (
@@ -234,8 +234,8 @@ class Projects extends Component {
                       <div className="logoWrap"><div className="logo"><span>{idx}</span></div></div>
                       <div className="infoWrap">
                         <div className="wrap">
-                          <p>{value.name}</p>
-                          <span className="cat h3">{value.category.name}</span>
+                          <p className="h4">{value.name}</p>
+                          <span className="cat h5">{value.category.name}</span>
                         </div>
                       </div>
                     </div>

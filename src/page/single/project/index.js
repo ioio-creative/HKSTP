@@ -79,7 +79,7 @@ class ProjectSingle extends Component {
                 </div>
               </div>
               <div id="content">
-                <div id="intro" className="contentItem">
+                <div id="intro" className="contentItem h5">
                   <div className="title">{this.props.globalData && this.props.globalData.introduction}</div>
                   {data.details.introduction}
                   <div id="tags">
@@ -90,7 +90,7 @@ class ProjectSingle extends Component {
                     })}
                   </div>
                 </div>
-                <div id="awards" className="contentItem">
+                <div id="awards" className="contentItem h5">
                   <div className="title">{this.props.globalData && this.props.globalData.awards}</div>
                   <ul>
                   {
@@ -106,8 +106,8 @@ class ProjectSingle extends Component {
                   }
                   </ul>
                 </div>
-                <div id="showcase" className="contentItem">
-                  <div className="title">{this.props.globalData && this.props.globalData.showcase}</div>
+                <div id="showcase" className="contentItem h6">
+                  <div className="title h5">{this.props.globalData && this.props.globalData.showcase}</div>
                   <ul>
                   {
                     data.details.showcase.map((value, idx)=>{

@@ -21,9 +21,12 @@ class About extends Component {
     super(props);
 
     this.pageName = About.pageName;
-    this.state = {};
+    this.state = {
+      activeId: null
+    };
     this.about = null;
     this.smooth = null;
+    this.openArticle = this.openArticle.bind(this)
   }
 
   static actions = () => [fetchDataBy(this.pageName)];
@@ -51,12 +54,28 @@ class About extends Component {
       smooth.showScrollBar();
       TweenMax.to(this.about, .6, {delay:1,autoAlpha:1});
     }
+
+    if(this.props.page !== 'about'){
+      if(this.state.activeId !== null) this.setState({activeId: null})
+    }
+  }
+
+  openArticle(e, idx){
+    if(this.state.activeId !== idx){
+      this.setState({activeId: idx});
+      TweenMax.set(e.currentTarget.querySelector('.contentWrap'),{height:e.currentTarget.querySelector('.content').offsetHeight})
+    }
+    else{
+      this.setState({activeId: null});
+      TweenMax.set(e.currentTarget.querySelector('.contentWrap'),{height:0})
+    }
   }
 
 
   render() {
-    if(this.props.page !== 'about')
+    if(this.props.page !== 'about'){
       return false;
+    }
 
     if (this.props.aboutData) {
       const data = this.props.aboutData;
@@ -75,7 +94,7 @@ class About extends Component {
                 <div id="hof">
                   <h1 className="cap"><span className="blue">HK</span><span className="orange">STP</span></h1>
                 </div>
-                <div id="intro" className="contentWrap">
+                <div id="intro" className="contentWrap h5">
                   <div className="title">{this.props.globalData && this.props.globalData.introduction}</div>
                   {data.introduction}
                   <div id="image"><img src={data.image.thumbnail} alt=""/></div>
@@ -85,9 +104,16 @@ class About extends Component {
                   {
                     data.articles.map((value, idx)=>{
                       return (
-                        <li key={idx}>
-                          <p>{value.name}</p>
-                          <span className="detailBtn">{this.props.globalData && this.props.globalData.moreDetails}</span>
+                        <li key={idx} className={`h5 ${this.state.activeId === idx ? 'active' : ''}`} onClick={(e)=>{this.openArticle(e,idx)}}>
+                          <div className="infoWrap">
+                            <p>{value.name}</p>
+                            <span className="detailBtn">{this.props.globalData && this.props.globalData.moreDetails}</span>
+                          </div>
+                          <div className="contentWrap">
+                            <div className="content">
+                              123123123123123
+                            </div>
+                          </div>
                         </li>
                       )
                     })

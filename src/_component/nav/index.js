@@ -38,6 +38,9 @@ class Nav extends Component {
   
   componentDidUpdate(prevProps){
     if(prevProps.isStarted !== this.props.isStarted){
+      const target = document.querySelector(`#categoryWrap li:nth-child(1)`);
+      const offsetLeft = target.offsetLeft;
+      TweenMax.set(this.projectNum, {x:offsetLeft+target.offsetWidth/2-this.projectNum.offsetWidth/2});
       setTimeout(()=>{
         this.categoryWrap.setAttribute('style','');
       },2000)
@@ -57,8 +60,9 @@ class Nav extends Component {
 
     if(this.props.page !== 'projects')
       TweenMax.to(this.projectNum, .5, { y:'-100%', autoAlpha:0, ease:'Power4.easeIn'});
-    else
+    else{
       TweenMax.to(this.projectNum, 1, { delay:.6, y:'0%', autoAlpha:1, ease:'Power4.easeOut'});
+    }
       
   }
 
@@ -75,7 +79,7 @@ class Nav extends Component {
 
     return (
       <>
-        <div ref={elem => this.hof = elem} id="hof" className={`fixed cap ${!this.props.isStarted ? 'hide' : ''}`}>
+        <div ref={elem => this.hof = elem} id="hof" className={`fixed cap h3 ${!this.props.isStarted ? 'hide' : ''}`}>
         {
           homeData &&
           homeData.title3.split('').map((value, idx)=>{
@@ -88,11 +92,11 @@ class Nav extends Component {
           {
             projectsData &&
             projectsData.categories.map((value, idx)=>{
-              return <li key={idx} className={this.props.category === value.slug || (this.props.category === '' && idx === 0) ? 'active' : '' } 
+              return <li key={idx} className={this.props.category === value.slug || (this.props.category === '' && idx === 0) ? 'active h3' : 'h3' } 
               onClick={()=> {
                 if(this.props.category !== value.slug)
                   this.props.dispatch(updateCategory(value.slug));
-                  
+
                 if(this.props.page !== 'projects')
                   this.props.dispatch(updatePage('projects'));
 
@@ -103,13 +107,13 @@ class Nav extends Component {
               </li>
             })
           }
-            <li onClick={()=>{if(this.props.page !== 'about') this.props.dispatch(updatePage('about'))}}>About HKSTP</li>
+            <li className="h3" onClick={()=>{if(this.props.page !== 'about') this.props.dispatch(updatePage('about'))}}>About HKSTP</li>
             <span ref={elem => this.projectNum = elem} id="projectNum">{this.props.projectItems && this.props.projectItems.length}</span>
           </ul>
         </div>
         <div id="logo" className="fixed">logo</div>
         <div id="touchToStart" className={`fixed ${this.props.isStarted ? 'hide' : ''}`}>touch here</div>
-        <div id="shortDes" className={`fixed h6 ${this.props.isStarted ? 'hide' : ''}`}>{ homeData && homeData.shortDes }</div>
+        <div id="shortDes" className={`fixed h3 ${this.props.isStarted ? 'hide' : ''}`}>{ homeData && homeData.shortDes }</div>
         <Link id="langBtn"  className="fixed"
           to={this.getAnotherLanguage()}
           onClick={this.onClick}

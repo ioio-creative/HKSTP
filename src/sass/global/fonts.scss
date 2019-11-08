@@ -21,34 +21,44 @@
 //   font-style:   normal;
 //   font-weight:  200;
 // }
+@import url('https://fonts.googleapis.com/css?family=Sarabun:300,400,500,600,700,800&display=swap');
 
-$defaultFont: sans-serif;
+$defaultFont: 'Sarabun', sans-serif;
 
-@mixin font($fontsize: 50, $lineHeight: 50) {
+@mixin font($fontsize: 80, $lineHeight: 90) {
   font-size: rem-calc($fontsize);
   line-height: rem-calc($lineHeight);
 }
 
-h1,
-.h1 {
-  @include font;
+h1, .h1{
+  font-size: 4.19vw;
+  line-height: 4.7vw;
+  // @include font;
 }
-
-h2,
-.h2 {
-  @include font(20, 24);
+h2, .h2{
+  font-size: 2.35vw;
+  line-height: 3vw;
+  // @include font(45, 58);
 }
-h3,
-.h3 {
-  @include font(13, 24);
+h3, .h3{
+  font-size: 1.56vw;
+  line-height: 1.65vw;
+  // @include font(30, 32);
 }
-h4 {
+h4, .h4{
+  font-size: 1.36vw;
+  line-height: 1.56vw;
+  // @include font(26, 30);
 }
-h5 {
+h5, .h5{
+  font-size: 1.05vw;
+  line-height: 1.25vw;
+  // @include font(20, 24);
 }
-h6,
-.h6 {
-  @include font(12, 18);
+h6, .h6{
+  font-size:0.9rem;
+  line-height: 1.3vw;
+  // @include font(16, 25);
 }
 
 // tablet

@@ -15,8 +15,8 @@
     },
     "projects": {
       "categories":[
-        {"name": "Incubatee Graduates", "slug": "incubatee-graduates","description":"Mambers that having completed the programme and as a great achiever in their business and market"},
-        {"name": "Rising Stars", "slug": "rising-stars","description":"Rising Star from members in the current programmes, including incubates and LEAP companies."}
+        {"name": "Incubatee Graduates", "slug": "incubatee-graduates","description":"<b>Members</b> that having completed the programme and as a great achiever in their business and market"},
+        {"name": "Rising Stars", "slug": "rising-stars","description":"<b>Rising Star</b> from members in the current programmes, including incubates and LEAP companies."}
       ],
       "items": [
         {
@@ -730,7 +730,7 @@
       "image":{
         "thumbnail":"https://images.unsplash.com/photo-1541079033018-63489731598f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80"
       },
-      "introduction":"Comprising Science Park, InnoCentre and Industrial Estates, Hong Kong Science & Technology Parks Corporation (HKSTP) is a statutory body dedicated to building a vibrant innovation and technology ecosystem to connect stakeholders.",
+      "introduction":"Comprising Science Park, InnoCentre and Industrial Estates, Hong Kong Science & Technology Parks Corporation (HKSTP) is a statutory body dedicated to building a vibrant innovation and technology ecosystem to connect stakeholders, nurture technology talents, facilitate collaboration, and catalyse innovations to deliver social and economic benefits to Hong Kong and the region. Established in May 2001, HKSTP has been driving the development of Hong Kong into a regional hub for innovation and growth in several focused clusters including Electronics, Information & Communications Technology, Green Technology, Biomedical Technology, Materials and Precision Engineering. We enable science and technology companies to nurture ideas, innovate and grow, supported by our R&D facilities, infrastructure, and market-led laboratories and technical centres with professional support services. We also offer value added services and comprehensive incubation programmes for technology start-ups to accelerate their growth. Technology businesses benefit from our specialised services and infrastructure at Science Park for applied research and product development; enterprises can find creative design support at InnoCentre; while skill-intensive businesses are served by our three industrial estates at Tai Po, Tseung Kwan O and Yuen Long.",
       "articles":[
         {
           "name":"HKSTP wins Technology/IT Incubator of the Year at International Business Innovation Association Awards",
@@ -763,8 +763,8 @@
     },
     "projects": {
       "categories":[
-        {"name": "Incubatee 畢業生", "slug": "incubatee-graduates","description":"Mambers that having completed the programme and as a great achiever in their business and market"},
-        {"name": "新星", "slug": "rising-stars","description":"Rising Star from members in the current programmes, including incubates and LEAP companies."}
+        {"name": "Incubatee 畢業生", "slug": "incubatee-graduates","description":"<b>Members</b> that having completed the programme and as a great achiever in their business and market"},
+        {"name": "新星", "slug": "rising-stars","description":"<b>Rising Star</b> from members in the current programmes, including incubates and LEAP companies."}
       ],
       "items": [
         {
