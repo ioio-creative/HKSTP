@@ -101,14 +101,14 @@ export const fetchDataBy = pageName => (dispatch, getState) => {
     console.log(`-------------------- Client cache:`, myCache.keys());
 
     // save data to server
-    fetch(`http://localhost:3000/${lang}/api?keyname=${pageName}Data`, {
-      method: "POST",
-      body: JSON.stringify(results),
-      headers: { "Content-Type": "application/json" }
-    }).catch(function(error) {
-      console.log("Error:", error.message);
-      throw error;
-    });
+    // fetch(`http://localhost:3000/${lang}/api?keyname=${pageName}Data`, {
+    //   method: "POST",
+    //   body: JSON.stringify(results),
+    //   headers: { "Content-Type": "application/json" }
+    // }).catch(function(error) {
+    //   console.log("Error:", error.message);
+    //   throw error;
+    // });
     resolve(results);
 
     // console.log(pageName, siteData[lang][pageName]);
