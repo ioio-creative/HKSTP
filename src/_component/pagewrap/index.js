@@ -60,20 +60,6 @@ class PageWrap extends Component {
                 </>
               }}
             />
-            {/* <Route
-                          exact
-                          path="/:lang/projects/"
-                          render={props => <Projects {...props} />}
-                      />
-                      <Route
-                          path="/:lang/project/:title/:page?/"
-                          render={props => <ProjectSingle {...props} />}
-                      />
-                      <Route
-                          path="/:lang/page-not-found/"
-                          render={props => <PageNotFound {...props} />}
-                      />
-                      <Redirect from="*" to={"/" + props.lang + "/page-not-found/"} /> */}
           </Switch>
         </div>
         <ThreejsBg {...this.props} />

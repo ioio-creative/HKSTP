@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { TimelineMax, TweenMax } from "gsap";
-import Html from "../../_component/html";
 import { fetchDataBy, fetchDataSuccess } from "../../reducers";
 import "../../sass/page/home.scss";
 
@@ -76,7 +75,7 @@ class Home extends Component {
       let i = 0;
 
       return (
-        <Html id="home" title="Home" description={`This is Home page!`}>
+        <div id="home" className={this.props.page}>
           <div id="title">
             <h1 className="cap">
               <div className="blue">
@@ -114,7 +113,7 @@ class Home extends Component {
               </div>
             </h1>
           </div>
-        </Html>
+        </div>
       );
     }
     return <h1>Loading...</h1>;
@@ -125,7 +124,8 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     homeData: state.homeData ? state.homeData : null,
-    isStarted: state.isStarted
+    isStarted: state.isStarted,
+    page: state.page
   };
 };
 
