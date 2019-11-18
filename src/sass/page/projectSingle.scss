@@ -51,10 +51,18 @@
         width:21%;
         border:rem-calc(1) solid $black;
         border-radius: 50%;
+        position: relative;
         &:before{
           content:'';
           display: block;
           padding-top:100%;
+        }
+        img{
+          width:100%;
+          position: absolute;
+          top:50%;
+          left:50%;
+          transform: translate3d(-50%,-50%,0);
         }
       }
       #infoContent{

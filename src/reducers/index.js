@@ -1,5 +1,5 @@
 // import Prismic from "prismic-javascript";
-import siteData from "../siteData";
+// import siteData from "../siteData";
 import myCache from "memory-cache";
 
 //
@@ -27,12 +27,11 @@ export const updatePage = page => ({ type:UPDATE_PAGE , page: page })
 export const updateHideProjects = isHideProjects => ({ type:UPDATE_HIDEPROJECTS , isHideProjects: isHideProjects })
 
 export const fetchDataRequest = () => ({ type: FETCH_REQUEST });
-export const fetchDataSuccess = (pageName, data) => ({ type: FETCH_SUCCESS, pageName: pageName, data: data});
-export const fetchGlobalDataSuccess = (data) => ({ type: FETCH_GLOBAL_SUCCESS, data: data});
+export const fetchDataSuccess = (data) => ({ type: FETCH_SUCCESS, data: data});
+// export const fetchGlobalDataSuccess = (data) => ({ type: FETCH_GLOBAL_SUCCESS, data: data});
 export const fetchDataError = () => ({ type: FETCH_FAILURE });
 
 const promise = (
-  pageName,
   dispatch,
   fetchData,
   cache,
@@ -51,7 +50,7 @@ const promise = (
           singlePostTitle !== null &&
           cache.data.uid !== singlePostTitle
         ) {
-          dispatch(fetchDataSuccess(pageName, {})); // clear data
+          dispatch(fetchDataSuccess({})); // clear data
           fetchData(resolve); // fetch again
           console.log(
             "-------------------- But different single post title, fetch again"
@@ -68,37 +67,55 @@ const promise = (
   });
 };
 
-export const fetchGlobalData = () => (dispatch, getState) => {
-  const state = getState();
-  let { lang } = state;
-  const results = siteData[lang]['global'];
-  dispatch(fetchGlobalDataSuccess(results));
-}
+// export const fetchGlobalData = () => (dispatch, getState) => {
+//   const state = getState();
+//   let { lang } = state;
 
-export const fetchDataBy = pageName => (dispatch, getState) => {
+//   fetch('http://dev.ioiocreative.com/HKSTP/cms/api')
+//     .then(response => response.json())
+//     .then(data => {
+//       const results = data.content[lang]['global'];
+//       // const results = siteData[lang]['global'];
+//       dispatch(fetchGlobalDataSuccess(results));
+//     })
+// }
+
+export const fetchAllData = () => (dispatch, getState) => {
   const state = getState();
-  const cache = myCache.get(`${pageName}Data`);
+  const cache = myCache.get(`data`);
   let { lang } = state;
 
-  if (!cache) console.log(`-------------------- ${pageName}Data No Cache`);
-  else console.log(`-------------------- ${pageName}Data Cached`);
+  if (!cache) console.log(`-------------------- Data No Cache`);
+  else console.log(`-------------------- Data Cached`);
 
   const fetchData = resolve => {
-    const results = siteData[lang][pageName];
 
     // start message
     dispatch(fetchDataRequest());
 
-    // save data to store
-    dispatch(fetchDataSuccess(pageName, results));
+    fetch('http://dev.ioiocreative.com/HKSTP/cms/api',{ 
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const results = data;
 
-    // put data to cache
-    myCache.put(`${pageName}Data`, {
-      data: results,
-      lang: lang
+      // save data to store
+      dispatch(fetchDataSuccess(results));
+
+      // put data to cache
+      myCache.put(`data`, {
+        data: results,
+        lang: lang
+      });
+      console.log(`-------------------- Data has been Cached`);
+      console.log(`-------------------- Client cache:`, myCache.keys());
+
+      resolve(results);
     });
-    console.log(`-------------------- ${pageName}Data has been Cached`);
-    console.log(`-------------------- Client cache:`, myCache.keys());
 
     // save data to server
     // fetch(`http://localhost:3000/${lang}/api?keyname=${pageName}Data`, {
@@ -109,12 +126,11 @@ export const fetchDataBy = pageName => (dispatch, getState) => {
     //   console.log("Error:", error.message);
     //   throw error;
     // });
-    resolve(results);
 
     // console.log(pageName, siteData[lang][pageName]);
   };
 
-  return promise(pageName, dispatch, fetchData, cache, lang);
+  return promise(dispatch, fetchData, cache, lang);
 };
 
 //
@@ -158,21 +174,22 @@ const reducer = (state = initialState, action) => {
     case UPDATE_HIDEPROJECTS:
       return { ...state, isHideProjects: action.isHideProjects }
 
-    case FETCH_GLOBAL_SUCCESS:
-      return { ...state, globalData: action.data }
+    // case FETCH_GLOBAL_SUCCESS:
+    //   return { ...state, globalData: action.data }
 
     case FETCH_SUCCESS:
-      switch (action.pageName) {
-        case "home":
-          return { ...state, homeData: action.data };
-        case "projects":
-          return { ...state, projectsData: action.data };
-        case "about":
-          return { ...state, aboutData: action.data };
+      return { ...state, data:action.data.content, langData:action.data.languages }
+      // switch (action.pageName) {
+        // case "home":
+        //   return { ...state, homeData: action.data };
+        // case "projects":
+        //   return { ...state, projectsData: action.data };
+        // case "about":
+        //   return { ...state, aboutData: action.data };
 
-        default:
-          return state;
-      }
+      //   default:
+      //     return state;
+      // }
 
     default:
       return state;

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { TimelineMax, TweenMax } from "gsap";
-import { fetchDataBy, fetchDataSuccess } from "../../reducers";
+// import { fetchDataBy, fetchDataSuccess } from "../../reducers";
 import "../../sass/page/home.scss";
 
 class Home extends Component {
@@ -22,25 +22,25 @@ class Home extends Component {
     this.done = false;
   }
 
-  static actions = () => [fetchDataBy(this.pageName)];
+  // static actions = () => [fetchDataBy(this.pageName)];
 
-  static pushData = data => fetchDataSuccess(this.pageName, data);
+  // static pushData = data => fetchDataSuccess(this.pageName, data);
 
-  componentDidMount() {
-    if (!this.props.homeData && this.props.match.params.lang === this.props.lang) {
-      this.props.dispatch(fetchDataBy(this.pageName));
-    }
-  }
+  // componentDidMount() {
+  //   if (!this.props.homeData && this.props.match.params.lang === this.props.lang) {
+  //     this.props.dispatch(fetchDataBy(this.pageName));
+  //   }
+  // }
 
-  shouldComponentUpdate(nextProps){
-    if (nextProps.lang !== this.props.lang) {
-      this.props.dispatch(fetchDataBy(this.pageName));
-    }
-    return true;
-  }
+  // shouldComponentUpdate(nextProps){
+  //   if (nextProps.lang !== this.props.lang) {
+  //     this.props.dispatch(fetchDataBy(this.pageName));
+  //   }
+  //   return true;
+  // }
 
   componentDidUpdate(prevProps) {
-    if (this.props.homeData && !this.done) {
+    if (this.props.data && !this.done) {
       const tl = new TimelineMax({ delay: .8 });
       for(let i=0; this.titleSpan[i]; i++){
         const value = this.titleSpan[i];
@@ -70,8 +70,8 @@ class Home extends Component {
 
 
   render() {
-    if (this.props.homeData) {
-      const data = this.props.homeData;
+    if (this.props.data) {
+      const data = this.props.data['home'];
       let i = 0;
 
       return (
@@ -123,7 +123,7 @@ class Home extends Component {
 const mapStateToProps = state => {
   return {
     lang: state.lang,
-    homeData: state.homeData ? state.homeData : null,
+    data: state.data ? state.data[state.lang] : null,
     isStarted: state.isStarted,
     page: state.page
   };

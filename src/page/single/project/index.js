@@ -27,29 +27,31 @@ class ProjectSingle extends Component {
   }
   
   componentDidUpdate(prevProps) {
-    if(this.props.imageClickedIdx !== null){
-      if(prevProps.imageClickedIdx !== this.props.imageClickedIdx){
-        if(this.projectSingle){
-          this.smooth = new smoothScroll("#projectSingle #scrollWrap", (s, y, h) => {
-            if(this.closeBtn)
-              TweenMax.set(this.closeBtn,{force3D:true, y: Math.max(0, -y)});
-          });
-          this.smooth.on();
-          this.smooth.showScrollBar();
-          // TweenMax.set(this.projectSingle,{y:'0%'});
-          TweenMax.to(this.projectSingle, .6, {delay:2,autoAlpha:1});
+    if(this.props.data){
+      if(this.props.imageClickedIdx !== null){
+        if(prevProps.imageClickedIdx !== this.props.imageClickedIdx){
+          if(this.projectSingle){
+            this.smooth = new smoothScroll("#projectSingle #scrollWrap", (s, y, h) => {
+              if(this.closeBtn)
+                TweenMax.set(this.closeBtn,{force3D:true, y: Math.max(0, -y)});
+            });
+            this.smooth.on();
+            this.smooth.showScrollBar();
+            // TweenMax.set(this.projectSingle,{y:'0%'});
+            TweenMax.to(this.projectSingle, .6, {delay:2,autoAlpha:1});
+          }
         }
       }
-    }
-    else if(prevProps.imageClickedIdx > -1 && this.props.imageClickedIdx === null){
-      if(this.projectSingle){
-        this.closeBtn = null;
-        this.smooth.off();
-        this.smooth.hideScrollBar();
-        this.smooth = null;
-        TweenMax.set(this.projectSingle,{y:'100%'});
+      else if(prevProps.imageClickedIdx > -1 && this.props.imageClickedIdx === null){
+        if(this.projectSingle){
+          this.closeBtn = null;
+          this.smooth.off();
+          this.smooth.hideScrollBar();
+          this.smooth = null;
+          TweenMax.set(this.projectSingle,{y:'100%'});
+        }
+        // console.log(this.props.imageClickedIdx);
       }
-      // console.log(this.props.imageClickedIdx);
     }
   }
 
@@ -57,8 +59,11 @@ class ProjectSingle extends Component {
     if(this.props.imageClickedIdx === null)
       return false;
     
-    const data = this.props.projectsData.items[this.props.imageClickedIdx];
-    if(this.props.projectsData){
+    const data = this.props.data['projects'].items[this.props.imageClickedIdx];
+    const globalData = this.props.data['global'];
+
+
+    if(this.props.data){
       return (
         <div ref={elem => this.projectSingle = elem} id="projectSingle">
           <div id="scrollWrap">
@@ -69,7 +74,7 @@ class ProjectSingle extends Component {
 
             <div id="wrap">
               <div id="info">
-                <div id="logo"></div>
+                <div id="logo"><img src={data.images.logo} alt="" /></div>
                 <div id="infoContent">
                   <h1>{data.name}</h1>
                   <div id="cat">{data.category.name}</div>
@@ -80,8 +85,8 @@ class ProjectSingle extends Component {
               </div>
               <div id="content">
                 <div id="intro" className="contentItem h5">
-                  <div className="title">{this.props.globalData && this.props.globalData.introduction}</div>
-                  {data.details.introduction}
+                  <div className="title">{globalData && globalData.introduction}</div>
+                  <div dangerouslySetInnerHTML={{__html:data.details.introduction}} />
                   <div id="tags">
                     {data.details.tags.map((value, idx)=>{
                       return(
@@ -91,7 +96,7 @@ class ProjectSingle extends Component {
                   </div>
                 </div>
                 <div id="awards" className="contentItem h5">
-                  <div className="title">{this.props.globalData && this.props.globalData.awards}</div>
+                  <div className="title">{globalData && globalData.awards}</div>
                   <ul>
                   {
                     data.details.awards.map((value, idx)=>{
@@ -107,7 +112,7 @@ class ProjectSingle extends Component {
                   </ul>
                 </div>
                 <div id="showcase" className="contentItem h6">
-                  <div className="title h5">{this.props.globalData && this.props.globalData.showcase}</div>
+                  <div className="title h5">{globalData && globalData.showcase}</div>
                   <ul>
                   {
                     data.details.showcase.map((value, idx)=>{
@@ -118,7 +123,7 @@ class ProjectSingle extends Component {
                             <>
                             {value.type === 'image' && <img src={value.src} alt="" /> }
                             {value.type === 'video' && <video muted controls><source src={value.src} type="video/mp4"></source></video> }
-                            {value.description && <p>{value.description}</p>}
+                            {value.description && <div dangerouslySetInnerHTML={{__html:value.description}} />}
                             </>
                           }
                         </li>
@@ -140,9 +145,8 @@ class ProjectSingle extends Component {
 const mapStateToProps = state => {
   return {
     lang: state.lang,
-    projectsData: state.projectsData ? state.projectsData : null,
+    data: state.data ? state.data[state.lang] : null,
     imageClickedIdx: state.imageClickedIdx,
-    globalData: state.globalData
   };
 };
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateLanguage, fetchGlobalData } from "../../../src/reducers";
+import { updateLanguage } from "../../../src/reducers";
 // import smoothScroll from "./scroll";
 
 import Nav from "../nav";
@@ -28,16 +28,16 @@ class PageWrap extends Component {
   }
 
 
-  shouldComponentUpdate(nextProps){
-    if(this.props.lang !== nextProps.lang){
-      this.props.dispatch(fetchGlobalData());
-      return true;
-    }
-    return false;
-  }
+  // shouldComponentUpdate(nextProps){
+  //   if(this.props.lang !== nextProps.lang){
+  //     this.props.dispatch(fetchGlobalData());
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   componentDidMount() {
-    this.props.dispatch(fetchGlobalData());
+    // this.props.dispatch(fetchGlobalData());
     if(this.props.match.params.lang !== this.props.lang)
       this.props.dispatch(updateLanguage(this.props.match.params.lang));
   }

@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import { connect } from "react-redux";
 import TweenMax from 'gsap';
 import smoothScroll from "../../_component/scroll";
-import { fetchDataBy, fetchDataSuccess } from "../../reducers";
 import "../../sass/page/about.scss";
 
 // const usePrevious = (value) => {
@@ -29,22 +28,22 @@ class About extends Component {
     this.openArticle = this.openArticle.bind(this)
   }
 
-  static actions = () => [fetchDataBy(this.pageName)];
+  // static actions = () => [fetchDataBy(this.pageName)];
 
-  static pushData = data => fetchDataSuccess(this.pageName, data);
+  // static pushData = data => fetchDataSuccess(this.pageName, data);
 
-  componentDidMount() {
-    if (!this.props.projectsData && this.props.match.params.lang === this.props.lang) {
-      this.props.dispatch(fetchDataBy(this.pageName));
-    }
-  }
+  // componentDidMount() {
+  //   if (!this.props.projectsData && this.props.match.params.lang === this.props.lang) {
+  //     this.props.dispatch(fetchDataBy(this.pageName));
+  //   }
+  // }
 
-  shouldComponentUpdate(nextProps){
-    if (nextProps.lang !== this.props.lang) {
-      this.props.dispatch(fetchDataBy(this.pageName));
-    }
-    return true;
-  }
+  // shouldComponentUpdate(nextProps){
+  //   if (nextProps.lang !== this.props.lang) {
+  //     this.props.dispatch(fetchDataBy(this.pageName));
+  //   }
+  //   return true;
+  // }
 
   componentDidUpdate(prevProps) {
     if(prevProps.page !== 'about' && this.props.page === 'about'){
@@ -77,8 +76,9 @@ class About extends Component {
       return false;
     }
 
-    if (this.props.aboutData) {
-      const data = this.props.aboutData;
+    if (this.props.data) {
+      const data = this.props.data['about'];
+      const globalData = this.props.data['global'];
 
       return(
         <div ref={elem => this.about = elem} id="about">
@@ -95,8 +95,8 @@ class About extends Component {
                   <h1 className="cap"><span className="blue">HK</span><span className="orange">STP</span></h1>
                 </div>
                 <div id="intro" className="contentWrap h5">
-                  <div className="title">{this.props.globalData && this.props.globalData.introduction}</div>
-                  {data.introduction}
+                  <div className="title">{globalData && globalData.introduction}</div>
+                  <div dangerouslySetInnerHTML={{__html:data.introduction}} />
                   <div id="image"><img src={data.image.thumbnail} alt=""/></div>
                 </div>
 
@@ -106,19 +106,19 @@ class About extends Component {
                       return (
                         <li key={idx} className={`h5 ${this.state.activeId === idx ? 'active' : ''}`} onClick={(e)=>{this.openArticle(e,idx)}}>
                           <div className="infoWrap">
-                            <p>{value.name}</p>
-                            <span className="detailBtn">{this.props.globalData && this.props.globalData.moreDetails}</span>
+                            <div dangerouslySetInnerHTML={{__html: value.name}} />
+                            <span className="detailBtn">{globalData && globalData.moreDetails}</span>
                           </div>
                           <div className="contentWrap">
                             <div className="content">
-                              123123123123123
+                              <div dangerouslySetInnerHTML={{__html: value.details}} />
                             </div>
                           </div>
                         </li>
                       )
                     })
                   }
-                  <span id="title" className="cap">{this.props.globalData && this.props.globalData.article}</span>
+                  <span id="title" className="cap">{globalData && globalData.article}</span>
                 </ul>
               </div>
             </div>
@@ -133,8 +133,8 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     page: state.page,
-    aboutData: state.aboutData,
-    globalData: state.globalData
+    data: state.data ? state.data[state.lang] : null,
+    // globalData: state.globalData
   };
 };
 

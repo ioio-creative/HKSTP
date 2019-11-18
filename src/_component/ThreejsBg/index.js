@@ -900,7 +900,7 @@ const ThreejsBg = props => {
     // when updated category or language
     useEffect(()=>{
       if(props.projectItems && props.imageClickedIdx === null && props.page === 'projects'){
-        const idx = props.projectsData.categories.findIndex(v => v.slug === props.category);
+        const idx = props.data['projects'].categories.findIndex(v => v.slug === props.category);
 
         removeImageFunction.current.removeImage();
         initImageFunction.current.initImage( idx < 0 ? 0 : idx);
@@ -928,7 +928,7 @@ const ThreejsBg = props => {
     return {
       lang: state.lang,
       isStarted: state.isStarted,
-      projectsData: state.projectsData ? state.projectsData : null,
+      data: state.data ? state.data[state.lang] : null,
       projectItems: state.projectItems,
       category: state.category,
       imageClickedIdx: state.imageClickedIdx,

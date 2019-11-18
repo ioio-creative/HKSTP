@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import PageWrap from "./_component/pagewrap";
 import { connect } from "react-redux";
+import { fetchAllData } from './reducers';
 import "./sass/style.scss";
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
     this.baseFontRatio = 16 / 1440;
     this.fontMultiplier = 0.84375;
   }
+
 
   getDevice() {
     try {
@@ -102,6 +104,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(fetchAllData());
     this.onResize();
     window.addEventListener("resize", this.onResize);
   }

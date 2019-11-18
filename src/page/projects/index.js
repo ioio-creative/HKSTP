@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // import Html from "../../_component/html";
-import { fetchDataBy, fetchDataSuccess, updateImageClickedIdx, updateProjectItems, updateCategory, updateHideProjects } from "../../reducers";
+import { updateImageClickedIdx, updateProjectItems, updateCategory, updateHideProjects } from "../../reducers";
 import "../../sass/page/projects.scss";
 import TweenMax, {Back} from 'gsap';
 import smoothScroll from "../../_component/scroll";
@@ -29,22 +29,22 @@ class Projects extends Component {
     this.heading = null;
   }
 
-  static actions = () => [fetchDataBy(this.pageName)];
+  // static actions = () => [fetchDataBy(this.pageName)];
 
-  static pushData = data => fetchDataSuccess(this.pageName, data);
+  // static pushData = data => fetchDataSuccess(this.pageName, data);
 
-  componentDidMount() {
-    if (!this.props.projectsData && this.props.match.params.lang === this.props.lang) {
-      this.props.dispatch(fetchDataBy(this.pageName));
-    }
-  }
+  // componentDidMount() {
+  //   if (!this.props.projectsData && this.props.match.params.lang === this.props.lang) {
+  //     this.props.dispatch(fetchDataBy(this.pageName));
+  //   }
+  // }
 
-  shouldComponentUpdate(nextProps){
-    if (nextProps.lang !== this.props.lang) {
-      this.props.dispatch(fetchDataBy(this.pageName));
-    }
-    return true;
-  }
+  // shouldComponentUpdate(nextProps){
+  //   if (nextProps.lang !== this.props.lang) {
+  //     this.props.dispatch(fetchDataBy(this.pageName));
+  //   }
+  //   return true;
+  // }
 
 
   getInScreenItems(items){
@@ -85,12 +85,12 @@ class Projects extends Component {
       TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {delay:2, y:0, ease:'Expo.easeOut'},.1);
       TweenMax.fromTo(this.heading, 1, {autoAlpha:0},{delay:2, autoAlpha:1, ease: 'Power4.easeOut' });
 
-      if(this.props.projectsData){ 
+      if(this.props.data){ 
         this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
         this.smooth.on();
         this.smooth.showScrollBar();
         if(!this.props.category)
-          this.props.dispatch(updateCategory(this.props.projectsData.categories[0].slug));
+          this.props.dispatch(updateCategory(this.props.data['projects'].categories[0].slug));
       }
 
       if(!this.props.projectItems){
@@ -127,7 +127,7 @@ class Projects extends Component {
       // fade out the info
       TweenMax.to(this.items[this.props.imageClickedIdx].querySelector('.info'), .3, {autoAlpha:0, ease: 'Power4.easeOut'});
 
-      TweenMax.to(this.heading, .3, {autoAlpha:0, ease: 'Power4.easeOut' });
+      TweenMax.to(this.heading, .3, {autoAlpha:0, overwrite:'all', ease: 'Power4.easeOut' });
       // slide out if items are in screen area
       this.slideOutItems(updatedItems);
 
@@ -203,8 +203,8 @@ class Projects extends Component {
     if(!this.props.isStarted || this.props.isHideProjects)
       return (null);
     
-    if (this.props.projectsData) {
-      const data = this.props.projectsData;
+    if (this.props.data) {
+      const data = this.props.data['projects'];
       const filteredData = [];
       this.items = [];
       
@@ -255,7 +255,7 @@ class Projects extends Component {
 const mapStateToProps = state => {
   return {
     lang: state.lang,
-    projectsData: state.projectsData,
+    data: state.data ? state.data[state.lang] : null,
     projectItems: state.projectItems,
     category: state.category,
     isStarted: state.isStarted,
