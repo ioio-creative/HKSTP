@@ -93,7 +93,7 @@ export const fetchAllData = () => (dispatch, getState) => {
     // start message
     dispatch(fetchDataRequest());
 
-    fetch('http://dev.ioiocreative.com/HKSTP/cms/api',{ 
+    fetch('/HKSTP/cms/api',{ 
       headers: { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
