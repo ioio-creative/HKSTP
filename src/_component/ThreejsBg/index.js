@@ -671,6 +671,8 @@ const ThreejsBg = props => {
         imageClickedIdx = undefined;
         tempImageSize = [];
 
+        rotate = {x:0, y:0, z:0};
+
         initedImage = false;
       }
     }
