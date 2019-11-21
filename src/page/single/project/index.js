@@ -56,7 +56,7 @@ class ProjectSingle extends Component {
   }
 
   render() {
-    if(this.props.imageClickedIdx === null)
+    if(this.props.imageClickedIdx === null || !this.props.isStarted)
       return false;
     
     const data = this.props.data['projects'].items[this.props.imageClickedIdx];
@@ -146,6 +146,7 @@ const mapStateToProps = state => {
   return {
     lang: state.lang,
     data: state.data ? state.data[state.lang] : null,
+    isStarted: state.isStarted,
     imageClickedIdx: state.imageClickedIdx,
   };
 };

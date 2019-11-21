@@ -5,7 +5,7 @@ import OrbitControls from "three-orbitcontrols";
 import * as dat from "dat.gui";
 import Stats from "stats.js";
 import { TweenMax, TimelineMax } from "gsap";
-import { updateIsStarted, updatePage } from "../../reducers";
+import { updateIsStarted, updatePage, updateImageClickedIdx, updateHideProjects } from "../../reducers";
 
 const usePrevious = (value) => {
   const ref = useRef();
@@ -23,6 +23,7 @@ const ThreejsBg = props => {
   const updateImageEffectFunction = useRef(null);
   const loadImageFunction = useRef(null);
   const updateStopEaseFunction = useRef(null);
+  const backToHomeFunction = useRef(null);
   const prevProps = usePrevious({page: props.page});
 
   useEffect(() => {
@@ -860,6 +861,21 @@ const ThreejsBg = props => {
     };
 
 
+    const backToHome = () => {
+      removeImage();
+      clicked = false;
+      props.dispatch(updatePage('home'));
+      props.dispatch(updateIsStarted(false));
+      props.dispatch(updateImageClickedIdx(null));
+      props.dispatch(updateHideProjects(false));
+      const tl = new TimelineMax();
+      tl.to(options, 2, {slideProgress:0, ease:'Power3.easeOut'},0);
+      tl.to(logo.position, 2, {x:5, z: 20, ease:'Power2.easeInOut'},0);
+    }
+    backToHomeFunction.current = {backToHome};
+
+
+
     const onWindowResize = () => {
       // camera.left = -window.innerWidth / 2;
       // camera.right = window.innerWidth / 2;
@@ -887,9 +903,6 @@ const ThreejsBg = props => {
     },[canvasWrap]);
   
     
-    // useEffect(()=>{
-    //   initImageFunction.current.initImage();
-    // },[props.isStarted])
 
     // when clicked image
     useEffect(()=>{
@@ -920,6 +933,10 @@ const ThreejsBg = props => {
         removeImageFunction.current.removeImage();
       }
     },[props.isHideProjects])
+
+    useEffect(()=>{
+      backToHomeFunction.current.backToHome();
+    },[props.lang])
 
     return <div ref={canvasWrap} id="canvasWrap" />
   };

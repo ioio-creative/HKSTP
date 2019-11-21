@@ -1,6 +1,11 @@
 // import Prismic from "prismic-javascript";
 // import siteData from "../siteData";
+import React from 'react';
 import myCache from "memory-cache";
+
+const ReactIsInDevMode = () => { 
+  return '_self' in React.createElement('div');
+}
 
 //
 // Actions
@@ -93,7 +98,8 @@ export const fetchAllData = () => (dispatch, getState) => {
     // start message
     dispatch(fetchDataRequest());
 
-    fetch('/HKSTP/cms/api',{ 
+    const path = ReactIsInDevMode() ? '//dev.ioiocreative.com/HKSTP/cms/api' : '/HKSTP/cms/api';
+    fetch(path,{ 
       headers: { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'

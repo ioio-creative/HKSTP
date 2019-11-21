@@ -67,7 +67,7 @@ class Projects extends Component {
     this.inScreenItems = this.getInScreenItems(items);
     TweenMax.staggerTo(this.inScreenItems, .6, {y:-window.innerHeight*2.5, ease:Back.easeIn.config(1)},.04,
     ()=>{
-      if(this.props.page !== 'projects'){
+      if(this.props.page !== 'projects' && this.props.isStarted){
         this.props.dispatch(updateHideProjects(true))
       }
     });
@@ -81,9 +81,11 @@ class Projects extends Component {
   }
   
   componentDidUpdate(prevProps) {
-    if(prevProps.isStarted !== this.props.isStarted){
+    if(prevProps.isStarted !== this.props.isStarted && this.props.isStarted){
+      this.clickable = true;
+
       TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {delay:2, y:0, ease:'Expo.easeOut'},.1);
-      TweenMax.fromTo(this.heading, 1, {autoAlpha:0},{delay:2, autoAlpha:1, ease: 'Power4.easeOut' });
+      TweenMax.fromTo(this.heading, 1, {autoAlpha:0, y:20},{delay:2, autoAlpha:1, y:0, ease: 'Power4.easeOut' });
 
       if(this.props.data){ 
         this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
@@ -93,9 +95,9 @@ class Projects extends Component {
           this.props.dispatch(updateCategory(this.props.data['projects'].categories[0].slug));
       }
 
-      if(!this.props.projectItems){
+      // if(!this.props.projectItems){
         this.props.dispatch(updateProjectItems(this.items));
-      }
+      // }
     }
 
     // changed page
@@ -103,7 +105,7 @@ class Projects extends Component {
       // others page
       if(prevProps.page === 'projects' && this.props.page !== 'projects'){
         this.slideOutItems(this.items);
-        TweenMax.to(this.heading, .3, {autoAlpha:0, ease: 'Power4.easeOut' });
+        TweenMax.to(this.heading, .3, {autoAlpha:0, y:-20, ease: 'Power4.easeOut' });
         
         // turn off scrolling
         this.smooth.off();
@@ -127,7 +129,7 @@ class Projects extends Component {
       // fade out the info
       TweenMax.to(this.items[this.props.imageClickedIdx].querySelector('.info'), .3, {autoAlpha:0, ease: 'Power4.easeOut'});
 
-      TweenMax.to(this.heading, .3, {autoAlpha:0, overwrite:'all', ease: 'Power4.easeOut' });
+      TweenMax.to(this.heading, .3, {autoAlpha:0, y:-20, overwrite:'all', ease: 'Power4.easeOut' });
       // slide out if items are in screen area
       this.slideOutItems(updatedItems);
 
@@ -138,30 +140,32 @@ class Projects extends Component {
 
     // when close
     if(prevProps.imageClickedIdx !== null && this.props.imageClickedIdx === null){
-      const updatedItems = Array.from(this.items);
-      updatedItems.splice(prevProps.imageClickedIdx, 1);
+      if(this.items[prevProps.imageClickedIdx]){
+        const updatedItems = Array.from(this.items);
+        updatedItems.splice(prevProps.imageClickedIdx, 1);
 
-      // slide in to screen area
-      this.slideInItems(prevProps.imageClickedIdx);
+        // slide in to screen area
+        this.slideInItems(prevProps.imageClickedIdx);
 
-      // fade in the info
-      TweenMax.to(this.items[prevProps.imageClickedIdx].querySelector('.info'), .8, {autoAlpha:1, ease: 'Power2.easeOut',
-        onComplete:()=>{
-          this.clickable = true;
-        }
-      });
-      TweenMax.to(this.heading, .8, {autoAlpha:1, ease: 'Power2.easeOut' });
+        // fade in the info
+        TweenMax.to(this.items[prevProps.imageClickedIdx].querySelector('.info'), .8, {autoAlpha:1, ease: 'Power2.easeOut',
+          onComplete:()=>{
+            this.clickable = true;
+          }
+        });
+        TweenMax.fromTo(this.heading, .8, {y:30}, {autoAlpha:1, y:0, ease: 'Power2.easeOut' });
 
-      // turn on scrolling
-      this.smooth.on();
-      this.smooth.showScrollBar();
+        // turn on scrolling
+        this.smooth.on();
+        this.smooth.showScrollBar();
+      }
     }
 
     // 
     // update category
     // update language
     // back to projects page
-    // if(prevProps.category !== this.props.category)
+
     if(prevProps.category !== this.props.category || 
       // prevProps.projectsData !== this.props.projectsData ||
       (prevProps.isHideProjects !== this.props.isHideProjects && this.props.page === 'projects')
@@ -179,7 +183,7 @@ class Projects extends Component {
 
           if(prevProps.isHideProjects !== this.props.isHideProjects){
             TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {y:0, ease:'Expo.easeOut'},.1);
-            TweenMax.fromTo(this.heading, 1, {autoAlpha:0},{autoAlpha:1, ease: 'Power4.easeOut' });
+            TweenMax.fromTo(this.heading, 1, {autoAlpha:0, y:20},{autoAlpha:1, y:0, ease: 'Power4.easeOut' });
             
             this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
             // turn on scrolling
@@ -221,7 +225,6 @@ class Projects extends Component {
         }
       }
 
-
       return (
         <div ref={elem => this.projects = elem} id="projects">
           <div ref={elem => this.scrollWrap = elem} id="scrollWrap" className={!this.props.isStarted ? 'hide' : ''}>
@@ -231,7 +234,7 @@ class Projects extends Component {
                 return (
                   <li key={idx} ref={elem => this.items[idx] = elem}>
                     <div className="info">
-                      <div className="logoWrap"><div className="logo"><span>{idx}</span></div></div>
+                      <div className="logoWrap"><div className="logo"><img src={value.images.logo} alt="" /></div></div>
                       <div className="infoWrap">
                         <div className="wrap">
                           <p className="h4">{value.name}</p>

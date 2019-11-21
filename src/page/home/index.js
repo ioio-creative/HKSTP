@@ -40,6 +40,12 @@ class Home extends Component {
   // }
 
   componentDidUpdate(prevProps) {
+    
+    if(prevProps.isStarted && !this.props.isStarted){
+      TweenMax.set(this.titleSpan, {y:'0%', overwrite:'all'});
+      this.done = false;
+    }
+
     if (this.props.data && !this.done) {
       const tl = new TimelineMax({ delay: .8 });
       for(let i=0; this.titleSpan[i]; i++){
@@ -63,7 +69,7 @@ class Home extends Component {
       this.done = true;
     }
 
-    if(prevProps.isStarted !== this.props.isStarted){
+    if(prevProps.isStarted !== this.props.isStarted && this.props.isStarted){
       TweenMax.to(this.titleSpan, 1.3, {y:'-100%', overwrite:'all', ease:'Power4.easeInOut'});
     }
   }
