@@ -48,17 +48,18 @@ class Nav extends Component {
         },2000)
       }
 
-      if(this.props.projectsData)
-        if(prevProps.category === '' && this.props.category === this.props.projectsData.categories[0].slug)
+      if(this.props.data['projects']){
+        if(prevProps.category === '' && this.props.category === this.props.data['projects'].categories[0].slug)
         {}
         else{
           if(prevProps.category !== this.props.category){
-            const idx = this.props.projectsData.categories.findIndex(v => v.slug === this.props.category)+1;
+            const idx = this.props.data['projects'].categories.findIndex(v => v.slug === this.props.category)+1;
             const target = document.querySelector(`#categoryWrap li:nth-child(${idx})`);
             const offsetLeft = target.offsetLeft;
             TweenMax.to(this.projectNum, .4, { x:offsetLeft+target.offsetWidth/2-this.projectNum.offsetWidth/2, ease:Back.easeOut.config(1)});
           }
         }
+      }
 
       if(this.props.page !== 'projects')
         TweenMax.to(this.projectNum, .5, { y:'-100%', autoAlpha:0, ease:'Power4.easeIn'});

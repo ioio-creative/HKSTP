@@ -26,26 +26,7 @@ class Home extends Component {
 
   // static pushData = data => fetchDataSuccess(this.pageName, data);
 
-  // componentDidMount() {
-  //   if (!this.props.homeData && this.props.match.params.lang === this.props.lang) {
-  //     this.props.dispatch(fetchDataBy(this.pageName));
-  //   }
-  // }
-
-  // shouldComponentUpdate(nextProps){
-  //   if (nextProps.lang !== this.props.lang) {
-  //     this.props.dispatch(fetchDataBy(this.pageName));
-  //   }
-  //   return true;
-  // }
-
-  componentDidUpdate(prevProps) {
-    
-    if(prevProps.isStarted && !this.props.isStarted){
-      TweenMax.set(this.titleSpan, {y:'0%', overwrite:'all'});
-      this.done = false;
-    }
-
+  textAnim(){
     if (this.props.data && !this.done) {
       const tl = new TimelineMax({ delay: .8 });
       for(let i=0; this.titleSpan[i]; i++){
@@ -68,6 +49,30 @@ class Home extends Component {
       }
       this.done = true;
     }
+  }
+
+  componentDidMount() {
+    this.textAnim();
+  //   if (!this.props.homeData && this.props.match.params.lang === this.props.lang) {
+  //     this.props.dispatch(fetchDataBy(this.pageName));
+  //   }
+  }
+
+  // shouldComponentUpdate(nextProps){
+  //   if (nextProps.lang !== this.props.lang) {
+  //     this.props.dispatch(fetchDataBy(this.pageName));
+  //   }
+  //   return true;
+  // }
+
+  componentDidUpdate(prevProps) {
+    
+    if(prevProps.isStarted && !this.props.isStarted){
+      TweenMax.set(this.titleSpan, {y:'0%', overwrite:'all'});
+      this.done = false;
+    }
+    
+    this.textAnim();
 
     if(prevProps.isStarted !== this.props.isStarted && this.props.isStarted){
       TweenMax.to(this.titleSpan, 1.3, {y:'-100%', overwrite:'all', ease:'Power4.easeInOut'});
