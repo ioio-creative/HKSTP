@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 // import Html from "../../_component/html";
 import { updateImageClickedIdx, updateProjectItems, updateCategory, updateHideProjects } from "../../reducers";
 import "../../sass/page/projects.scss";
-import TweenMax, {Back} from 'gsap';
+import TweenMax, {Back, TimelineMax} from 'gsap';
 import smoothScroll from "../../_component/scroll";
 
 class Projects extends Component {
@@ -105,7 +105,7 @@ class Projects extends Component {
       // others page
       if(prevProps.page === 'projects' && this.props.page !== 'projects'){
         this.slideOutItems(this.items);
-        TweenMax.to(this.heading, .3, {autoAlpha:0, y:-20, ease: 'Power4.easeOut' });
+        TweenMax.to(this.heading, .6, {autoAlpha:0, y:-40, ease: 'Power3.easeOut' });
         
         // turn off scrolling
         this.smooth.off();
@@ -129,7 +129,7 @@ class Projects extends Component {
       // fade out the info
       TweenMax.to(this.items[this.props.imageClickedIdx].querySelector('.info'), .3, {autoAlpha:0, ease: 'Power4.easeOut'});
 
-      TweenMax.to(this.heading, .3, {autoAlpha:0, y:-20, overwrite:'all', ease: 'Power4.easeOut' });
+      TweenMax.to(this.heading, .6, {autoAlpha:0, y:-40, overwrite:'all', ease: 'Power3.easeOut' });
       // slide out if items are in screen area
       this.slideOutItems(updatedItems);
 
@@ -153,7 +153,7 @@ class Projects extends Component {
             this.clickable = true;
           }
         });
-        TweenMax.fromTo(this.heading, .8, {y:30}, {autoAlpha:1, y:0, ease: 'Power2.easeOut' });
+        TweenMax.fromTo(this.heading, 1, {y:40}, {autoAlpha:1, y:0, ease: 'Power3.easeOut' });
 
         // turn on scrolling
         this.smooth.on();
@@ -181,9 +181,13 @@ class Projects extends Component {
             return el !== null;
           });
 
+          const tl = new TimelineMax();
+          tl.set(this.heading, {autoAlpha:0});
+          tl.fromTo(this.heading, 1, {y:40},{autoAlpha:1, y:0, ease: 'Power3.easeOut' });
+
           if(prevProps.isHideProjects !== this.props.isHideProjects){
             TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {y:0, ease:'Expo.easeOut'},.1);
-            TweenMax.fromTo(this.heading, 1, {autoAlpha:0, y:20},{autoAlpha:1, y:0, ease: 'Power4.easeOut' });
+            TweenMax.fromTo(this.heading, 1, {autoAlpha:0, y:40},{autoAlpha:1, y:0, ease: 'Power3.easeOut' });
             
             this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
             // turn on scrolling

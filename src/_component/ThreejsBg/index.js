@@ -109,21 +109,21 @@ const ThreejsBg = props => {
       renderer.setClearColor(0xffffff, 0);
       canvasWrap.current.appendChild(renderer.domElement);
 
-      gui = new dat.GUI({ width: 350 });
-      gui.add(options, "planeSpeed").min(0).max(2).name('background plane speed').listen();
-      gui.add(options, "slideProgress").min(0).max(1).name('color of logo slider').listen();
-      const g = gui.add(options, "gary").name('set Gary image');
-      g.onChange(()=>{
-        if(imagesMaterial)
-          imagesMaterial.uniforms.isGary.value = options.gary;
-      })
-      gui.domElement.parentNode.style.zIndex = 999;
+      // gui = new dat.GUI({ width: 350 });
+      // gui.add(options, "planeSpeed").min(0).max(2).name('background plane speed').listen();
+      // gui.add(options, "slideProgress").min(0).max(1).name('color of logo slider').listen();
+      // const g = gui.add(options, "gary").name('set Gary image');
+      // g.onChange(()=>{
+      //   if(imagesMaterial)
+      //     imagesMaterial.uniforms.isGary.value = options.gary;
+      // })
+      // gui.domElement.parentNode.style.zIndex = 999;
 
       // stats
-      stats.showPanel(0);
-      stats.domElement.style.position = "fixed";
-      stats.domElement.style.top = 0;
-      document.body.appendChild(stats.domElement);
+      // stats.showPanel(0);
+      // stats.domElement.style.position = "fixed";
+      // stats.domElement.style.top = 0;
+      // document.body.appendChild(stats.domElement);
 
       initLight();
       initMesh();
@@ -581,6 +581,7 @@ const ThreejsBg = props => {
           });
 
           imagesMaterial.minFilter = THREE.NearestFilter;
+          imagesMaterial.uniforms.isGary.value = true;
 
           images = new THREE.Mesh(geometry, imagesMaterial);
           scene.add(images);
@@ -597,8 +598,8 @@ const ThreejsBg = props => {
             imageAnim(i);
           }
 
-          if(guiWireframe) gui.remove(guiWireframe);
-          guiWireframe = gui.add(imagesMaterial, "wireframe");
+          // if(guiWireframe) gui.remove(guiWireframe);
+          // guiWireframe = gui.add(imagesMaterial, "wireframe");
         }
       }
     }
