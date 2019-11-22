@@ -174,9 +174,8 @@
               justify-content: flex-end;
             }
             p{
-              width:80%;
               padding:0 rem-calc(15);
-              margin:rem-calc(20 0);
+              margin:rem-calc(20 0 20) 20%;
               border-left:rem-calc(2) solid $lightorange;
               &:empty{
                 display: none;
