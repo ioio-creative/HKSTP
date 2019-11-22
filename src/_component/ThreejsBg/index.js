@@ -762,8 +762,9 @@ const ThreejsBg = props => {
           }
           else{
               offset = {x:0, y:0, z:30};
-              rotate.x += 0.001;
-              rotate.y += 0.001;
+              // console.log(rotate.x % (Math.PI*2));
+              rotate.x += 0.04;
+              rotate.y += 0.04;
           }
 
 
@@ -775,6 +776,15 @@ const ThreejsBg = props => {
               imageRotate[i*3+0] += (rotate.x - imageRotate[i*3+0]) * .1;
               imageRotate[i*3+1] += (rotate.y - imageRotate[i*3+1]) * .1;
               imageRotate[i*3+2] += (rotate.z - imageRotate[i*3+2]) * .1;
+
+              if(imageRotate[i*3+0] >= (Math.PI*2)){
+                imageRotate[i*3+0] = 0;
+                rotate.x = 0.4;
+              }
+              if(imageRotate[i*3+1] >= (Math.PI*2)){
+                imageRotate[i*3+1] = 0;
+                rotate.y = 0.4;
+              }
             }
             // else{
             //   console.log(1);
