@@ -35,13 +35,13 @@ class Home extends Component {
         value.style.willChange = "transform";
         const time = Math.random() * 0.5 + 0.8;
         xory === 0 ? 
-          tl.fromTo( value, time , { x: Math.round(Math.random()) * 200 - 100 + "%" },{ x: 0 + "%", ease: "Expo.easeOut",
+          tl.fromTo( value, time , { x: Math.round(Math.random()) * 200 - 100 + "%" },{ x: 0 + "%",autoAlpha:1, ease: "Expo.easeOut",
             onComplete: () => {
               value.style.willChange = "";
             }
           },Math.random())
         : 
-          tl.fromTo(value, time,{ x: 0 + "%", y: Math.round(Math.random()) * 200 - 100 + "%" },{ y: 0 + "%",ease: "Expo.easeOut",
+          tl.fromTo(value, time,{ x: 0 + "%", y: Math.round(Math.random()) * 200 - 100 + "%" },{ y: 0 + "%", autoAlpha:1, ease: "Expo.easeOut",
             onComplete: () => {
               value.style.willChange = "";
             }
@@ -66,9 +66,14 @@ class Home extends Component {
   // }
 
   componentDidUpdate(prevProps) {
+
+    if(prevProps.lang !== this.props.lang){
+      TweenMax.set(this.titleSpan, {autoAlpha:0});
+    }
+    
     
     if(prevProps.isStarted && !this.props.isStarted){
-      TweenMax.set(this.titleSpan, {y:'0%', overwrite:'all'});
+      TweenMax.set(this.titleSpan, {y:'0%',autoAlpha:1, overwrite:'all'});
       this.done = false;
     }
     

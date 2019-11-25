@@ -20,7 +20,8 @@
         "awards": "Awards",
         "showcase": "Showcase",
         "article": "Article",
-        "moreDetails": "More Details"
+        "moreDetails": "More Details",
+        "about": "About HKSTP"
       },
       "home": {
         "title1": "HK",
@@ -799,7 +800,8 @@
         "awards": "獎項",
         "showcase": "展示",
         "article": "文章",
-        "moreDetails": "更多"
+        "moreDetails": "更多",
+        "about": "關於香港科學園"
       },
       "home": {
         "title1": "香港",

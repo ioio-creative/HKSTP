@@ -81,6 +81,7 @@ class Nav extends Component {
       const langData = this.props.langData;
       const homeData = this.props.data['home'];
       const projectsData = this.props.data['projects'];
+      const globalData = this.props.data['global'];
 
       return (
         <>
@@ -112,7 +113,7 @@ class Nav extends Component {
                 </li>
               })
             }
-              <li className="h3" onClick={()=>{if(this.props.page !== 'about') this.props.dispatch(updatePage('about'))}}>About HKSTP</li>
+              <li className="h3" onClick={()=>{if(this.props.page !== 'about') this.props.dispatch(updatePage('about'))}}>{globalData.about}</li>
               <span ref={elem => this.projectNum = elem} id="projectNum">{this.props.projectItems && this.props.projectItems.length}</span>
             </ul>
           </div>

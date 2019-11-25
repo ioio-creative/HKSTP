@@ -616,7 +616,8 @@ const ThreejsBg = props => {
             
             TweenMax.to(imageDisplacement[realIdx], 1, {delay:.6, value: 1, ease:'Power4.easeInOut',
               onStart:()=>{
-                imagesMaterial.depthTest = true;
+                if(imagesMaterial)
+                  imagesMaterial.depthTest = true;
               }
             });
 
