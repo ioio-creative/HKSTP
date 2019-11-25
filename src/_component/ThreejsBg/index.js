@@ -763,8 +763,8 @@ const ThreejsBg = props => {
           else{
               offset = {x:0, y:0, z:30};
               // console.log(rotate.x % (Math.PI*2));
-              rotate.x += 0.04;
-              rotate.y += 0.04;
+              rotate.x += 0.001;
+              rotate.y += 0.001;
           }
 
 
