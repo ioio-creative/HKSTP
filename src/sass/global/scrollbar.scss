@@ -37,3 +37,53 @@
     }
   }
 }
+
+.arrow{
+  width:3vw;
+  height:3vw;
+  position: fixed;
+  left:2.6vw;
+  cursor: pointer;
+  transition: all .3s cubic-bezier(0.19, 1, 0.22, 1);
+  animation: fadeIn 1s cubic-bezier(0.19, 1, 0.22, 1);
+  &:active{
+    transform: translate3d(0,0,0) scale(.8);
+  }
+  &:before, &:after{
+    content:'';
+    width:40%;
+    height:.2vw;
+    background:$black;
+    display: block;
+    position: absolute;
+    top:50%;
+    left:50%;
+  }
+  &#arrowTop{
+    bottom:9.7vw;
+    &:before{
+      transform: translate3d(-80%,-20%,0) rotate(-45deg);
+    }
+    &:after{
+      transform: translate3d(-20%,-20%,0) rotate(45deg);
+    }
+  }
+  &#arrowBot{
+    bottom:2.7vw;
+    &:before{
+      transform: translate3d(-80%,-20%,0) rotate(45deg);
+    }
+    &:after{
+      transform: translate3d(-20%,-20%,0) rotate(-45deg);
+    }
+  }
+}
+
+@keyframes fadeIn{
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}

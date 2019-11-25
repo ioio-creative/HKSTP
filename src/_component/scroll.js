@@ -541,6 +541,26 @@ var SmoothScroll = function(elem, scrollFunc) {
     isSelf = false;
   });
 
+  var initArrow = function(){
+    _this.arrowTop = document.createElement("div");
+    _this.arrowBot = document.createElement("div");
+    _this.arrowTop.setAttribute("id", "arrowTop");
+    _this.arrowBot.setAttribute("id", "arrowBot");
+    addClass(_this.arrowTop, 'arrow');
+    addClass(_this.arrowBot, 'arrow');
+    _this.elem.parentNode.appendChild(_this.arrowTop);
+    _this.elem.parentNode.appendChild(_this.arrowBot);
+    addEvent(_this.arrowTop, "mousedown", onMouseDownArrowTop);
+    addEvent(_this.arrowBot, "mousedown", onMouseDownArrowBot);
+  }
+
+  var onMouseDownArrowTop = function(){
+    to(targetY+window.innerHeight);
+  }
+  var onMouseDownArrowBot = function(){
+    to(targetY-window.innerHeight);
+  }
+
   var initScrollBar = function() {
     _this.oldMouseY = 0;
     _this.scrollBarWrap = document.createElement("div");
@@ -624,10 +644,9 @@ var SmoothScroll = function(elem, scrollFunc) {
   };
 
   var to = function(y) {
-    elemHeight =
-      _this.elem.getBoundingClientRect().height -
-      _this.elem.parentNode.offsetHeight;
+    elemHeight = _this.elem.getBoundingClientRect().height - _this.elem.parentNode.offsetHeight;
     targetY = Math.max(-elemHeight, y);
+    targetY = Math.min(0, targetY);
   };
   var set = function(y) {
     currentY = y;
@@ -681,6 +700,7 @@ var SmoothScroll = function(elem, scrollFunc) {
 
   var init = function() {
     initScrollBar();
+    initArrow();
     addEvent(window, "resize", onResize);
   };
 
