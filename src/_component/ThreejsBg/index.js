@@ -859,32 +859,38 @@ const ThreejsBg = props => {
 
     
     
-    const onClick = () => {
+    const onClick = (e) => {
       if(!clicked){
-        clicked =true;
-        props.dispatch(updatePage('projects'));
-        props.dispatch(updateIsStarted(true));
-        const tl = new TimelineMax();
-        tl.to(options, 1.6, {planeSpeed: 2, ease:'Power3.easeInOut'},0);
-        tl.to(options, 2, {slideProgress:1, ease:'Power3.easeOut'},0);
-        tl.to(logo.position, 2, {x:0, z: -20, ease:'Power2.easeInOut'},0);
-        tl.to(rotateSpeed, 1.3, {value: .05, ease:'Power1.easeOut'},0);
-        tl.to(rotateSpeed, 1.3, {value: .004, ease:'Power3.easeInOut'},1.3);
-        tl.to(options, 1.6, {planeSpeed: .1, ease:'Power3.easeInOut'},1.3);
+        if(e.target.getAttribute('id') !== 'langBtn'){
+          clicked =true;
+          props.dispatch(updatePage('projects'));
+          props.dispatch(updateIsStarted(true));
+
+          const tl = new TimelineMax();
+          tl.to(options, 1.6, {planeSpeed: 2, ease:'Power3.easeInOut'},0);
+          tl.to(options, 2, {slideProgress:1, ease:'Power3.easeOut'},0);
+          tl.to(logo.position, 2, {x:0, z: -20, ease:'Power2.easeInOut'},0);
+          tl.to(rotateSpeed, 1.3, {value: .05, ease:'Power1.easeOut'},0);
+          tl.to(rotateSpeed, 1.3, {value: .004, ease:'Power3.easeInOut'},1.3);
+          tl.to(options, 1.6, {planeSpeed: .1, ease:'Power3.easeInOut'},1.3);
+        }
       }
     };
 
 
-    const backToHome = () => {
-      removeImage();
-      clicked = false;
-      props.dispatch(updatePage('home'));
-      props.dispatch(updateIsStarted(false));
-      props.dispatch(updateImageClickedIdx(null));
-      props.dispatch(updateHideProjects(false));
-      const tl = new TimelineMax();
-      tl.to(options, 2, {slideProgress:0, ease:'Power3.easeOut'},0);
-      tl.to(logo.position, 2, {x:5, z: 20, ease:'Power2.easeInOut'},0);
+    const backToHome = (page) => {
+      if(page !== 'home'){
+        props.dispatch(updatePage('home'));
+        props.dispatch(updateIsStarted(false));
+        props.dispatch(updateImageClickedIdx(null));
+        props.dispatch(updateHideProjects(false));
+        const tl = new TimelineMax();
+        tl.to(options, 2, {slideProgress:0, ease:'Power3.easeOut'},0);
+        tl.to(logo.position, 2, {x:5, z: 20, ease:'Power2.easeInOut',
+          onComplete:()=>{clicked = false;}
+        },0);
+        removeImage();
+      }
     }
     backToHomeFunction.current = {backToHome};
 
@@ -949,7 +955,7 @@ const ThreejsBg = props => {
     },[props.isHideProjects])
 
     useEffect(()=>{
-      backToHomeFunction.current.backToHome();
+      backToHomeFunction.current.backToHome(props.page);
     },[props.lang])
 
     return <div ref={canvasWrap} id="canvasWrap" />

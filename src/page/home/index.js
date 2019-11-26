@@ -19,29 +19,26 @@ class Home extends Component {
     this.pageName = Home.pageName;
     this.state = {};
     this.titleSpan = [];
+    this.cloneTitle = null;
     this.done = false;
   }
 
-  // static actions = () => [fetchDataBy(this.pageName)];
-
-  // static pushData = data => fetchDataSuccess(this.pageName, data);
-
   textAnim(){
     if (this.props.data && !this.done) {
-      const tl = new TimelineMax({ delay: .8 });
+      const tl = new TimelineMax({ delay:.8 });
       for(let i=0; this.titleSpan[i]; i++){
         const value = this.titleSpan[i];
         const xory = Math.round(Math.random());
         value.style.willChange = "transform";
         const time = Math.random() * 0.5 + 0.8;
         xory === 0 ? 
-          tl.fromTo( value, time , { x: Math.round(Math.random()) * 200 - 100 + "%" },{ x: 0 + "%",autoAlpha:1, ease: "Expo.easeOut",
+          tl.fromTo( value, time , { x: Math.round(Math.random()) * 200 - 100 + "%", autoAlpha:0 },{ x: 0 + "%", autoAlpha:1, overwrite:'all', ease: "Expo.easeOut",
             onComplete: () => {
               value.style.willChange = "";
             }
           },Math.random())
         : 
-          tl.fromTo(value, time,{ x: 0 + "%", y: Math.round(Math.random()) * 200 - 100 + "%" },{ y: 0 + "%", autoAlpha:1, ease: "Expo.easeOut",
+          tl.fromTo(value, time,{ x: 0 + "%", y: Math.round(Math.random()) * 200 - 100 + "%", autoAlpha:0 },{ y: 0 + "%", autoAlpha:1, overwrite:'all', ease: "Expo.easeOut",
             onComplete: () => {
               value.style.willChange = "";
             }
@@ -51,33 +48,44 @@ class Home extends Component {
     }
   }
 
-  componentDidMount() {
-    this.textAnim();
+  // componentDidMount() {
+  //   this.textAnim();
   //   if (!this.props.homeData && this.props.match.params.lang === this.props.lang) {
   //     this.props.dispatch(fetchDataBy(this.pageName));
   //   }
-  }
-
-  // shouldComponentUpdate(nextProps){
-  //   if (nextProps.lang !== this.props.lang) {
-  //     this.props.dispatch(fetchDataBy(this.pageName));
-  //   }
-  //   return true;
   // }
 
-  componentDidUpdate(prevProps) {
+  shouldComponentUpdate(nextProps){
+    if (nextProps.lang !== this.props.lang && this.props.data) {
+      this.cloneTitle = document.querySelector('#title > h1').cloneNode(true);
+      this.cloneTitle.className = this.props.lang;
+      document.querySelector('#title').appendChild(this.cloneTitle);
+    }
+    return true;
+  }
 
-    if(prevProps.lang !== this.props.lang){
-      TweenMax.set(this.titleSpan, {autoAlpha:0});
-    }
-    
-    
-    if(prevProps.isStarted && !this.props.isStarted){
-      TweenMax.set(this.titleSpan, {y:'0%',autoAlpha:1, overwrite:'all'});
+  componentDidUpdate(prevProps) {
+    if(prevProps.lang !== this.props.lang && !this.props.isStarted){
+
       this.done = false;
+      
+      if(this.cloneTitle){
+        TweenMax.fromTo(this.cloneTitle.querySelectorAll('span > span'),.8, {y:0}, {y:'-100%',ease:'Power4.easeInOut',
+          onComplete: ()=>{
+            this.cloneTitle.remove();
+          }
+        })
+      }
+      TweenMax.set(this.titleSpan, {y:'0%'});
+      this.textAnim();
     }
-    
-    this.textAnim();
+    else{
+      if(prevProps.isStarted && !this.props.isStarted){
+        this.done = false;
+        TweenMax.set(this.titleSpan, {y:'0%'});
+      }
+      this.textAnim();
+    }
 
     if(prevProps.isStarted !== this.props.isStarted && this.props.isStarted){
       TweenMax.to(this.titleSpan, 1.3, {y:'-100%', overwrite:'all', ease:'Power4.easeInOut'});
