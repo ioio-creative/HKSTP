@@ -48,12 +48,12 @@ class Home extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   this.textAnim();
+  componentDidMount() {
+    this.textAnim();
   //   if (!this.props.homeData && this.props.match.params.lang === this.props.lang) {
   //     this.props.dispatch(fetchDataBy(this.pageName));
   //   }
-  // }
+  }
 
   shouldComponentUpdate(nextProps){
     if (nextProps.lang !== this.props.lang && this.props.data) {
@@ -64,7 +64,10 @@ class Home extends Component {
     return true;
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps){
+    if(prevProps.data !== this.props.data)
+      this.textAnim();
+
     if(prevProps.lang !== this.props.lang && !this.props.isStarted){
 
       this.done = false;
