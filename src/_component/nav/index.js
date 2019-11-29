@@ -40,7 +40,7 @@ class Nav extends Component {
   componentDidUpdate(prevProps){
     if(this.props.data){
       if(prevProps.isStarted !== this.props.isStarted && this.props.isStarted){
-        const target = document.querySelector(`#categoryWrap li:nth-child(1)`);
+        const target = document.querySelector(`#categoryWrap li.active`);
         const offsetLeft = target.offsetLeft;
         TweenMax.set(this.projectNum, {x:offsetLeft+target.offsetWidth/2-this.projectNum.offsetWidth/2});
         setTimeout(()=>{
