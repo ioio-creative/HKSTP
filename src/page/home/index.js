@@ -56,7 +56,7 @@ class Home extends Component {
   }
 
   shouldComponentUpdate(nextProps){
-    if (nextProps.lang !== this.props.lang && this.props.data) {
+    if (nextProps.lang !== this.props.lang && this.props.data && !this.props.isStarted) {
       this.cloneTitle = document.querySelector('#title > h1').cloneNode(true);
       this.cloneTitle.className = this.props.lang;
       document.querySelector('#title').appendChild(this.cloneTitle);

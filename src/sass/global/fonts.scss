@@ -23,7 +23,7 @@
 // }
 @import url('https://fonts.googleapis.com/css?family=Sarabun:300,400,500,600,700,800&display=swap');
 
-$defaultFont: 'Sarabun', sans-serif;
+$defaultFont: 'Sarabun', 'Microsoft YaHei', sans-serif;
 
 @mixin font($fontsize: 80, $lineHeight: 90) {
   font-size: rem-calc($fontsize);
