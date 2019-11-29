@@ -58,8 +58,24 @@ class ProjectSingle extends Component {
   render() {
     if(this.props.imageClickedIdx === null || !this.props.isStarted)
       return false;
+
+    const data = this.props.data['projects'];
+    const filteredData = [];
     
-    const data = this.props.data['projects'].items[this.props.imageClickedIdx];
+    // filtering data by category
+    for(let i=0; i<data.items.length; i++){
+      const value = data.items[i];
+      if(this.props.category === ''){
+        if(value.category.slug === data.categories[0].slug)
+          filteredData.push(value);
+      }
+      else{
+        if(value.category.slug === this.props.category) 
+          filteredData.push(value);
+      }
+    }
+    
+    const fdata = filteredData[this.props.imageClickedIdx];
     const globalData = this.props.data['global'];
 
 
@@ -74,21 +90,21 @@ class ProjectSingle extends Component {
 
             <div id="wrap">
               <div id="info">
-                <div id="logo"><img src={data.images.logo} alt="" /></div>
+                <div id="logo" style={{backgroundImage:`url(${fdata.images.logo})`}}></div>
                 <div id="infoContent">
-                  <h1>{data.name}</h1>
-                  <div id="cat">{data.category.name}</div>
+                  <h1>{fdata.name}</h1>
+                  <div id="cat">{fdata.category.name}</div>
                   <div id="qrcode">
-                    <QRCode value={data.website.url} renderAs="svg"/>
+                    <QRCode value={fdata.website.url} renderAs="svg"/>
                   </div>
                 </div>
               </div>
               <div id="content">
                 <div id="intro" className="contentItem h5">
                   <div className="title">{globalData && globalData.introduction}</div>
-                  <div dangerouslySetInnerHTML={{__html:data.details.introduction}} />
+                  <div dangerouslySetInnerHTML={{__html:fdata.details.introduction}} />
                   <div id="tags">
-                    {data.details.tags.map((value, idx)=>{
+                    {fdata.details.tags.map((value, idx)=>{
                       return(
                         <span key={idx}>{idx > 0 && ', '}{value}</span>
                       )
@@ -99,7 +115,7 @@ class ProjectSingle extends Component {
                   <div className="title">{globalData && globalData.awards}</div>
                   <ul>
                   {
-                    data.details.awards.map((value, idx)=>{
+                    fdata.details.awards.map((value, idx)=>{
                       return(
                         <li key={idx}>
                           <div className="year">{value.year}</div>
@@ -115,7 +131,7 @@ class ProjectSingle extends Component {
                   <div className="title h5">{globalData && globalData.showcase}</div>
                   <ul>
                   {
-                    data.details.showcase.map((value, idx)=>{
+                    fdata.details.showcase.map((value, idx)=>{
                       return(
                         <li key={idx} className={value.type}>
                           {
@@ -123,7 +139,7 @@ class ProjectSingle extends Component {
                             <>
                             {value.type === 'image' && <img src={value.src} alt="" /> }
                             {value.type === 'video' && <video muted controls><source src={value.src} type="video/mp4"></source></video> }
-                            {value.description && <div dangerouslySetInnerHTML={{__html:value.description}} />}
+                            {value.description && <div dangerouslySetInnerHTML={{__html:`<div class="wrap">${value.description}</div>`}} />}
                             </>
                           }
                         </li>
@@ -148,6 +164,7 @@ const mapStateToProps = state => {
     data: state.data ? state.data[state.lang] : null,
     isStarted: state.isStarted,
     imageClickedIdx: state.imageClickedIdx,
+    category: state.category,
   };
 };
 

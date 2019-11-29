@@ -98,17 +98,17 @@ export const fetchAllData = () => (dispatch, getState) => {
     // start message
     dispatch(fetchDataRequest());
 
-    // const path = ReactIsInDevMode() ? '//dev.ioiocreative.com/HKSTP/cms/api' : '/HKSTP/cms/api';
-    // fetch(path,{ 
-    //   headers: { 
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json'
-    //   }
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-      // const results = data;
-      const results = siteData;
+    const path = ReactIsInDevMode() ? '//dev.ioiocreative.com/HKSTP/cms/api' : '/HKSTP/cms/api';
+    fetch(path,{ 
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const results = data;
+      // const results = siteData;
 
       // save data to store
       dispatch(fetchDataSuccess(results));
@@ -122,7 +122,7 @@ export const fetchAllData = () => (dispatch, getState) => {
       console.log(`-------------------- Client cache:`, myCache.keys());
 
       resolve(results);
-    // });
+    });
 
     // save data to server
     // fetch(`http://localhost:3000/${lang}/api?keyname=${pageName}Data`, {

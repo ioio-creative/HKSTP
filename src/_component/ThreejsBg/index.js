@@ -24,6 +24,7 @@ const ThreejsBg = props => {
   const loadImageFunction = useRef(null);
   const updateStopEaseFunction = useRef(null);
   const backToHomeFunction = useRef(null);
+  const onClickFunction = useRef(null);
   const prevProps = usePrevious({page: props.page});
 
   useEffect(() => {
@@ -876,6 +877,7 @@ const ThreejsBg = props => {
         }
       }
     };
+    onClickFunction.current = {onClick};
 
 
     const backToHome = (page) => {
@@ -914,14 +916,22 @@ const ThreejsBg = props => {
         screenHeight = screen.height;
       };
       window.addEventListener("resize", onWindowResize);
-      document.addEventListener("click", onClick);
+      // document.addEventListener("click", onClick);
 
       return () => {
         window.removeEventListener("resize", onWindowResize);
-        document.removeEventListener("click", onClick);
+        // document.removeEventListener("click", onClick);
       };
     },[canvasWrap]);
   
+
+    useEffect(()=>{
+      if(props.data)
+        document.addEventListener("click", onClickFunction.current.onClick);
+      return () => {
+        document.removeEventListener("click", onClickFunction.current.onClick);
+      };
+    },[props.data])
     
 
     // when clicked image
