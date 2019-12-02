@@ -121,6 +121,9 @@
             border-top: rem-calc(1) solid $grey;
             color:$grey;
           }
+          p{
+            line-height: 1.55vw;
+          }
         }
         &#awards{
           background:$lightorange;
@@ -183,6 +186,9 @@
               border-left:rem-calc(2) solid $lightorange;
               &:empty{
                 display: none;
+              }
+              p{
+                line-height: 1.55vw;
               }
             }
           }
