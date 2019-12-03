@@ -783,11 +783,11 @@ const ThreejsBg = props => {
 
               if(imageRotate[i*3+0] >= (Math.PI*2)){
                 imageRotate[i*3+0] = 0;
-                rotate.x = 0.4;
+                rotate.x = 0;
               }
               if(imageRotate[i*3+1] >= (Math.PI*2)){
                 imageRotate[i*3+1] = 0;
-                rotate.y = 0.4;
+                rotate.y = 0;
               }
             }
             // else{

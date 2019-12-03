@@ -180,6 +180,7 @@
             }
             &.image{
               transform: translate3d(-50%,0,0);
+              float: left;
             }
             &.video{
               width:80%;
