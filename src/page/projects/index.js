@@ -236,17 +236,17 @@ class Projects extends Component {
             <ul id="items">
               {filteredData.map((value, idx) => {
                 return (
-                  <li key={idx} ref={elem => this.items[idx] = elem}>
+                  <li key={idx} ref={elem => this.items[idx] = elem} onClick={()=>{this.clickable && this.props.dispatch(updateImageClickedIdx(idx))}}>
                     <div className="info">
                       <div className="logoWrap"><div className="logo" style={{backgroundImage:`url('${value.images.logo}')`}}></div></div>
                       <div className="infoWrap">
                         <div className="wrap">
                           <p className="h4">{value.name}</p>
-                          <span className="cat h5">{value.category.name}</span>
+                          <span className="cat h6">{value.category.name}</span>
                         </div>
                       </div>
                     </div>
-                    <div className="imageWrap" onClick={()=>{this.clickable && this.props.dispatch(updateImageClickedIdx(idx))}} data-src={value.images.thumbnail}></div>
+                    <div className="imageWrap" data-src={value.images.thumbnail}></div>
                   </li>
                 );
               })}

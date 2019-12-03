@@ -28,15 +28,16 @@ const ThreejsBg = props => {
   const prevProps = usePrevious({page: props.page});
 
   useEffect(() => {
-    let scene, camera, renderer, dist, gui;
+    let scene, camera, renderer, dist;
     let screenWidth, screenHeight, initHeight;
     // let onWindowResize;
-    const stats = new Stats();
+    // const stats = new Stats();
 
     const instancedCount = 10,
         limitedTextureCount = 16;
 
-    let planeWidth = 10,
+    let plane,
+        planeWidth = 10,
         planeHeight = planeWidth * 0.75;
     const planeOffsets = [],
         planeSpeed = [];
@@ -310,7 +311,7 @@ const ThreejsBg = props => {
       planeOffsetAttribute = new THREE.InstancedBufferAttribute( new Float32Array(planeOffsets), 3 );
       geometry.addAttribute("offset", planeOffsetAttribute);
 
-      var material = new THREE.MeshBasicMaterial({ color: 0xf8f8f8, wireframe:true });
+      var material = new THREE.MeshBasicMaterial({ color: 0xefefef, wireframe:true, transparent:true });
       material.onBeforeCompile = function(shader) {
         shader.vertexShader =
           "attribute vec3 offset;\n" + shader.vertexShader;
@@ -322,7 +323,7 @@ const ThreejsBg = props => {
         );
       };
 
-      const plane = new THREE.Mesh(geometry, material);
+      plane = new THREE.Mesh(geometry, material);
       scene.add(plane);
     };
 
@@ -352,6 +353,7 @@ const ThreejsBg = props => {
         src,
         (t)=>{
           t.flipY = false;
+          t.anisotropy = renderer.getMaxAnisotropy();
           imageTexture[i] = t;
           resizeImage();
         }
@@ -419,7 +421,7 @@ const ThreejsBg = props => {
         
           for (let i = 0; i < imageInstancedCount; i++) {
             imageOffsets.push(0,-screenHeight,0);
-            imageBGOffsets.push({x:Math.random()+.1, y:Math.random()*1.5+.5, z:0});
+            imageBGOffsets.push({x:Math.random()*.7+.3, y:Math.random()*1+.5, z:0});
             imageBGEase.push(Math.random()*0.2+0.08);
             imageRotate.push(0,0,0);
             imageScale.push(1,1,1);
@@ -581,7 +583,7 @@ const ThreejsBg = props => {
             transparent:true
           });
 
-          imagesMaterial.minFilter = THREE.NearestFilter;
+          imagesMaterial.minFilter = THREE.LinearFilter;
           imagesMaterial.uniforms.isGary.value = true;
 
           images = new THREE.Mesh(geometry, imagesMaterial);
@@ -849,7 +851,7 @@ const ThreejsBg = props => {
     const update = () => {
       draw();
       camera.lookAt(0, 0, 0);
-      stats.update();
+      // stats.update();
     };
 
     const render = () => {
@@ -872,6 +874,7 @@ const ThreejsBg = props => {
           tl.to(options, 2, {slideProgress:1, ease:'Power3.easeOut'},0);
           tl.to(logo.position, 2, {x:0, z: -20, ease:'Power2.easeInOut'},0);
           tl.to(rotateSpeed, 1.3, {value: .05, ease:'Power1.easeOut'},0);
+          tl.to(plane.material, 1, {opacity: .3, ease:'Power1.easeOut'},0);
           tl.to(rotateSpeed, 1.3, {value: .004, ease:'Power3.easeInOut'},1.3);
           tl.to(options, 1.6, {planeSpeed: .1, ease:'Power3.easeInOut'},1.3);
         }
@@ -888,6 +891,7 @@ const ThreejsBg = props => {
         props.dispatch(updateHideProjects(false));
         const tl = new TimelineMax();
         tl.to(options, 2, {slideProgress:0, ease:'Power3.easeOut'},0);
+        tl.to(plane.material, 2, {opacity: 1, ease:'Power1.easeOut'},0);
         tl.to(logo.position, 2, {x:5, z: 20, ease:'Power2.easeInOut',
           onComplete:()=>{clicked = false;}
         },0);

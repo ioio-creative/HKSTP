@@ -22,8 +22,9 @@
 //   font-weight:  200;
 // }
 @import url('https://fonts.googleapis.com/css?family=Sarabun:300,400,500,600,700,800&display=swap');
+@import url('http://fonts.googleapis.com/earlyaccess/notosanstc.css');
 
-$defaultFont: 'Sarabun', 'Microsoft YaHei', sans-serif;
+$defaultFont: 'Sarabun', 'Noto Sans TC', sans-serif;
 
 @mixin font($fontsize: 80, $lineHeight: 90) {
   font-size: rem-calc($fontsize);

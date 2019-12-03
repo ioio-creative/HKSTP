@@ -25,13 +25,13 @@
       white-space: nowrap;
       position: relative;
       li{
-        width: 11vw;
+        width: 14vw;
         white-space: initial;
         display: inline-block;
         margin: rem-calc(20) 1vw 0;
         padding: 1.57vw rem-calc(20);
         cursor: pointer;
-        font-weight: 800;
+        font-weight: 600;
       }
       #projectNum{
         width:3.1vw;
@@ -47,7 +47,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 300;
+        font-weight: 400;
         // @include transform(translate3d(rem-calc(130 / 2 - 10vw), 0, 0));
       }
     }
@@ -84,24 +84,28 @@
     }
   }
   &#touchToStart {
-    width: rem-calc(86);
-    bottom: rem-calc(35);
-    left: 0;
-    right: 0;
+    width: 3vw;
+    bottom: 4vw;
+    left: 39vw;
     margin: auto;
+    svg{
+      width:100%;
+      float: left;
+    }
   }
   &#shortDes {
-    width: 20vw;
+    width: 31vw;
     bottom: 0;
     left: 5.8vw;
     padding-left:1.2vw;
-    padding-bottom:2.6vw;
+    padding-bottom:3vw;
     border-left:rem-calc(1) solid $black;
     line-height: 2.1vw;
     overflow: hidden;
     transform: translate3d(0,0,0);
     transition: all 1s cubic-bezier(0.19, 1, 0.22, 1) .6s;
     p{
+      opacity: 1;
       transform: translate3d(0,0,0);
       transition: all 1s cubic-bezier(0.77, 0, 0.175, 1) .6s;
     }
@@ -112,7 +116,8 @@
       transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
       transition-delay: 0s;
       p{
-        transform: translate3d(-100%,0,0);
+        opacity: 0;
+        transform: translate3d(-200%,0,0);
         transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
         transition-delay: 0s;
       }

@@ -544,12 +544,16 @@ var SmoothScroll = function(elem, scrollFunc) {
   var initArrow = function(){
     _this.arrowTop = document.createElement("div");
     _this.arrowBot = document.createElement("div");
+    _this.dragIcon = document.createElement("div");
     _this.arrowTop.setAttribute("id", "arrowTop");
     _this.arrowBot.setAttribute("id", "arrowBot");
+    _this.dragIcon.setAttribute("id", "dragIcon");
+    _this.dragIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="60.171" height="49.946" viewBox="0 0 60.171 49.946"><path id="Path_4" d="M972.107,264.3l-4.348,3.932-4.509-5.479c0,3.01-.169,5.365.046,7.684.228,2.467,1.767,3.508,4.708,3.513q14.24.027,28.482.009h2.971v4.474c-.855.042-1.679.117-2.5.118q-14.495.012-28.99,0c-5.791-.009-9.157-3.283-9.357-9.055a6.215,6.215,0,0,1,0-1.27c1.279-7.363-1.29-12.965-7.218-17.513-3.4-2.608-6.195-6.014-9.217-9.105-3.338-3.414-3.495-7.808-.449-10.846s7.4-2.851,10.828.527c3.01,2.971,5.963,6,9,9.067,7.294-2.888,14.464-5.668,21.578-8.585,1.725-.707,2.87-.6,4.2.83a104.317,104.317,0,0,0,9.176,9.153c2.979,2.505,3.75,5.369,2.883,9.192-.6-.5-1.172-.911-1.665-1.4-3.9-3.891-7.838-7.749-11.645-11.73a2.85,2.85,0,0,0-3.714-.8c-6.569,2.72-13.224,5.232-19.8,7.932a2.886,2.886,0,0,1-3.745-.82c-2.9-3.09-5.95-6.036-8.949-9.03-2.076-2.072-3.73-2.439-4.946-.988-1.64,1.956-.4,3.382,1.006,4.789q11.787,11.77,23.553,23.56A20.457,20.457,0,0,0,972.107,264.3Z" transform="translate(-939.55 -228.616)"/></svg>';
     addClass(_this.arrowTop, 'arrow');
     addClass(_this.arrowBot, 'arrow');
     _this.elem.parentNode.appendChild(_this.arrowTop);
     _this.elem.parentNode.appendChild(_this.arrowBot);
+    _this.elem.parentNode.appendChild(_this.dragIcon);
     addEvent(_this.arrowTop, "mousedown", onMouseDownArrowTop);
     addEvent(_this.arrowBot, "mousedown", onMouseDownArrowBot);
   }
@@ -692,10 +696,16 @@ var SmoothScroll = function(elem, scrollFunc) {
   var onShowScrollBar = function() {
     showScrollBar = true;
     removeClass(_this.scrollBarWrap,'hide');
+    removeClass(_this.arrowTop,'hide');
+    removeClass(_this.arrowBot,'hide');
+    removeClass(_this.dragIcon,'hide');
   };
   var onHideScrollBar = function() {
     showScrollBar = false;
     addClass(_this.scrollBarWrap,'hide');
+    addClass(_this.arrowTop,'hide');
+    addClass(_this.arrowBot,'hide');
+    addClass(_this.dragIcon,'hide');
   };
 
   var init = function() {

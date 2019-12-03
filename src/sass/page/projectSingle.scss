@@ -45,7 +45,7 @@
     display: flex;
     #info{
       flex:1;
-      padding-top:2.6vw;
+      // padding-top:2.6vw;
       padding-left:5.85vw;
       #logo{
         width:21%;
@@ -72,17 +72,22 @@
       #infoContent{
         margin-top:2.5vw;
         border-left:rem-calc(1) solid $black;
-        padding-left:rem-calc(15);
+        padding-left:1rem;
         h1{
           font-weight: 800;
           position: relative;
-          top:-1.1vw;
+          top:-.9vw;
           padding-right: 5vw;
+          font-size: 3.19vw;
+          line-height: 3.7vw;
+          text-shadow: .15vw .15vw #fff;
         }
         #cat{
           color:$orange;
+          padding-right:40%;
           padding-top:.3vw;
           font-weight: 500;
+          line-height: 1.3vw;
         }
         #qrcode{
           padding-top:2vw;
@@ -123,19 +128,24 @@
           }
           p{
             line-height: 1.55vw;
+            padding-top: 1vw;
+            &:first-child{
+              padding-top:0;
+            }
           }
         }
         &#awards{
           background:$lightorange;
           color:$white;
           padding-bottom:2.5vw;
+          font-weight: 400;
           ul{
             width:100%;
             li{
               display: flex;
               border-bottom:rem-calc(1) solid $organegrey;
-              padding-bottom:rem-calc(10);
-              margin-top:rem-calc(20);
+              padding-bottom:rem-calc(15);
+              margin-top:rem-calc(15);
               &:first-child{
                 margin-top:0;
               }
@@ -144,9 +154,11 @@
               }
               .awradsTitle{
                 flex:1;
+                padding-right: 1vw;
               }
               .awradsResult{
                 max-width: 11vw;
+                min-width: 11vw;
               }
             }
           }
@@ -196,7 +208,7 @@
         .title{
           color:$black;
           padding-bottom:1vw;
-          font-weight: 600;
+          font-weight: 800;
         }
       }
     }
