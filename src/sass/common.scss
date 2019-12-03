@@ -42,6 +42,13 @@ body {
     }
   }
 
+  .loading{
+    position: absolute;
+    top:15px;
+    left:20px;
+    font-weight: 600;
+  }
+
   mark{
     background:none;
   }

@@ -144,7 +144,7 @@ class Nav extends Component {
         </>
       );
     }
-    return <h1>Loading...</h1>;
+    return <></>;
   }
 }
 

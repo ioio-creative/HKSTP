@@ -255,7 +255,7 @@ class Projects extends Component {
         </div>
       );
     }
-    return <h1>Loading...</h1>;
+    return <></>;
   }
 }
 

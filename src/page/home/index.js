@@ -143,7 +143,7 @@ class Home extends Component {
         </div>
       );
     }
-    return <h1>Loading...</h1>;
+    return <h5 className="loading">Loading...</h5>;
   }
 }
 
