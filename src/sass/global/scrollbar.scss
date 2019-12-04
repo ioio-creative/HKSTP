@@ -93,7 +93,7 @@
   width: 2vw;
   position: fixed;
   left:4vw;
-  bottom:6.5vw;
+  bottom:5.9vw;
   animation: drag 3s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
   transition: opacity 300ms cubic-bezier(0.215, 0.61, 0.355, 1), visibility 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
   &.hide{
@@ -107,17 +107,20 @@
 }
 
 @keyframes drag{
-  0%{
+  10%{
     transform: translate3d(0,0,0) scale(1);
+  }
+  30%{
+    transform: translate3d(0,-25%,0) scale(1);
   }
   40%{
+    transform: translate3d(0,-25%,0) scale(.9);
+  }
+  70%{
+    transform: translate3d(0,25%,0) scale(.9);
+  }
+  90%{
     transform: translate3d(0,0,0) scale(1);
-  }
-  50%{
-    transform: translate3d(0,0,0) scale(.9);
-  }
-  80%{
-    transform: translate3d(0,50%,0) scale(.9);
   }
 }
 

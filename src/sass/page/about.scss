@@ -24,6 +24,12 @@
         #wrap{
             padding:rem-calc(200) 10vw rem-calc(100) 5.5vw;
             display: flex;
+            #left{
+                h1{
+                    padding-right: 2vw;
+                    text-align: right;
+                }
+            }
             #left, #right{
                 flex:1;
                 h1{

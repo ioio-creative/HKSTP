@@ -22,12 +22,10 @@
     }
   }
   #heading{
-    width:46vw;
+    width:100%;
     text-align: center;
     position: relative;
-    left:50%;
     padding:rem-calc(20 0 130);
-    transform: translate3d(-50%,0,0);
     font-weight: 600;
     b, strong{
       font-weight: 800;
@@ -110,7 +108,7 @@
             }
             .cat{
               color: $orange;
-              line-height: 1.1vw;
+              line-height: 1.2vw;
               // white-space: nowrap;
             }
           }

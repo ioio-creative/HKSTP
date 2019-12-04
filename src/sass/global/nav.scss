@@ -26,7 +26,7 @@
       position: relative;
       li{
         width: 14vw;
-        white-space: initial;
+        white-space: nowrap;
         display: inline-block;
         margin: rem-calc(20) 1vw 0;
         padding: 1.57vw rem-calc(20);
