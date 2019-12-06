@@ -618,7 +618,7 @@ const ThreejsBg = props => {
             images.material.uniforms.clickedIdx.value = realIdx;
             
             TweenMax.to(rotate, .4, {x:45*Math.PI/180, y:45*Math.PI/180, ease:'Power3.easeOut'});
-            TweenMax.to(imageDisplacement[realIdx], 1, {delay:.3, value: 1, ease:'Power4.easeInOut',
+            TweenMax.to(imageDisplacement[realIdx], 1, {delay:.6, value: 1, ease:'Power4.easeInOut',
               onStart:()=>{
                 if(imagesMaterial)
                   imagesMaterial.depthTest = true;

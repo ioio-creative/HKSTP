@@ -106,7 +106,7 @@ class ProjectSingle extends Component {
                   <div id="tags">
                     {fdata.details.tags.map((value, idx)=>{
                       return(
-                        <span key={idx}>{idx > 0 && ', '}{value}</span>
+                        <span key={idx}>{value}</span>
                       )
                     })}
                   </div>
