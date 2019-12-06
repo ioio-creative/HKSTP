@@ -111,22 +111,25 @@ class ProjectSingle extends Component {
                     })}
                   </div>
                 </div>
-                <div id="awards" className="contentItem h5">
-                  <div className="title">{globalData && globalData.awards}</div>
-                  <ul>
-                  {
-                    fdata.details.awards.map((value, idx)=>{
-                      return(
-                        <li key={idx}>
-                          <div className="year">{value.year}</div>
-                          <div className="awradsTitle">{value.name}</div>
-                          <div className="awradsResult">{value.result}</div>
-                        </li>
-                      )
-                    })
-                  }
-                  </ul>
-                </div>
+
+                {
+                  fdata.details.awards.length > 0 && <div id="awards" className="contentItem h5">
+                    <div className="title">{globalData && globalData.awards}</div>
+                    <ul>
+                    {
+                      fdata.details.awards.map((value, idx)=>{
+                        return(
+                          <li key={idx}>
+                            <div className="year">{value.year}</div>
+                            <div className="awradsTitle">{value.name}</div>
+                            <div className="awradsResult">{value.result}</div>
+                          </li>
+                        )
+                      })
+                    }
+                    </ul>
+                  </div>
+                }
                 <div id="showcase" className="contentItem h6">
                   <div className="title h5">{globalData && globalData.showcase}</div>
                   <ul>

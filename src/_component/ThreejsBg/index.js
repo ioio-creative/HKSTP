@@ -872,7 +872,7 @@ const ThreejsBg = props => {
 
           const tl = new TimelineMax();
           tl.to(options, 1.6, {planeSpeed: 2, ease:'Power3.easeInOut'},0);
-          tl.to(options, 2, {slideProgress:1, ease:'Power3.easeOut'},0);
+          tl.to(options, 3, {slideProgress:1, ease:'Power2.easeOut'},0);
           tl.to(logo.position, 2, {x:0, z: -20, ease:'Power2.easeInOut'},0);
           tl.to(rotateSpeed, 1.3, {value: .05, ease:'Power1.easeOut'},0);
           tl.to(plane.material, 1, {opacity: .3, ease:'Power1.easeOut'},0);

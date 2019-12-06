@@ -125,6 +125,13 @@
             padding-top:1.45vw;
             border-top: rem-calc(1) solid $grey;
             color:$grey;
+            span{
+              display: inline;
+              &:not(:last-child):after{
+                content:',';
+                padding-right: .4vw;
+              }
+            }
           }
           p{
             line-height: 1.55vw;
