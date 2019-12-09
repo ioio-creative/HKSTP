@@ -191,8 +191,49 @@
             &.video{
               width:80%;
               float: right;
-              video{
-                width:100%;
+              .videoWrap{
+                position: relative;
+                span{
+                  width:100%;
+                  height:100%;
+                  position: absolute;
+                  top:0;
+                  left:0;
+                  z-index: 2;
+                  background:rgba(0,0,0,.3);
+                  transition: all .3s cubic-bezier(0.19, 1, 0.22, 1);
+                  opacity: 1;
+                  &.playing{
+                    opacity: 0;
+                  }
+                  &:before{
+                    content:'';
+                    border-style: solid;
+                    border-width: rem-calc(15px 0 15px 20px);
+                    border-color: transparent transparent transparent $white;
+                    display: block;
+                    position: absolute;
+                    left:50%;
+                    top:50%;
+                    transform: translate3d(calc(-50% + #{rem-calc(4)}), calc(-50% + #{rem-calc(1)}), 0);
+                    z-index: 1;
+                  }
+                  &:after{
+                    content:'';
+                    width:rem-calc(60);
+                    height:rem-calc(60);
+                    border-radius: 50%;
+                    background:$blue;
+                    position: absolute;
+                    left:50%;
+                    top:50%;
+                    transform: translate3d(-50%,-50%,0);
+                    display: block;
+                  }
+                }
+                video{
+                  width:100%;
+                }
               }
             }
             &>div{

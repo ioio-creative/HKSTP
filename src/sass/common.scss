@@ -49,6 +49,16 @@ body {
     font-weight: 600;
   }
 
+  // video{
+  //   &::-webkit-media-controls-fullscreen-button,
+  //   &::-webkit-media-controls-mute-button,
+  //   &::-webkit-media-controls-volume-slider,
+  //   &::-webkit-media-controls-volume-slider-container,
+  //   &::-webkit-media-controls-return-to-realtime-button,
+  //   &::-webkit-media-controls-toggle-closed-captions-button{
+  //     display: none !important;
+  //   }
+  // }
   mark{
     background:none;
   }

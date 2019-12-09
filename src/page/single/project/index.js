@@ -24,6 +24,7 @@ class ProjectSingle extends Component {
     this.smooth = null;
     this.projectSingle = null;
     this.closeBtn = null;
+    this.onClick = this.onClick.bind(this);
   }
   
   componentDidUpdate(prevProps) {
@@ -52,6 +53,18 @@ class ProjectSingle extends Component {
         }
         // console.log(this.props.imageClickedIdx);
       }
+    }
+  }
+
+  onClick(e){
+    const video = e.currentTarget.parentNode.querySelector('video');
+    if(video.paused){
+      e.currentTarget.className = 'playing';
+      video.play();
+    }
+    else{
+      e.currentTarget.className = '';
+      video.pause();
     }
   }
 
@@ -141,7 +154,7 @@ class ProjectSingle extends Component {
                             value.src && 
                             <>
                             {value.type === 'image' && <img src={value.src} alt="" /> }
-                            {value.type === 'video' && <video muted controls><source src={value.src} type="video/mp4"></source></video> }
+                            {value.type === 'video' && <div className="videoWrap"><span onClick={this.onClick}></span><video muted><source src={value.src} type="video/mp4"></source></video></div> }
                             {value.description && <div dangerouslySetInnerHTML={{__html:`<div class="wrap">${value.description}</div>`}} />}
                             </>
                           }

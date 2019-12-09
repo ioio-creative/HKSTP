@@ -584,7 +584,7 @@ const ThreejsBg = props => {
           });
 
           imagesMaterial.minFilter = THREE.LinearFilter;
-          imagesMaterial.uniforms.isGary.value = true;
+          // imagesMaterial.uniforms.isGary.value = true;
 
           images = new THREE.Mesh(geometry, imagesMaterial);
           scene.add(images);
