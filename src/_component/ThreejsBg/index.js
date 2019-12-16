@@ -344,16 +344,19 @@ const ThreejsBg = props => {
     }
 
     const loadImage = () => {
-      const lth = document.querySelectorAll('#projects li').length;
-      
-      for (let i = 0; i < lth; i++) {
-        const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
-        if(elem){
-          const offset = elem.getBoundingClientRect();
-          if(offset.top > 0 && offset.top-elem.offsetHeight < window.innerHeight*2 && !imageLoaded[i]){
-            loadTexture(i, elem.getAttribute('data-src'));
-            imageLoaded[i] = true;
+      if(imageWrapDOM){
+        const lth = imageWrapDOM.length;//document.querySelectorAll('#projects li').length;
+        for (let i = 0; i < lth; i++) {
+          const elem = imageWrapDOM[i].children[1];
+          // const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+          if(elem){
+            const offset = elem.getBoundingClientRect();
+            if(offset.top > 0 && offset.top-elem.offsetHeight < window.innerHeight*2 && !imageLoaded[i]){
+              loadTexture(i, elem.getAttribute('data-src'));
+              imageLoaded[i] = true;
+            }
           }
+        
         }
       }
     }
@@ -362,10 +365,11 @@ const ThreejsBg = props => {
     
     const resizeImage = () => {
       if(imageTexture.length){
-        const lth = document.querySelectorAll(`#projects li`).length;
+        const lth = imageWrapDOM.length;//document.querySelectorAll(`#projects li`).length;
+
         for(let i=0; i< lth; i++){
           if(imageTexture[i]){
-            const elem = document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
+            const elem = imageWrapDOM[i].children[1];//document.querySelector(`#projects li:nth-child(${i+1}) .imageWrap`);
             if(elem){
               if(imageTexture[i].image){
                 elem.style.height = elem.offsetWidth * (imageTexture[i].image.height / imageTexture[i].image.width) + 'px';
@@ -395,15 +399,16 @@ const ThreejsBg = props => {
     }
 
 
-    const initImage = (catIdx) => {
-      imageWrapDOM = document.querySelectorAll(`#projects li .imageWrap`);
+    const initImage = (catIdx, allItem, itemSize) => {
+      // console.log(allItem)
+      imageWrapDOM = allItem;//document.querySelectorAll(`#projects li .imageWrap`);
 
-      const elem = imageWrapDOM[0];//document.querySelector('#projects li:nth-child(1) .imageWrap');
+      const elem = imageWrapDOM[0].children[1];//document.querySelector('#projects li:nth-child(1) .imageWrap');
 
-      if(elem){
+      // if(elem){
         if(!initedImage){
           initHeight = window.innerHeight;
-          imageInstancedCount = document.querySelectorAll('#projects li').length * 2;
+          imageInstancedCount = itemSize * 2;//document.querySelectorAll('#projects li').length * 2;
 
           const realCount = imageInstancedCount/2;
           const {x,y} = convert2dto3d(elem.offsetWidth, elem.offsetWidth);
@@ -602,7 +607,7 @@ const ThreejsBg = props => {
           // if(guiWireframe) gui.remove(guiWireframe);
           // guiWireframe = gui.add(imagesMaterial, "wireframe");
         }
-      }
+      // }
     }
     initImageFunction.current = {initImage}
 
@@ -649,13 +654,17 @@ const ThreejsBg = props => {
 
     const removeImage = () => {
       if(images){
+        // console.log('del')
         for(let i=0; i<tween.length; i++){
           tween[i].kill();
+          tween[i] = undefined;
         }
-        scene.remove(images);
+        tween = [];
         images.geometry.dispose();
         images.material.dispose();
+        scene.remove(images);
         images = undefined;
+        imagesMaterial.dispose();
         imagesMaterial = undefined;
 
         imageOffsets = [];
@@ -729,7 +738,7 @@ const ThreejsBg = props => {
               // console.log(i%realCount+1)
               // const elem = document.querySelector(`#projects li:nth-child(${i%realCount+1}) .imageWrap`);
               if(imageWrapDOM){
-                const elem = imageWrapDOM[i%realCount];
+                const elem = imageWrapDOM[i%realCount].children[1];
                 const pos = elem.getBoundingClientRect();
 
                 if(i < realCount){
@@ -951,7 +960,7 @@ const ThreejsBg = props => {
         const idx = props.data['projects'].categories.findIndex(v => v.slug === props.category);
 
         removeImageFunction.current.removeImage();
-        initImageFunction.current.initImage( idx < 0 ? 0 : idx);
+        initImageFunction.current.initImage( idx < 0 ? 0 : idx, props.projectItems, props.projectItems.length);
       }
     },[props.projectItems]);
 
