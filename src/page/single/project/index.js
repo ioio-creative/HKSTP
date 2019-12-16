@@ -32,6 +32,11 @@ class ProjectSingle extends Component {
       if(this.props.imageClickedIdx !== null){
         if(prevProps.imageClickedIdx !== this.props.imageClickedIdx){
           if(this.projectSingle){
+            if(this.smooth){
+              this.smooth.off();
+              this.smooth.hideScrollBar();
+              this.smooth = null;
+            }
             this.smooth = new smoothScroll("#projectSingle #scrollWrap", (s, y, h) => {
               if(this.closeBtn)
                 TweenMax.set(this.closeBtn,{force3D:true, y: Math.max(0, -y)});

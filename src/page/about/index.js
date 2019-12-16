@@ -48,10 +48,15 @@ class About extends Component {
 
   componentDidUpdate(prevProps) {
     if(prevProps.page !== 'about' && this.props.page === 'about'){
-      let smooth = new smoothScroll("#about #scrollWrap", (s, y, h) => {
+      if(this.smooth){
+        this.smooth.off();
+        this.smooth.hideScrollBar();
+        this.smooth = null;
+      }
+      this.smooth = new smoothScroll("#about #scrollWrap", (s, y, h) => {
       });
-      smooth.on();
-      smooth.showScrollBar();
+      this.smooth.on();
+      this.smooth.showScrollBar();
       TweenMax.to(this.about, .6, {delay:1,autoAlpha:1});
       this.textAnim();
     }

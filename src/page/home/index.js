@@ -25,6 +25,7 @@ class Home extends Component {
 
   textAnim(){
     if (this.props.data && !this.done) {
+      this.titleSpan = this.titleSpan.filter((el)=>{return el != null;});
       const tl = new TimelineMax({ delay:.8 });
       for(let i=0; this.titleSpan[i]; i++){
         const value = this.titleSpan[i];
@@ -57,6 +58,8 @@ class Home extends Component {
 
   shouldComponentUpdate(nextProps){
     if (nextProps.lang !== this.props.lang && this.props.data && !this.props.isStarted) {
+      if(this.cloneTitle)
+        this.cloneTitle = null;
       this.cloneTitle = document.querySelector('#title > h1').cloneNode(true);
       this.cloneTitle.className = this.props.lang;
       document.querySelector('#title').appendChild(this.cloneTitle);
@@ -97,6 +100,7 @@ class Home extends Component {
 
 
   render() {
+    this.titleSpan = [];
     if (this.props.data) {
       const data = this.props.data['home'];
       let i = 0;

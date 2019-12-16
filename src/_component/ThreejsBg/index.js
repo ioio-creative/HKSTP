@@ -1,11 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import * as THREE from "three";
-import OrbitControls from "three-orbitcontrols";
-import * as dat from "dat.gui";
-import Stats from "stats.js";
+// import OrbitControls from "three-orbitcontrols";
+// import * as dat from "dat.gui";
+// import Stats from "stats.js";
 import { TweenMax, TimelineMax } from "gsap";
 import { updateIsStarted, updatePage, updateImageClickedIdx, updateHideProjects } from "../../reducers";
+import mask from './mask.jpg';
+
+console.warn = function(){};
 
 const usePrevious = (value) => {
   const ref = useRef();
@@ -81,6 +84,7 @@ const ThreejsBg = props => {
         imageClickedIdx,
         tempImageSize = [];
         
+    let imageWrapDOM = null;
 
     let logo,
         logoRotateSpeed = {value: 0},
@@ -259,7 +263,7 @@ const ThreejsBg = props => {
       
       const finalMaterial = new THREE.ShaderMaterial({
         uniforms:{
-          disp:{ type:'t', value: new THREE.TextureLoader().load('https://images.unsplash.com/photo-1517431397609-ab159afd52ed?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ') },
+          disp:{ type:'t', value: new THREE.TextureLoader().load(mask) },
           slideProgress:{ type:'f', value:0 }
         },
         vertexShader: [
@@ -328,32 +332,11 @@ const ThreejsBg = props => {
     };
 
     const loadTexture = (i, src) => {
-      // const image = document.createElement('img');
-      // image.crossOrigin = "anonymous";
-
-      // image.onload = () => {
-      //   const canvas = document.createElement('canvas');
-      //   canvas.width = 2048;
-      //   canvas.height = 1024;
-
-      //   // Draw image on canvas, scaled to fit
-      //   const ctx = canvas.getContext('2d');
-      //   ctx.drawImage(image, 0, 0, 2048, 1024);
-
-      //   const t = new THREE.CanvasTexture(canvas);
-      //   t.flipY = false;
-      //   imageTexture[i] = t;
-      //   imageTextureSize[i] = {w: image.width, h: image.height}
-      //   resizeImage();
-      //   console.log(1)
-      // }
-      // image.src = elem.getAttribute('data-src');
-
       new THREE.TextureLoader().load(
         src,
         (t)=>{
           t.flipY = false;
-          t.anisotropy = renderer.getMaxAnisotropy();
+          t.anisotropy = renderer.capabilities.getMaxAnisotropy();
           imageTexture[i] = t;
           resizeImage();
         }
@@ -394,13 +377,28 @@ const ThreejsBg = props => {
             if(!tempImageSize[i]) tempImageSize[i] = imageSize[i];
           }
         }
+
+        // resize 3d image
+        for(let i=0; i<tempImageSize.length; i++){
+          if(tempImageSize[i]){
+            const scaleHeight = imageSize[i].h / (imageSize[i].w);
+            const w = imageSize[i].w / tempImageSize[i].w;
+            const hh = (1-initHeight/window.innerHeight);
+            if(imageScaleAttribute){
+              imageScaleAttribute.setXY(i, imageSize[i].w/tempImageSize[i].w - hh * w, scaleHeight * (imageSize[i].w/tempImageSize[i].w - hh * w));
+              imageScaleAttribute.setXY(i+imageInstancedCount/2, imageSize[i].w/tempImageSize[i].w - hh * w, scaleHeight * (imageSize[i].w/tempImageSize[i].w - hh * w));
+            }
+          }
+        }
       }
       // if(!tempImageSize.length) tempImageSize = Array.from(imageSize);
     }
 
 
     const initImage = (catIdx) => {
-      const elem = document.querySelector('#projects li:nth-child(1) .imageWrap');
+      imageWrapDOM = document.querySelectorAll(`#projects li .imageWrap`);
+
+      const elem = imageWrapDOM[0];//document.querySelector('#projects li:nth-child(1) .imageWrap');
 
       if(elem){
         if(!initedImage){
@@ -684,6 +682,7 @@ const ThreejsBg = props => {
     }
     removeImageFunction.current = {removeImage}
 
+
     // const start = Date.now();
     const draw = () => {
       // const timer = (Date.now() - start) * 0.0001;
@@ -727,10 +726,11 @@ const ThreejsBg = props => {
           if(i !== images.material.uniforms.clickedIdx.value){
             const _i = i%realCount;
             if(imageSize[_i]){
-              const elem = document.querySelector(`#projects li:nth-child(${i%realCount+1}) .imageWrap`);
-              if(elem){
+              // console.log(i%realCount+1)
+              // const elem = document.querySelector(`#projects li:nth-child(${i%realCount+1}) .imageWrap`);
+              if(imageWrapDOM){
+                const elem = imageWrapDOM[i%realCount];
                 const pos = elem.getBoundingClientRect();
-
 
                 if(i < realCount){
                   if(pos.top > -imageSize[_i].h*2 && pos.top < window.innerHeight+imageSize[_i].h*2){
@@ -754,14 +754,14 @@ const ThreejsBg = props => {
                 offset = {x, y, z:0};
 
                 // resize image
-                if(tempImageSize.length){
-                  if(tempImageSize[_i]){
-                    const scaleHeight = imageSize[_i].h / (imageSize[_i].w);
-                    const w = imageSize[_i].w / tempImageSize[_i].w;
-                    const hh = (1-initHeight/window.innerHeight);
-                    imageScaleAttribute.setXY(i, imageSize[_i].w/tempImageSize[_i].w - hh * w, scaleHeight * (imageSize[_i].w/tempImageSize[_i].w - hh * w)  );
-                  }
-                }
+                // if(tempImageSize.length){
+                //   if(tempImageSize[_i]){ console.log(1)
+                //     const scaleHeight = imageSize[_i].h / (imageSize[_i].w);
+                //     const w = imageSize[_i].w / tempImageSize[_i].w;
+                //     const hh = (1-initHeight/window.innerHeight);
+                //     imageScaleAttribute.setXY(i, imageSize[_i].w/tempImageSize[_i].w - hh * w, scaleHeight * (imageSize[_i].w/tempImageSize[_i].w - hh * w)  );
+                //   }
+                // }
               }
             }
           }
@@ -928,7 +928,7 @@ const ThreejsBg = props => {
         // document.removeEventListener("click", onClick);
       };
     },[canvasWrap]);
-  
+
 
     useEffect(()=>{
       if(props.data)

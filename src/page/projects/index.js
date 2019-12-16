@@ -88,6 +88,11 @@ class Projects extends Component {
       TweenMax.fromTo(this.heading, 1, {autoAlpha:0, y:20},{delay:2, autoAlpha:1, y:0, ease: 'Power4.easeOut' });
 
       if(this.props.data){ 
+        if(this.smooth){
+          this.smooth.off();
+          this.smooth.hideScrollBar();
+          this.smooth = null;
+        }
         this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
         this.smooth.on();
         this.smooth.showScrollBar();
@@ -110,6 +115,7 @@ class Projects extends Component {
         // turn off scrolling
         this.smooth.off();
         this.smooth.hideScrollBar();
+        this.smooth = null;
       }
       // projects page
       // else if(prevProps.page !== 'projects' && this.props.page === 'projects'){
@@ -147,11 +153,12 @@ class Projects extends Component {
         // slide in to screen area
         this.slideInItems(prevProps.imageClickedIdx);
 
+        this.clickable = true;
         // fade in the info
-        TweenMax.to(this.items[prevProps.imageClickedIdx].querySelector('.info'), .8, {autoAlpha:1, ease: 'Power2.easeOut',
-          onComplete:()=>{
-            this.clickable = true;
-          }
+        TweenMax.to(this.items[prevProps.imageClickedIdx].querySelector('.info'), .8, {autoAlpha:1, ease: 'Power2.easeOut'
+          // onComplete:()=>{
+          //   this.clickable = true;
+          // }
         });
         TweenMax.fromTo(this.heading, 1, {y:40}, {autoAlpha:1, y:0, ease: 'Power3.easeOut' });
 
@@ -189,6 +196,11 @@ class Projects extends Component {
             TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {y:0, ease:'Expo.easeOut'},.1);
             TweenMax.fromTo(this.heading, 1, {autoAlpha:0, y:40},{autoAlpha:1, y:0, ease: 'Power3.easeOut' });
             
+            if(this.smooth){
+              this.smooth.off();
+              this.smooth.hideScrollBar();
+              this.smooth = null;
+            }
             this.smooth = new smoothScroll("#projects #scrollWrap", (s, y, h) => {});
             // turn on scrolling
             this.smooth.on();
