@@ -159,7 +159,7 @@ class ProjectSingle extends Component {
                             value.src && 
                             <>
                             {value.type === 'image' && <img src={value.src} alt="" /> }
-                            {value.type === 'video' && <div className="videoWrap"><span onClick={this.onClick}></span><video muted><source src={value.src} type="video/mp4"></source></video></div> }
+                            {value.type === 'video' && <div className="videoWrap"><span onClick={this.onClick}></span><video><source src={value.src} type="video/mp4"></source></video></div> }
                             {value.description && <div dangerouslySetInnerHTML={{__html:`<div class="wrap">${value.description}</div>`}} />}
                             </>
                           }
