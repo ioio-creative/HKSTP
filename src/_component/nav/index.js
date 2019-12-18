@@ -143,7 +143,7 @@ class Nav extends Component {
             {langData && currentLang === "zh" ? langData[0].shortDisplay : langData[1].shortDisplay}
           </Link> */}
           <a id="langBtn" className="fixed" target="_self"
-            href={this.getAnotherLanguage()}
+            href={'/HKSTP'+this.getAnotherLanguage()}
           >
             {langData && currentLang === "zh" ? langData[0].shortDisplay : langData[1].shortDisplay}
           </a>

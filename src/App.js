@@ -17,9 +17,11 @@ class App extends Component {
     this.isMobile = this.isMobile.bind(this);
     this.getDevice = this.getDevice.bind(this);
     this.onResize = this.onResize.bind(this);
+    this.reload = this.reload.bind(this);
     this.adjustFontSize = this.adjustFontSize.bind(this);
     this.baseFontRatio = 16 / 1440;
     this.fontMultiplier = 0.84375;
+    this.timer=null;
   }
 
 
@@ -107,10 +109,22 @@ class App extends Component {
     this.props.dispatch(fetchAllData());
     this.onResize();
     window.addEventListener("resize", this.onResize);
+
+    window.addEventListener("touchstart", this.reload);
+    window.addEventListener("mousedown", this.reload);
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.onResize);
+    window.removeEventListener("touchstart", this.reload);
+    window.removeEventListener("mousedown", this.reload);
+  }
+
+  reload(){
+    clearTimeout(this.timer);
+    this.timer = setTimeout(()=>{
+      window.location.reload();
+    },1000*60*5);
   }
 
   render() {

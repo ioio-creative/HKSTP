@@ -69,8 +69,11 @@
                             padding-right:1.5vw;
                         }
                         p{
-                            display: inline;
                             line-height: 1.55vw;
+                            padding-top: 1vw;
+                            &:first-child{
+                                padding-top:0;
+                            }
                         }
                     }
                     .title{
