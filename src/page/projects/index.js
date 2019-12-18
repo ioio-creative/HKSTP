@@ -250,7 +250,7 @@ class Projects extends Component {
                 return (
                   <li key={idx} ref={elem => this.items[idx] = elem} onClick={()=>{this.clickable && this.props.dispatch(updateImageClickedIdx(idx))}}>
                     <div className="info">
-                      <div className="logoWrap"><div className="logo" style={{backgroundImage:`url('${value.images.logo}')`}}></div></div>
+                      <div className="logoWrap"><div className={`logo${value.images.logoresize?' small':''}`} style={{backgroundImage:`url('${value.images.logo}')`,backgroundColor:value.images.logoresize?value.images.logocolor:''}}></div></div>
                       <div className="infoWrap">
                         <div className="wrap">
                           <p className="h4">{value.name}</p>

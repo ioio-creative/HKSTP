@@ -135,12 +135,18 @@ class Nav extends Component {
             </svg>
           </div>
           <div id="shortDes" className={`fixed h3 ${this.props.isStarted ? 'hide' : ''}`} dangerouslySetInnerHTML={{__html: homeData.shortDes }}></div>
-          <Link id="langBtn"  className="fixed"
+          
+          {/* <Link id="langBtn"  className="fixed"
             to={this.getAnotherLanguage()}
             onClick={this.onClick}
           >
             {langData && currentLang === "zh" ? langData[0].shortDisplay : langData[1].shortDisplay}
-          </Link>
+          </Link> */}
+          <a id="langBtn" className="fixed" target="_self"
+            href={this.getAnotherLanguage()}
+          >
+            {langData && currentLang === "zh" ? langData[0].shortDisplay : langData[1].shortDisplay}
+          </a>
         </>
       );
     }

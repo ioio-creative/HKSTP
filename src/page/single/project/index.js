@@ -108,7 +108,7 @@ class ProjectSingle extends Component {
 
             <div id="wrap">
               <div id="info">
-                <div id="logo" style={{backgroundImage:`url('${fdata.images.logo}')`}}></div>
+                <div id="logo" className={fdata.images.logoresize?' small':''} style={{backgroundImage:`url('${fdata.images.logo}')`,backgroundColor:fdata.images.logoresize?fdata.images.logocolor:''}}></div>
                 <div id="infoContent">
                   <h1>{fdata.name}</h1>
                   <div id="cat">{fdata.category.name}</div>
