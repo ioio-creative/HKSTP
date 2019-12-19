@@ -460,7 +460,7 @@ var SmoothScroll = function(elem, scrollFunc) {
 
   // Add easing to the scroll. Play with this value to find a setting that you like.
   var ease = 0.1;
-  var mult = 0.7;
+  var mult = 1;
 
   // Store current scroll position
   var targetX = 0,

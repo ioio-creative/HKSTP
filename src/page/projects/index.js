@@ -65,7 +65,10 @@ class Projects extends Component {
   slideOutItems(items){
     this.inScreenItems = [];
     this.inScreenItems = this.getInScreenItems(items);
-    TweenMax.staggerTo(this.inScreenItems, .6, {y:-window.innerHeight*2.5, ease:Back.easeIn.config(1)},.04,
+    if(!this.inScreenItems.length)
+      this.props.dispatch(updateHideProjects(true))
+
+    TweenMax.staggerTo(this.inScreenItems, .6, {y:-window.innerHeight*2.5, overwrite:'all', ease:Back.easeIn.config(1)},.04,
     ()=>{
       if(this.props.page !== 'projects' && this.props.isStarted){
         this.props.dispatch(updateHideProjects(true))
@@ -110,12 +113,14 @@ class Projects extends Component {
       // others page
       if(prevProps.page === 'projects' && this.props.page !== 'projects'){
         this.slideOutItems(this.items);
-        TweenMax.to(this.heading, .6, {autoAlpha:0, y:-40, ease: 'Power3.easeOut' });
+        TweenMax.to(this.heading, .6, {autoAlpha:0, y:-40, overwrite:'all', ease: 'Power3.easeOut' });
         
         // turn off scrolling
-        this.smooth.off();
-        this.smooth.hideScrollBar();
-        this.smooth = null;
+        if(this.smooth){
+          this.smooth.off();
+          this.smooth.hideScrollBar();
+          this.smooth = null;
+        }
       }
       // projects page
       // else if(prevProps.page !== 'projects' && this.props.page === 'projects'){
@@ -175,7 +180,7 @@ class Projects extends Component {
 
     if(prevProps.category !== this.props.category || 
       // prevProps.projectsData !== this.props.projectsData ||
-      (prevProps.isHideProjects !== this.props.isHideProjects && this.props.page === 'projects')
+      (prevProps.page !== 'projects' && this.props.page === 'projects')
     ){
       // fade in the info
       if(prevProps.category !== '' && this.props.imageClickedIdx === null){
@@ -192,7 +197,7 @@ class Projects extends Component {
           tl.set(this.heading, {autoAlpha:0});
           tl.fromTo(this.heading, 1, {y:40},{autoAlpha:1, y:0, ease: 'Power3.easeOut' });
 
-          if(prevProps.isHideProjects !== this.props.isHideProjects){
+          // if(prevProps.isHideProjects !== this.props.isHideProjects){
             TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {y:0, ease:'Expo.easeOut'},.1);
             TweenMax.fromTo(this.heading, 1, {autoAlpha:0, y:40},{autoAlpha:1, y:0, ease: 'Power3.easeOut' });
             
@@ -205,7 +210,7 @@ class Projects extends Component {
             // turn on scrolling
             this.smooth.on();
             this.smooth.showScrollBar();
-          }
+          // }
 
           const infos = [];
           for(let i=0; i<this.items.length; i++){
