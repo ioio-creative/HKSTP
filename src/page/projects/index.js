@@ -180,7 +180,7 @@ class Projects extends Component {
 
     if(prevProps.category !== this.props.category || 
       // prevProps.projectsData !== this.props.projectsData ||
-      (prevProps.page !== 'projects' && this.props.page === 'projects')
+      (prevProps.page !== 'projects' && this.props.page === 'projects' && this.props.isStarted)
     ){
       // fade in the info
       if(prevProps.category !== '' && this.props.imageClickedIdx === null){
@@ -200,7 +200,7 @@ class Projects extends Component {
           // if(prevProps.isHideProjects !== this.props.isHideProjects){
             TweenMax.staggerFromTo(this.items, 1, {y:window.innerHeight}, {y:0, ease:'Expo.easeOut'},.1);
             TweenMax.fromTo(this.heading, 1, {autoAlpha:0, y:40},{autoAlpha:1, y:0, ease: 'Power3.easeOut' });
-            
+
             if(this.smooth){
               this.smooth.off();
               this.smooth.hideScrollBar();
