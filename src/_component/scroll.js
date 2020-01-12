@@ -263,10 +263,10 @@ var VirtualScroll = (function(document) {
     if (hasMouseWheelEvent)
       document.addEventListener("mousewheel", onMouseWheel);
 
-    if (hasTouch) {
+    // if (hasTouch) {
       document.addEventListener("touchstart", onTouchStart);
       document.addEventListener("touchmove", onTouchMove);
-    }
+    // }
 
     if (hasPointer && hasTouchWin) {
       bodyTouchAction = document.body.style.msTouchAction;
@@ -285,10 +285,10 @@ var VirtualScroll = (function(document) {
     if (hasMouseWheelEvent)
       document.removeEventListener("mousewheel", onMouseWheel);
 
-    if (hasTouch) {
+    // if (hasTouch) {
       document.removeEventListener("touchstart", onTouchStart);
       document.removeEventListener("touchmove", onTouchMove);
-    }
+    // }
 
     if (hasPointer && hasTouchWin) {
       document.body.style.msTouchAction = bodyTouchAction;
